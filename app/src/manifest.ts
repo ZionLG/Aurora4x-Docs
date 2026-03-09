@@ -13,7 +13,16 @@ export interface HistoryEntry {
   version: string;
   file: string;
   notes?: string;
-  supersedes?: string[];
+  /** Extract only these **bold title** sections from the file. If omitted, loads the full file. */
+  sections?: string[];
+  /**
+   * Mark specific **bold title** sections in THIS entry as outdated.
+   * Each entry maps section title → version that replaced it.
+   * The renderer will show a "superseded by vX.Y.Z" banner on those sections.
+   *
+   * Example: { "Forced Labour Camps": "2.0.0" }
+   */
+  deprecated?: Record<string, string>;
 }
 
 export interface Topic {
@@ -31,7 +40,9 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
-    { version: "1.0.0", label: "v1.0.0 — Launch", date: "2026-02-27" },
+    { version: "1.9.5", label: "v1.9.5 — Bug Fixes", date: "2020-05-06" },
+    { version: "1.9.0", label: "v1.9.0 — Minor Changes", date: "2020-04-28" },
+    { version: "1.0.0", label: "v1.0.0 — Launch", date: "2020-04-12" },
   ],
 
   categories: [
@@ -59,7 +70,10 @@ export const manifest: DocsManifest = {
       id: "shipyards",
       title: "Shipyards",
       category: "economy",
-      history: [{ version: "1.0.0", file: "v1.0.0/03-shipyards.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Prototypes", "Class Deletion", "Refit Dropdown", "Refit Tasks"] },
+        { version: "1.0.0", file: "v1.0.0/03-shipyards.md" },
+      ],
     },
     {
       id: "colonies",
@@ -71,7 +85,10 @@ export const manifest: DocsManifest = {
       id: "civilians",
       title: "Civilians",
       category: "economy",
-      history: [{ version: "1.0.0", file: "v1.0.0/07-civilians.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Civilian Colony Ships"] },
+        { version: "1.0.0", file: "v1.0.0/07-civilians.md" },
+      ],
     },
     {
       id: "wealth-and-mining",
@@ -85,19 +102,27 @@ export const manifest: DocsManifest = {
       id: "engines",
       title: "Engines",
       category: "ships",
-      history: [{ version: "1.0.0", file: "v1.0.0/12-engines.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Engine Tech"] },
+        { version: "1.0.0", file: "v1.0.0/12-engines.md" },
+      ],
     },
     {
       id: "ship-components",
       title: "Ship Components",
       category: "ships",
-      history: [{ version: "1.0.0", file: "v1.0.0/15-ship-components.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Fire Control Range"] },
+        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Conventional Reactor"] },
+        { version: "1.0.0", file: "v1.0.0/15-ship-components.md" },
+      ],
     },
     {
       id: "sensors-and-contacts",
       title: "Sensors & Contacts",
       category: "ships",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["DSTS Display", "Buoy Design"] },
         { version: "1.0.0", file: "v1.0.0/14-sensors-and-contacts.md" },
       ],
     },
@@ -137,13 +162,18 @@ export const manifest: DocsManifest = {
       id: "naval-organization",
       title: "Naval Organization",
       category: "fleet",
-      history: [{ version: "1.0.0", file: "v1.0.0/08-naval-organization.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["PPV Display"] },
+        { version: "1.0.0", file: "v1.0.0/08-naval-organization.md" },
+      ],
     },
     {
       id: "fleet-movement",
       title: "Fleet Movement & Orders",
       category: "fleet",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Passenger Liner", "Colony Fleets", "Fleet Window"] },
+        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Order Delay"] },
         { version: "1.0.0", file: "v1.0.0/22-fleet-movement-and-orders.md" },
       ],
     },
@@ -151,13 +181,17 @@ export const manifest: DocsManifest = {
       id: "logistics",
       title: "Logistics",
       category: "fleet",
-      history: [{ version: "1.0.0", file: "v1.0.0/04-logistics.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Underway Replenishment", "Load Orders"] },
+        { version: "1.0.0", file: "v1.0.0/04-logistics.md" },
+      ],
     },
     {
       id: "crew-and-commanders",
       title: "Crew, Commanders & Control Systems",
       category: "fleet",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Rank Requirements", "SM Add Commanders"] },
         {
           version: "1.0.0",
           file: "v1.0.0/09-crew-commanders-and-control-systems.md",
@@ -168,7 +202,10 @@ export const manifest: DocsManifest = {
       id: "maintenance",
       title: "Maintenance",
       category: "fleet",
-      history: [{ version: "1.0.0", file: "v1.0.0/10-maintenance.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Maintenance Failure"] },
+        { version: "1.0.0", file: "v1.0.0/10-maintenance.md" },
+      ],
     },
     {
       id: "deployment-life-support",
@@ -195,19 +232,27 @@ export const manifest: DocsManifest = {
       id: "ground-forces",
       title: "Ground Forces",
       category: "combat",
-      history: [{ version: "1.0.0", file: "v1.0.0/19-ground-forces.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Ground Combat Fixes", "Formation Templates", "New Formations", "Ground Force Capture"] },
+        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Civilian Ground Forces Toggle"] },
+        { version: "1.0.0", file: "v1.0.0/19-ground-forces.md" },
+      ],
     },
     {
       id: "ground-combat",
       title: "Ground Combat",
       category: "combat",
-      history: [{ version: "1.0.0", file: "v1.0.0/26-ground-combat.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Ground Combat Fixes"] },
+        { version: "1.0.0", file: "v1.0.0/26-ground-combat.md" },
+      ],
     },
     {
       id: "ground-support-fighters",
       title: "Ground Support Fighters",
       category: "combat",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Ground Combat Fixes"] },
         { version: "1.0.0", file: "v1.0.0/27-ground-support-fighters.md" },
       ],
     },
@@ -216,6 +261,7 @@ export const manifest: DocsManifest = {
       title: "Surface-to-Orbit Combat",
       category: "combat",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["STO Availability"] },
         { version: "1.0.0", file: "v1.0.0/29-surface-to-orbit-combat.md" },
       ],
     },
@@ -249,13 +295,19 @@ export const manifest: DocsManifest = {
       id: "ruins",
       title: "Ruins",
       category: "galaxy",
-      history: [{ version: "1.0.0", file: "v1.0.0/20-ruins.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Anomalies"] },
+        { version: "1.0.0", file: "v1.0.0/20-ruins.md" },
+      ],
     },
     {
       id: "star-system-design",
       title: "Star System Design",
       category: "galaxy",
-      history: [{ version: "1.0.0", file: "v1.0.0/37-star-system-design.md" }],
+      history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Random Stars", "Planet Minerals"] },
+        { version: "1.0.0", file: "v1.0.0/37-star-system-design.md" },
+      ],
     },
 
     // Diplomacy & Intelligence
@@ -278,6 +330,7 @@ export const manifest: DocsManifest = {
       title: "Alien Races & Species Attributes",
       category: "diplomacy",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Alien Class Renaming"] },
         {
           version: "1.0.0",
           file: "v1.0.0/33-alien-races-and-species-attributes.md",
@@ -313,6 +366,8 @@ export const manifest: DocsManifest = {
       title: "User Interface Updates",
       category: "setup",
       history: [
+        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["PPV Display", "Select Name", "Task Completion Time"] },
+        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Tactical Map Events", "Fighter Construction Event", "New Events", "Distance Measuring", "Multiple Window Option", "Low G Habitable Worlds"] },
         { version: "1.0.0", file: "v1.0.0/36-user-interface-updates.md" },
       ],
     },

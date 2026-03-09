@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { type DocsManifest, type Topic, type HistoryEntry } from '../manifest'
 import type { ViewMode, ActiveSelection } from '../App'
+import { parseSections, type MarkdownSection } from '../utils/extractSections'
 
 const DOCS_BASE = '/docs/'
 
@@ -12,115 +13,161 @@ interface Props {
   onSelectEntry: (topic: Topic, entry?: HistoryEntry) => void
 }
 
-export default function ContentArea({ manifest, view, selection, onSelectEntry }: Props) {
-  const [markdown, setMarkdown] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+interface LoadedEntry {
+  entry: HistoryEntry
+  sections: MarkdownSection[]
+  error?: string
+}
 
+export default function ContentArea({ manifest, view, selection, onSelectEntry }: Props) {
+  const [entries, setEntries] = useState<LoadedEntry[]>([])
+  const [loading, setLoading] = useState(false)
+  const scrollRef = useRef<HTMLElement>(null)
+
+  // In "current" view: load ALL history entries for the topic (stacked)
+  // In "changelog" view: load only the selected single entry
   useEffect(() => {
     if (!selection) return
 
+    const toLoad = view === 'current'
+      ? selection.topic.history
+      : [selection.entry]
+
     let cancelled = false
     setLoading(true)
-    setError(null)
 
-    fetch(DOCS_BASE + selection.entry.file)
-      .then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`)
-        return r.text()
-      })
-      .then(md => {
-        if (!cancelled) {
-          setMarkdown(md)
-          setLoading(false)
-        }
-      })
-      .catch(err => {
-        if (!cancelled) {
-          setError(err.message)
-          setLoading(false)
-        }
-      })
+    Promise.all(
+      toLoad.map(entry =>
+        fetch(DOCS_BASE + entry.file)
+          .then(r => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`)
+            return r.text()
+          })
+          .then(raw => ({
+            entry,
+            sections: parseSections(raw, entry.sections, entry.deprecated),
+          } as LoadedEntry))
+          .catch(err => ({ entry, sections: [], error: err.message } as LoadedEntry))
+      )
+    ).then(results => {
+      if (!cancelled) {
+        setEntries(results)
+        setLoading(false)
+        scrollRef.current?.scrollTo(0, 0)
+      }
+    })
 
     return () => { cancelled = true }
-  }, [selection])
+  }, [selection, view])
 
   if (!selection) {
     return <Welcome manifest={manifest} view={view} />
   }
 
-  const { topic, entry } = selection
-  const ver = manifest.versions.find(v => v.version === entry.version)
+  const { topic } = selection
   const cat = manifest.categories.find(c => c.id === topic.category)
-  const latest = topic.history[0]
-  const isOld = latest.version !== entry.version
 
   return (
-    <main className="flex-1 overflow-y-auto scroll-smooth">
+    <main ref={scrollRef} className="flex-1 overflow-y-auto scroll-smooth">
       <div className="max-w-[860px] mx-auto px-12 pt-12 pb-30 animate-[fade-up_0.35s_ease_both]">
-        <article>
-          {/* Header */}
-          <div className="mb-10 pb-6 border-b border-border">
-            <div className="flex items-center gap-3 mb-3">
-              {cat && (
-                <span className="font-mono text-[0.7rem] text-text-dim tracking-[0.1em] uppercase">
-                  {cat.label}
-                </span>
-              )}
-              <span className="font-mono text-[0.7rem] text-accent tracking-[0.1em] uppercase flex items-center gap-2">
-                <span className="w-4 h-px bg-accent opacity-50" />
-                v{entry.version}{ver ? ` — ${ver.date}` : ''}
+        {/* Topic header */}
+        <div className="mb-10 pb-6 border-b border-border">
+          {cat && (
+            <span className="font-mono text-[0.7rem] text-text-dim tracking-[0.1em] uppercase block mb-3">
+              {cat.label}
+            </span>
+          )}
+          <h1 className="font-display text-[1.9rem] font-bold tracking-[0.03em] text-text leading-tight">
+            {topic.title}
+          </h1>
+
+          {/* Version jump links (current view with multiple versions) */}
+          {view === 'current' && topic.history.length > 1 && (
+            <div className="flex items-center gap-2 mt-4 flex-wrap">
+              <span className="font-mono text-[0.65rem] text-text-muted uppercase tracking-[0.08em]">
+                Versions:
               </span>
-            </div>
-            <h1 className="font-display text-[1.9rem] font-bold tracking-[0.03em] text-text leading-tight mb-2">
-              {topic.title}
-            </h1>
-
-            {/* Version history pills */}
-            {topic.history.length > 1 && (
-              <div className="flex items-center gap-2 mt-4 flex-wrap">
-                <span className="font-mono text-[0.65rem] text-text-muted uppercase tracking-[0.08em]">
-                  History:
-                </span>
-                {topic.history.map(h => (
-                  <button
+              {topic.history.map(h => {
+                const ver = manifest.versions.find(v => v.version === h.version)
+                return (
+                  <a
                     key={h.version}
-                    onClick={() => onSelectEntry(topic, h)}
-                    className={`font-mono text-[0.65rem] px-2.5 py-1 rounded border transition-all cursor-pointer
-                      ${h.version === entry.version
-                        ? 'text-accent bg-accent-glow border-accent-dim'
-                        : 'text-text-muted bg-bg-raised border-border hover:text-text hover:border-border-bright'
-                      }`}
+                    href={`#v${h.version}`}
+                    className="font-mono text-[0.65rem] px-2.5 py-1 rounded border transition-all
+                      text-text-muted bg-bg-raised border-border hover:text-accent hover:border-accent-dim"
                   >
-                    v{h.version}{h.notes ? ` — ${h.notes}` : ''}
-                  </button>
-                ))}
-              </div>
-            )}
+                    v{h.version}{ver ? ` — ${ver.date}` : ''}
+                  </a>
+                )
+              })}
+            </div>
+          )}
+        </div>
 
-            {/* Superseded warning */}
-            {isOld && (
-              <div className="mt-5 px-4 py-3 rounded-md bg-danger/[0.06] border border-danger/20 text-danger/85 text-[0.85rem] leading-relaxed">
-                This is from <strong className="!inline !text-inherit !text-[1em] !m-0">v{entry.version}</strong>.
-                A newer version exists in <strong className="!inline !text-inherit !text-[1em] !m-0">v{latest.version}</strong>.
-              </div>
-            )}
-          </div>
+        {/* Content */}
+        {loading && <p className="text-text-muted">Loading...</p>}
 
-          {/* Body */}
-          <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-            {loading && <p className="text-text-muted">Loading...</p>}
-            {error && (
-              <div>
-                <p>Could not load <code>{entry.file}</code>: {error}</p>
-                <p className="text-text-dim mt-4">
-                  Make sure you're running <code>npm run dev</code> from the app directory.
-                </p>
+        {!loading && entries.map(({ entry, sections, error }, i) => {
+          const ver = manifest.versions.find(v => v.version === entry.version)
+          const isFirst = i === 0
+          const isLatest = entry.version === topic.history[0].version
+
+          return (
+            <section key={entry.version} id={`v${entry.version}`}>
+              {/* Version divider (skip for single-entry or first in changelog view) */}
+              {(view === 'current' || !isFirst) && (
+                <div className={`flex items-center gap-3 ${isFirst ? 'mb-6' : 'mt-12 mb-6'}`}>
+                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md border
+                    ${isLatest
+                      ? 'bg-accent-glow border-accent-dim'
+                      : 'bg-bg-raised border-border'
+                    }`}
+                  >
+                    <span className={`font-mono text-[0.72rem] font-semibold tracking-[0.06em] uppercase
+                      ${isLatest ? 'text-accent' : 'text-text-dim'}`}
+                    >
+                      v{entry.version}
+                    </span>
+                    {ver && (
+                      <span className="font-mono text-[0.62rem] text-text-muted">
+                        {ver.date}
+                      </span>
+                    )}
+                    {isLatest && topic.history.length > 1 && (
+                      <span className="font-mono text-[0.55rem] font-semibold tracking-[0.08em] uppercase px-1.5 py-0.5 rounded text-success bg-success/10 border border-success/25">
+                        latest
+                      </span>
+                    )}
+                  </div>
+                  {entry.notes && (
+                    <span className="font-body text-[0.8rem] text-text-dim italic">
+                      {entry.notes}
+                    </span>
+                  )}
+                  <div className="flex-1 h-px bg-border" />
+                </div>
+              )}
+
+              {/* Markdown sections */}
+              <div className="article-body text-[0.95rem] leading-[1.75] text-text">
+                {error ? (
+                  <p className="text-danger">Could not load <code>{entry.file}</code>: {error}</p>
+                ) : (
+                  sections.map((sec, si) => (
+                    <div key={si} className={sec.deprecatedBy ? 'opacity-50' : ''}>
+                      {sec.deprecatedBy && (
+                        <div className="mb-3 mt-6 px-3 py-2 rounded border border-warning/20 bg-warning/[0.06] text-warning/85 text-[0.78rem] font-mono not-italic">
+                          Superseded in v{sec.deprecatedBy}
+                        </div>
+                      )}
+                      <ReactMarkdown>{sec.content}</ReactMarkdown>
+                    </div>
+                  ))
+                )}
               </div>
-            )}
-            {!loading && !error && <ReactMarkdown>{markdown}</ReactMarkdown>}
-          </div>
-        </article>
+            </section>
+          )
+        })}
       </div>
     </main>
   )
