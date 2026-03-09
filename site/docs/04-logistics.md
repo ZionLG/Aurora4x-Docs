@@ -187,14 +187,6 @@ This should add more constraints to NPR deployment, add an interesting layer to 
 
 A new Logistics Report tab on the Fleet window lists all relevant ships for each of five categories. Fuel, Maintenance Supply Point, Ordnance, Deployment Time (for crew) and Time Since Overhaul. A dropdown is used to select each category and the ships are sorted by those most affected in the selected category. Screenshots below show examples for four of those categories. MSP is very similar to fuel.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/48d574140fc6251cba42af051b181d4435eb5309_2_690x430.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/48d574140fc6251cba42af051b181d4435eb5309.jpeg)
 
-image940×586 157 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/48d574140fc6251cba42af051b181d4435eb5309.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/24b927a47d73f095a97416ddae653389e35c01f2_2_690x430.jpeg)
-
-image940×587 220 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/24b927a47d73f095a97416ddae653389e35c01f2.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/24b927a47d73f095a97416ddae653389e35c01f2.jpeg)

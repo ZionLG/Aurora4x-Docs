@@ -50,17 +50,9 @@ This is useful for comparing classes for example. However, you can also drag and
 
 In playing my BSG campaign, I found it difficult to keep track of which mothership was the parent of each survey FAC. Therefore, I have added Assigned Mothership as a field on the ship design display and also added assigned mothership name and fleet to the summary at the top of the Fleet tab of the Naval Organization window.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/660f3a3edfdfce871fd0320593bf5b48c900ab3c_2_690x430.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/660f3a3edfdfce871fd0320593bf5b48c900ab3c.jpeg)
 
-image940×587 180 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/660f3a3edfdfce871fd0320593bf5b48c900ab3c.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/9558823ef11898b1fe0ab593c1d7a8782e6aed91_2_690x430.jpeg)
-
-image940×586 145 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9558823ef11898b1fe0ab593c1d7a8782e6aed91.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9558823ef11898b1fe0ab593c1d7a8782e6aed91.jpeg)
 
   
 

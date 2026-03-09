@@ -44,11 +44,7 @@ These new rules remove many of the maintenance restrictions on larger ships and 
 
 There is a new display option on the galactic map to highlight Maintenance Locations. They are displayed as a dashed blue circle.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/672d465cedd06c516d0d97b23632aa1e661d0b48_2_690x489.png)
-
-image940×667 145 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/672d465cedd06c516d0d97b23632aa1e661d0b48.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/672d465cedd06c516d0d97b23632aa1e661d0b48.png)
 
   
 

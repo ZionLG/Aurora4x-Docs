@@ -96,23 +96,11 @@ The screenshots below show:
 3.  A civilian freighter has been assigned one of the above contracts and is en route to the pickup point. Note that Shipping Lines will show up on the Naval Organization window if desired, although you can’t give them orders.
     
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/9a260ea06f2471b01f5e17d2c6d113982b888e4b_2_690x433.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9a260ea06f2471b01f5e17d2c6d113982b888e4b.png)
 
-image940×591 139 KB
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a99969ca5d8a71dee012a35ea661140d965b0261.png)
 
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9a260ea06f2471b01f5e17d2c6d113982b888e4b.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/a99969ca5d8a71dee012a35ea661140d965b0261_2_690x433.png)
-
-image940×591 141 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a99969ca5d8a71dee012a35ea661140d965b0261.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/a081d41708fa1b133126b5febc35d49cf4afcb4a_2_690x431.jpeg)
-
-image940×588 159 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a081d41708fa1b133126b5febc35d49cf4afcb4a.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a081d41708fa1b133126b5febc35d49cf4afcb4a.jpeg)
 
   
 

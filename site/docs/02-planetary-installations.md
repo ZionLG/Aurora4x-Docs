@@ -109,8 +109,4 @@ When in Spacemaster Mode, the Civilian Economy tab gains an extra dropdown and t
 
 There are a few additions and changes for planetary installations, including changes to mineral requirements. Here is a table of the current situation.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/fee59172567e06c434092bb32de2bd0f8c2698b5_2_690x367.png)
-
-image940×500 147 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/fee59172567e06c434092bb32de2bd0f8c2698b5.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/fee59172567e06c434092bb32de2bd0f8c2698b5.png)

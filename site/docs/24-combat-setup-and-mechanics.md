@@ -63,73 +63,33 @@ The assignment code will take account of damage to the ship and adjust according
 
 As a simple example, the escort cruiser below has six twin turrets and three fire controls. Clicking the button assigns two turrets to each fire control and sets the point defence to final fire.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/0103b2b224b80964021d77baad09fbbe6f247b63_2_690x430.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/0103b2b224b80964021d77baad09fbbe6f247b63.png)
 
-image940×587 147 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/0103b2b224b80964021d77baad09fbbe6f247b63.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/7e9e8d9445a1e030d9807cfc1f0f8c3bb505ee31_2_690x430.png)
-
-image940×587 155 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/7e9e8d9445a1e030d9807cfc1f0f8c3bb505ee31.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/7e9e8d9445a1e030d9807cfc1f0f8c3bb505ee31.png)
 
 This ship has a mixture of point defence and offensive lasers, plus fire controls for each. The auto-assign determines which weapons should be assigned to which fire control. All beam fire control are set as final fire so the ship will use all available weapons to defend against missile attack.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/4f9b673deccd4cd748f22e1ac5c4ff80863d9be3.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/4f9b673deccd4cd748f22e1ac5c4ff80863d9be3.jpeg)
 
-image495×459 73.4 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/4f9b673deccd4cd748f22e1ac5c4ff80863d9be3.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/56d69c20f4545ac51c2d4442c89d4b1724fb6232.jpeg)
-
-image481×486 91.1 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/56d69c20f4545ac51c2d4442c89d4b1724fb6232.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/56d69c20f4545ac51c2d4442c89d4b1724fb6232.jpeg)
 
 This ship has a mixture of missiles and offensive lasers. Note that missiles are automatically assigned to launchers.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/db824cab9543961c55ccd4eb15e3e5859bbceeb0.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/db824cab9543961c55ccd4eb15e3e5859bbceeb0.jpeg)
 
-image494×420 91.2 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/db824cab9543961c55ccd4eb15e3e5859bbceeb0.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/0ef4f1c69788b922e5a0708676d20aa4b45c95fb.jpeg)
-
-image711×492 125 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/0ef4f1c69788b922e5a0708676d20aa4b45c95fb.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/0ef4f1c69788b922e5a0708676d20aa4b45c95fb.jpeg)
 
 This ship has a point defence turret and multiple types of offensive beam weapons, plus an ECCM system.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/dd0ff18222df8da0155d9360aab50b6203274938.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/dd0ff18222df8da0155d9360aab50b6203274938.png)
 
-image359×430 87.4 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/dd0ff18222df8da0155d9360aab50b6203274938.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a52a44ae1e6ac37809aaa7beac0142e8468ecce5.jpeg)
-
-image478×483 74.3 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a52a44ae1e6ac37809aaa7beac0142e8468ecce5.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a52a44ae1e6ac37809aaa7beac0142e8468ecce5.jpeg)
 
 An extreme example!
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/116561bafb129e3396c0fbc9bd28c5a80ee755c4_2_173x499.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/116561bafb129e3396c0fbc9bd28c5a80ee755c4.jpeg)
 
-image430×1238 184 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/116561bafb129e3396c0fbc9bd28c5a80ee755c4.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/800042eccda67ad2df8c18573291dd11e0ca5c98_2_217x500.jpeg)
-
-image534×1225 228 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/800042eccda67ad2df8c18573291dd11e0ca5c98.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/800042eccda67ad2df8c18573291dd11e0ca5c98.jpeg)
 
   
 

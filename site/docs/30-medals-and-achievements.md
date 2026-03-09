@@ -8,11 +8,7 @@ This first screenshot shows the Medal Window, with the first medal on the list s
 
 The second screenshot shows a list of available conditions. This is only an initial list to show examples of what is possible. All these conditions are already working. I will also add to this window the ability to create new conditions. They will have to use one of the existing measurement types, but you can choose different measurement amounts. This thread is open for suggestions of different measurement.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/6979b0c99feb2d99650860e5b3e70364219e9aff_2_690x491.png)
-
-image940×669 157 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6979b0c99feb2d99650860e5b3e70364219e9aff.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6979b0c99feb2d99650860e5b3e70364219e9aff.png)
 
   
 
@@ -25,11 +21,7 @@ The previous post on medals covered automated medal assignment. This covers manu
 
 On the Fleet window, you can select a Ship, a Sub-Fleet, a Fleet or a Naval Admin Command and click Award Medal. The following window pops up:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/f4b6618448247d2502c55ce16c7ec96b2f20b1e7_2_350x500.png)
-
-image702×1002 124 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f4b6618448247d2502c55ce16c7ec96b2f20b1e7.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f4b6618448247d2502c55ce16c7ec96b2f20b1e7.png)
 
 You choose the medal and the type of command positions to which the medal will be awarded. Every commander with a command included in the selected types that is on a ship included in the selected organisation will be awarded the selected medal. This would include commanders of any ground formations present on the ships if that command type is selected. If a fleet is selected, all ships in the fleet are included, including any in sub-fleets. If an Admin Command is selected, every ship in the complete hierarchy of that Admin Command will be selected. Mass Awards use a confirmation popup after you close the Medal Award window, as a mistaken mass award would require some sorting out ![:)](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/30958a87cf55f4d9ce8060f11f5189deddc2f423.png)
 

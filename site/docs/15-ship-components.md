@@ -6,11 +6,7 @@ The tab still has the functionality from VB6, showing the component breakdown by
 
 Two new columns have been added which replace the damage allocation chart from VB6. Instead, this is the percentage chance that a component of the specified type will be selected for internal damage. E-DAC is for weapons that only target electronics.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/27bb8942af84e87844aed68ffa076dbadbffa4ec_2_690x432.jpeg)
-
-image940×589 147 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/27bb8942af84e87844aed68ffa076dbadbffa4ec.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/27bb8942af84e87844aed68ffa076dbadbffa4ec.jpeg)
 
   
 
@@ -55,11 +51,7 @@ High Density Duranium and above remain the same. Duranium Armour becomes availab
 
 Here are the first six armour techs as they now stand:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6616e4de554d7329e7c3237d278b449fd6a3a16f.png)
-
-image492×144 2.87 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6616e4de554d7329e7c3237d278b449fd6a3a16f.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6616e4de554d7329e7c3237d278b449fd6a3a16f.png)
 
   
 

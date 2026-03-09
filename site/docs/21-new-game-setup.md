@@ -47,11 +47,7 @@ Currently Planet X is named Minerva, although I haven’t created any moon or Tr
 
 Here is one version of Minerva - a superjovian with eight moons, orbiting at 145 AU.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/ab27adb33c3833de2cd6341d9cf3556ca547e52e_2_539x499.png)
-
-image940×871 153 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ab27adb33c3833de2cd6341d9cf3556ca547e52e.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ab27adb33c3833de2cd6341d9cf3556ca547e52e.png)
 
   
 

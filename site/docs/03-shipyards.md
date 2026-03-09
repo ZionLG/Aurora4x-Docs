@@ -30,11 +30,7 @@ For C#, the base requirement is removed. Instead, naval shipyards will require 2
 
 As an example, here are the shipyards from my current test campaign with the old and new requirements:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/4102ad17b2522710829b3c1c1aa43782c1de7c4d_2_690x253.png)
-
-image940×346 126 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/4102ad17b2522710829b3c1c1aa43782c1de7c4d.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/4102ad17b2522710829b3c1c1aa43782c1de7c4d.png)
 
   
 

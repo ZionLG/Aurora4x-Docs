@@ -28,11 +28,7 @@ The Unload Colonists Standing Order will ignore comets, so civilian traffic will
 
 I may add some larger comets to make this more interesting. Longer-term, I may also add eccentric planetary orbits with a similar approach to the above. This is an experiment on a small scale to see what issues I encounter
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/80c55eee73a14616cfb55f9297e8d595267f874a_2_690x431.png)
-
-image940×588 180 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/80c55eee73a14616cfb55f9297e8d595267f874a.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/80c55eee73a14616cfb55f9297e8d595267f874a.png)
 
   
 
@@ -54,11 +50,7 @@ Regardless of the result of the above calculations, a body with gravity at or be
 
 The above rules result in the following population capacities
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b3d6c40ddc89d1a97b8c3642e8d30e7d43a387b5.jpeg)
-
-image659×353 76.8 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b3d6c40ddc89d1a97b8c3642e8d30e7d43a387b5.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b3d6c40ddc89d1a97b8c3642e8d30e7d43a387b5.jpeg)
 
 Each Species has a population density modifier. This is normally set to 1 but there a small chance it can be higher or lower for random species. Player-created species can specify this density.
 
@@ -97,11 +89,7 @@ For example, here the Jovian Federation is looking for worlds with a colony cost
 
 The second screen shot is from my previous campaign and shows a search for worlds with acceptable gravity, oxygen present, not in an alien-controlled system, below a colony cost of 4, with a pop capacity of at least one million and that have minerals present. This is sorted by colony cost and size of mineral deposits.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/5954d0e98127da5782431465760b2f62dcf34871_2_690x430.png)
-
-image940×587 185 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/5954d0e98127da5782431465760b2f62dcf34871.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/5954d0e98127da5782431465760b2f62dcf34871.png)
 
   
 

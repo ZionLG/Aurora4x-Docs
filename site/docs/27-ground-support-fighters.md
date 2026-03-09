@@ -2,27 +2,15 @@
 
 In C# Aurora, fighter-sized ships can be equipped with a new component, the Fighter Pod Bay, which is similar in function to a small Box Launcher, except it will only hold Fighter Pods (see below).
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/85183b303e5cbad6abaa6619081affcd3fa07d23_2_690x324.png)
-
-image940×442 52.4 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/85183b303e5cbad6abaa6619081affcd3fa07d23.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/85183b303e5cbad6abaa6619081affcd3fa07d23.png)
 
 Fighter Pods are created on the Missile Design window. The various pod options, such as bombardment pod, autocannon pod and air-to air pod, will appear when the requisite technology has been researched. When one of those options is selected, the warhead strength field is replaced by a pod size field. The player can choose the pod size, with larger pods being more effective. The pod capabilities will be similar to the capabilities of equivalent-sized ground unit components, although the fighter pods have more flexibility in design. For example, a bombardment pod will have three shots, armour penetration equal to Racial Weapon Modifier \* ((Tons / 20) ^ 0.6) and damage equal to Racial Weapon Modifier \* ((Tons / 20) ^ 1.6).
 
 Fighter pods are ordnance, in exactly the same way as missiles. They are built by ordnance factories, transported in magazines and loaded onto fighters. Unlike missiles, they are not expended when fired and will function during ground combat phases.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/11bef24116b679e95ede8e2844b12220188a19c7_2_690x423.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/11bef24116b679e95ede8e2844b12220188a19c7.png)
 
-image940×577 135 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/11bef24116b679e95ede8e2844b12220188a19c7.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/44d6220bd59074f403f5a56773d8b0cbda2082ea_2_690x423.png)
-
-image940×577 136 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/44d6220bd59074f403f5a56773d8b0cbda2082ea.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/44d6220bd59074f403f5a56773d8b0cbda2082ea.png)
 
 A fighter can be designed with fighter pod bays. Different pods can be assigned to those bays while the fighter is in a hangar, providing flexibility of loadout. The same fighter could be used for bombardment or autocannon pods, as long as the pods bays are large enough and the parent carrier has both types of pods available. The pods can be assigned to the fighter using the normal ordnance loadout. The pods require a missile fire control to operate, although this can be minimal size (0.1 HS) as there are no range or resolution restrictions.
 
@@ -42,17 +30,9 @@ Ground support fighters have the same chance to hit as ground units, although th
 
 Each Forward Fire Direction component in a formation allows support from up to six ground support fighters. If more fighters are assigned to a formation than can be supported, the chance to hit is modified by (Number of FFD \* 6) / Number of Fighters.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/cc4408375541db8d95d8a096bb0fd17da9c6c497_2_690x444.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cc4408375541db8d95d8a096bb0fd17da9c6c497.png)
 
-image940×605 98.8 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cc4408375541db8d95d8a096bb0fd17da9c6c497.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/78950367b45c949ca87ad463dcbd5bd0f03bc573_2_690x432.jpeg)
-
-image940×589 168 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/78950367b45c949ca87ad463dcbd5bd0f03bc573.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/78950367b45c949ca87ad463dcbd5bd0f03bc573.jpeg)
 
   
 

@@ -45,17 +45,9 @@ The target settings are as follows:
 
 When an STO element targets missiles, it will only fire until the missiles are destroyed. For the purposes of tracking weapon fire and recharging, each STO unit within the element is tracked separately.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/cb3271d9f1335f438b756133e8f23d0b3642a90a_2_690x444.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cb3271d9f1335f438b756133e8f23d0b3642a90a.png)
 
-image940×606 190 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cb3271d9f1335f438b756133e8f23d0b3642a90a.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/c608733c43ef95f0153841fe94ff4611ecadf6b9_2_690x445.png)
-
-image940×607 185 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c608733c43ef95f0153841fe94ff4611ecadf6b9.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c608733c43ef95f0153841fe94ff4611ecadf6b9.png)
 
   
 
@@ -97,8 +89,4 @@ Populations will no longer surrender purely due to orbital bombardment. You have
 
 Energy weapons now provide a way to destroy the industry and infrastructure of a target population, without causing radiation or using up ordnance. However, this will require considerable effort for a large population and consume maintenance supplies due to weapon failures. It will also bring you within range of any ground-based energy weapons. Of course, it will usually be more beneficial to conquer the planet and gain the installations instead of destroying them.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/76849ec07c5571a054b2a102588db4838b552898_2_274x500.jpeg)
-
-image483×880 142 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/76849ec07c5571a054b2a102588db4838b552898.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/76849ec07c5571a054b2a102588db4838b552898.jpeg)

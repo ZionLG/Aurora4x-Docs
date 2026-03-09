@@ -29,17 +29,9 @@ As a result of these changes, espionage teams have been removed from C# Aurora.
 
 A couple of design examples for the ELINT Module
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d8cded108a010fbe7de0f1aa2dd113df02c9db3d_2_690x433.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d8cded108a010fbe7de0f1aa2dd113df02c9db3d.jpeg)
 
-image940×590 181 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d8cded108a010fbe7de0f1aa2dd113df02c9db3d.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/c4618b6997dbbe91623c39effe514fc7651bda8c_2_690x432.jpeg)
-
-image940×589 157 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c4618b6997dbbe91623c39effe514fc7651bda8c.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c4618b6997dbbe91623c39effe514fc7651bda8c.jpeg)
 
   
 
@@ -89,17 +81,9 @@ Similar contacts can be grouped in C# Aurora. This is done via a checkbox on the
 
 When Group Contacts is active, any contacts with the same alien ship type, the same current coordinates, the same coordinates from the previous increment, the same active sensor emissions and the same contact status will be grouped together. The 001, 002, etc. suffix of the normal contact string will be replaced with a prefix showing how many contacts in the group. If there is only one contact in a location, the grouping is ignored and the normal contact information is displayed. The difference is shown below:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/46d3285d05ae2a3e4214d881870ad6e8db146a42_2_690x485.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/46d3285d05ae2a3e4214d881870ad6e8db146a42.jpeg)
 
-image940×662 157 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/46d3285d05ae2a3e4214d881870ad6e8db146a42.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/cbb5c2ee77cd4c4cc33de78d33805b1aac82cab4_2_652x500.png)
-
-image940×720 87.6 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cbb5c2ee77cd4c4cc33de78d33805b1aac82cab4.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cbb5c2ee77cd4c4cc33de78d33805b1aac82cab4.png)
 
   
 
@@ -113,28 +97,12 @@ There is also a ‘Lost Contacts 1 Year’ checkbox, which functions exactly as 
 
 Here is a section of my current system map with and without the Lost Contacts option active. The Hegemony of Titan ships near the bottom only appear when Lost Contacts is active. The Venusian freighters at the top left are present in both screenshots, but have more information available when Lost Contacts is active
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/5d57a6cdafa62b96420c2134a635ef70abbff959_2_460x500.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/5d57a6cdafa62b96420c2134a635ef70abbff959.png)
 
-image940×1020 138 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/5d57a6cdafa62b96420c2134a635ef70abbff959.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/b633f1328cf2ad4843f2b8827810178679d427c5_2_460x500.jpeg)
-
-image940×1021 206 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b633f1328cf2ad4843f2b8827810178679d427c5.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b633f1328cf2ad4843f2b8827810178679d427c5.jpeg)
 
 Lost Contacts can be combined with Group Contacts. Here are two screenshots of Martian ships in orbit of Mars with Group Contacts active. Lost Contacts is active in the second screenshot.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/2c2c3936015f1fe6e2dbab6f5e67af00a5d51526_2_548x500.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2c2c3936015f1fe6e2dbab6f5e67af00a5d51526.png)
 
-image758×691 91.4 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2c2c3936015f1fe6e2dbab6f5e67af00a5d51526.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/54ee6db156904be87ea75c3138c986a07ce2556d_2_690x456.jpeg)
-
-image861×570 144 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/54ee6db156904be87ea75c3138c986a07ce2556d.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/54ee6db156904be87ea75c3138c986a07ce2556d.jpeg)

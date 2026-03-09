@@ -17,11 +17,7 @@ The fortification modifier is a modifier for the max fortification level, rather
 
 An important factor to bear in mind is that when ships are engaging ground units with surface-to-orbit capability, the main defence of the ground unit will be its fortification level. The ship-based weapons are assumed to hit 100% of the time divided by the fortification level. On a planet with Steppe as the dominant terrain type, the maximum fortification of a static ground unit will be 6 with no penalty for the ship to hit. On a Jungle Mountain world, the maximum fortification level will be 18 for that same ground unit and any shots against it by the ships will be modified by 0.125, giving the ground unit an effective fortification level of 144. In other words, the ship in orbit is going to hit once every 144 shots. So trying to use orbital bombardment against surface to orbit units buried in jungle-covered mountains is going to be a Bad Idea. It would be far more effective to send in ground forces (which can’t be hit by STO units) to dig them out. That is an extreme example, but there should be many more situations where there are some serious decisions for the attacker.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/54f309b85b25284a66681e2bd3bb25a1277e0f78_2_690x307.png)
-
-image940×419 131 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/54f309b85b25284a66681e2bd3bb25a1277e0f78.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/54f309b85b25284a66681e2bd3bb25a1277e0f78.png)
 
   
 
@@ -42,19 +38,11 @@ image940×419 131 KB
 
 Added the following stars:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/412a62373372f50cd9b37f837f4efe3b47b3f061.png)
-
-image553×477 113 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/412a62373372f50cd9b37f837f4efe3b47b3f061.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/412a62373372f50cd9b37f837f4efe3b47b3f061.png)
 
 Renamed several stars:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d6d7cdf93510b1be6cabd7cf92753602fcb0371c.png)
-
-image439×256 60.3 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d6d7cdf93510b1be6cabd7cf92753602fcb0371c.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d6d7cdf93510b1be6cabd7cf92753602fcb0371c.png)
 
   
 

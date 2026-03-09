@@ -48,19 +48,11 @@ The new version of the Mineral Search window. This should be more flexible than 
 
 For example, here are all bodies with at least 1000 tons of Duranium with 0.3 accessibility or higher.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/f90dca666fe4a0216acfea86933e182779dd5111_2_690x422.png)
-
-image940×576 90.8 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f90dca666fe4a0216acfea86933e182779dd5111.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f90dca666fe4a0216acfea86933e182779dd5111.png)
 
 Here is the same but with the added requirement of at least 1 ton of Sorium.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/8bf5f5f37618a1d3b21d631f958bedb6d2361601_2_690x422.png)
-
-image940×576 55.2 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8bf5f5f37618a1d3b21d631f958bedb6d2361601.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8bf5f5f37618a1d3b21d631f958bedb6d2361601.png)
 
   
 

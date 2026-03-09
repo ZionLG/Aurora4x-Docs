@@ -65,17 +65,9 @@ Above a Boost Level of 2x, the linear High Boost Modifier will come into effect,
 
 Here is a comparison between VB6 and C# using MPD engines and an engine size of 1 MSP. The Max Boost Tech for this race is 2x:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/966a4dfd00ce130403b92cb05f8abfe69055c8e3.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/966a4dfd00ce130403b92cb05f8abfe69055c8e3.png)
 
-image380×279 7.57 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/966a4dfd00ce130403b92cb05f8abfe69055c8e3.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3f2a4b5dfe908c6a838342606f36f687f286ca4c.png)
-
-image385×275 7.73 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3f2a4b5dfe908c6a838342606f36f687f286ca4c.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3f2a4b5dfe908c6a838342606f36f687f286ca4c.png)
 
   
 
@@ -87,17 +79,9 @@ The best engine and fuel efficiency tech will automatically be used, so the play
 
 If no engine is required, just tick the No Engine option. See second screenshot.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/cc97b45347e61411b3c74f36bf01bfe9a9675373_2_690x423.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cc97b45347e61411b3c74f36bf01bfe9a9675373.png)
 
-image940×577 161 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/cc97b45347e61411b3c74f36bf01bfe9a9675373.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/f003a8370fdc38ae0c13546d9d337dc0a07d7b9d_2_690x424.png)
-
-image940×578 165 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f003a8370fdc38ae0c13546d9d337dc0a07d7b9d.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f003a8370fdc38ae0c13546d9d337dc0a07d7b9d.png)
 
   
 
@@ -167,11 +151,7 @@ A new tab on the Ship section of the Naval Organization window shows the class a
 
 The screenshot shows a recon-focused ship ordnance template.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d5a3dece58d40938a8d4de8c34335ed286b2348e_2_690x430.jpeg)
-
-image940×586 144 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d5a3dece58d40938a8d4de8c34335ed286b2348e.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d5a3dece58d40938a8d4de8c34335ed286b2348e.jpeg)
 
   
 

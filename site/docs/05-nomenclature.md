@@ -35,11 +35,7 @@ When a Race is created, a single theme is selected as part of the creation proce
 
 The first screenshot shows a race with a single commander name theme. The second shows the same race with multiple additional themes. The top left section of the Race window shows the main theme (the greatest weight) plus the number of additional themes.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/580aaf2c811000f6a6a9eab42939fe20ef7529bc_2_690x466.jpeg)
-
-image940×636 217 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/580aaf2c811000f6a6a9eab42939fe20ef7529bc.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/580aaf2c811000f6a6a9eab42939fe20ef7529bc.jpeg)
 
   
 
@@ -89,11 +85,7 @@ Adding your own commander name themes was not possible in VB6. I’ve added that
 
 The new commander name theme is added to the database for the current game and all future games.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/a004486679bbca97c7415d79c5c38383e05337e3_2_233x500.png)
-
-image527×1130 97.5 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a004486679bbca97c7415d79c5c38383e05337e3.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a004486679bbca97c7415d79c5c38383e05337e3.png)
 
 <br
 
@@ -101,17 +93,9 @@ image527×1130 97.5 KB
 
 I’ve added a new Naming Theme for my latest test campaign. It mixes names from Battlestar Galactica with names from Greek Mythology, so I’ve called it Battlestar Greek. It is a little weird ![:slight_smile:](https://emoji.discourse-cdn.com/twitter/slight_smile.png?v=15 ":slight_smile:") but matches the theme for the campaign so I’m going to make it one of the standard themes. Here is a sample of some randomly generated names.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/b3a93627c5df2cfd3e40a376eab4080520aaf53e_2_117x499.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b3a93627c5df2cfd3e40a376eab4080520aaf53e.jpeg)
 
-image264×1128 115 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/b3a93627c5df2cfd3e40a376eab4080520aaf53e.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/2ec8082b3ea27e7fae5af3523cd42efe7df24c36_2_107x500.jpeg)
-
-image248×1158 111 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2ec8082b3ea27e7fae5af3523cd42efe7df24c36.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2ec8082b3ea27e7fae5af3523cd42efe7df24c36.jpeg)
 
   
 

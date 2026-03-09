@@ -16,35 +16,15 @@ Sensor Range = SQRT((Racial Sensor Strength \* HS \* Racial EM Sensitivity \* (R
 
 The following screenshots are based on the Commonwealth in my current campaign, which has active sensor strength 21 and EM sensitivity 11.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/6d6548362b1cdc8db24d76f6657e1721497e67c4_2_690x150.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6d6548362b1cdc8db24d76f6657e1721497e67c4.png)
 
-image940×205 102 KB
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8e8599a529fb50393129a33231a56d1f6972302e.png)
 
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/6d6548362b1cdc8db24d76f6657e1721497e67c4.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8f475bad1b7edf9436a05952ef1e55fc98502377.png)
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/8e8599a529fb50393129a33231a56d1f6972302e_2_690x150.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d3e29b15faf4c46a60a313e84c9a5162bf6d20b5.png)
 
-image940×205 105 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8e8599a529fb50393129a33231a56d1f6972302e.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/8f475bad1b7edf9436a05952ef1e55fc98502377_2_690x149.png)
-
-image940×203 112 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8f475bad1b7edf9436a05952ef1e55fc98502377.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d3e29b15faf4c46a60a313e84c9a5162bf6d20b5_2_690x149.png)
-
-image940×203 115 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d3e29b15faf4c46a60a313e84c9a5162bf6d20b5.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/313a6f88dd94a9f8187f27382603d7c0a8bc8e41_2_690x149.png)
-
-image940×204 116 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/313a6f88dd94a9f8187f27382603d7c0a8bc8e41.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/313a6f88dd94a9f8187f27382603d7c0a8bc8e41.png)
 
   
 
@@ -64,11 +44,7 @@ Because of the great improvement in the performance of small passive sensors, th
 
 The screenshot below demonstrates the difference between the two models.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/a2aeb475e6f35221ab3fe559183405ad1344a8f8_2_690x431.png)
-
-image940×588 229 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a2aeb475e6f35221ab3fe559183405ad1344a8f8.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a2aeb475e6f35221ab3fe559183405ad1344a8f8.png)
 
   
 

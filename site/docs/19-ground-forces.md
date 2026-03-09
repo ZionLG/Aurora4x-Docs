@@ -40,19 +40,11 @@ At the top-right of the window is the Capability section. One or more Capabiliti
 
 In the bottom right section, a summary of the unit is shown in a similar style to the Class Summary for naval designs. When the sizes of all the units in a formation are aggregated, that is the transport requirement for that formation in tons. Cost is in BP. When the costs of all the units in a formation are aggregated, that is the build point requirement to construct the formation. Armour and Hit Points have been described previously. Below that is a list of components, followed by the materials required for construction and the research cost to develop the unit once designed.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d589e7c2ff6c012a61a53f5f00c06736ac4838d9_2_690x446.png)
-
-image940×608 161 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d589e7c2ff6c012a61a53f5f00c06736ac4838d9.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d589e7c2ff6c012a61a53f5f00c06736ac4838d9.png)
 
 This screenshot shows a static unit with an STO component selected. The chosen weapon (which is any non-turreted weapon developed for shipboard use) is selected on the right. Spinal Weapons can be selected for ground use without penalty. The STO mount includes the weapon, a reactor of the exact size needed for the recharge rate, an active sensor with range greater than the weapon range and a built-in beam fire control with a 4x range modifier. The cost is equal to the static platform, the weapon, the reactor, the active sensor and half the fire control. STO weapons have a 25% bonus to fire control range. The damage shows two numbers, which is the damage at minimum and maximum range.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/8733470e6919c74adf7d2972b5cd62a252df0a5e_2_690x446.png)
-
-image940×608 178 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8733470e6919c74adf7d2972b5cd62a252df0a5e.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/8733470e6919c74adf7d2972b5cd62a252df0a5e.png)
 
   
 
@@ -91,21 +83,13 @@ The totals for each Template Element are added together to create the total for 
 
 To add new Template Elements to a Formation Template, use the Add Units button in conjunction with the adjacent text field to specify the number of units in the new element. This number can be subsequently edited by selecting the element and clicking the Edit Amount button. Both Formation Templates and Element Templates can be deleted using the appropriate buttons.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/65a6f3dc4dbfab124539133a722d0d3f24e067fb_2_690x446.png)
-
-image940×608 175 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/65a6f3dc4dbfab124539133a722d0d3f24e067fb.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/65a6f3dc4dbfab124539133a722d0d3f24e067fb.png)
 
 This screenshot shows the Macharius Command Tank on the left and the Brigade Headquarters formation template on the right. The Macharius is a super-heavy vehicle, with two super-heavy anti-vehicle weapons and an HQ4 component, which provides a headquarters capacity of 10,000 tons. This is a large and expensive vehicle at 518 tons and 93.24 BP, but is well-protected as the loss of the HQ in a formation will result in the loss of any commander bonuses (and maybe the commander himself).
 
 The Brigade Headquarters formation template includes two Guard Brigade Headquarters units, in case one is destroyed, plus thirty-six large artillery pieces, twelve flak tanks and a company of Guardsman. Combat involves three locations. Front-Line, Support or Rear-Echelon. Units in a Support position can only attack using bombardment weapons, or defend themselves against air attack. This formation is intended to serve in the Support location and is organising accordingly. However, it is possible for a Support Formation to temporarily find itself moved into a Front-Line position, so the Guardsman Element will provide additional protection in that case.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/c3d66de5a3263be01a461e19dcf247f70c0aa8dc_2_690x445.png)
-
-image940×607 175 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c3d66de5a3263be01a461e19dcf247f70c0aa8dc.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c3d66de5a3263be01a461e19dcf247f70c0aa8dc.png)
 
   
 
@@ -119,11 +103,7 @@ The GSP requirement for a Ground Unit Class is the sum of its weapon components.
 
 Two new ground unit components have been added; the Logistics Module, which is Size 50 and provides 500 GSP, and the Logistics Module - Small, which is Size 10 and provides 100 GSP. The standard module is available for light vehicle and infantry base types, while the small module is only available to infantry. Here is an example of a light vehicle with the Logistics Module.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d2cd0d2579eef64110a45df7d7917c356f6ccf9e_2_690x444.png)
-
-image940×606 131 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d2cd0d2579eef64110a45df7d7917c356f6ccf9e.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d2cd0d2579eef64110a45df7d7917c356f6ccf9e.png)
 
 Ground units with either logistics module can be added to any level of the ground force hierarchy, either embedded with the front line combat formations or held at a superior formation, such as a headquarters.
 
@@ -137,27 +117,15 @@ When a formation element of logistics units provides supply, a number of units w
 
 Below is an example of a Formation Template for a Brigade Headquarters that includes 50 Supply Vehicles.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/061d99d0101c15bd6fa2037e5971f4e6d1e19969_2_690x445.png)
-
-image940×607 181 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/061d99d0101c15bd6fa2037e5971f4e6d1e19969.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/061d99d0101c15bd6fa2037e5971f4e6d1e19969.png)
 
 Below is an order of battle for a divisional formation. At the divisional level are 240 Supply Vehicles, indicated by LOG 120k (120,000 supply points) in the Formation Attributes column, with smaller numbers within each brigade headquarters formation. The GSP column shows the resupply requirement for each formation or formation element. The total divisional organisation requires 40,338 GSP for a complete resupply and there are sufficient supply vehicles (410) in that organisation to resupply five times. With the inherent supply as well, the entire division can stay in combat for sixty rounds before additional supply vehicles are required.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/38c7ccedbbda2f14f241292e3d1e4076e83312ab_2_690x445.jpeg)
-
-image940×607 198 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/38c7ccedbbda2f14f241292e3d1e4076e83312ab.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/38c7ccedbbda2f14f241292e3d1e4076e83312ab.jpeg)
 
 Finally here is a view of a single population, with the order of battle tab in Location mode.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/3b15eab13179133c12b87fb029f0fa65bdf3b709_2_690x446.jpeg)
-
-image940×608 167 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3b15eab13179133c12b87fb029f0fa65bdf3b709.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3b15eab13179133c12b87fb029f0fa65bdf3b709.jpeg)
 
   
 
@@ -167,11 +135,7 @@ Here is a screenshot of the UI for setting support relationships between superio
 
 The drag-drop is intelligent and can distinguish between setting support relationships, reassigning formations to a new headquarters, removing headquarters assignments, moving formations from one population to another (on the same system body) and moving elements between formations (more on that last option in the next post).
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/ee0f44d36c6e0414f296986831e0aa363692dda6_2_690x444.jpeg)
-
-image940×606 179 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ee0f44d36c6e0414f296986831e0aa363692dda6.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ee0f44d36c6e0414f296986831e0aa363692dda6.jpeg)
 
   
 
@@ -181,11 +145,7 @@ Below is the same screenshot as the previous post but with the Elements option s
 
 To move elements between formations, you can drag and drop elements from one formation to another, although they must be on the same system body. Normally, the whole element is transferred. However, if the Amount checkbox is checked, a popup box will appear after the drag-drop, allowing you to transfer only a portion of the element. If the receiving formation already has an element with the same ground unit class, the additional units will be added to the existing element.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/c1f62cae9da6aef3890a3877ec84a92d9009b28f_2_690x445.jpeg)
-
-image940×607 200 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c1f62cae9da6aef3890a3877ec84a92d9009b28f.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c1f62cae9da6aef3890a3877ec84a92d9009b28f.jpeg)
 
   
 

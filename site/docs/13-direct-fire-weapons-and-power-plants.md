@@ -27,23 +27,11 @@ As well as the above modifications, which essentially creates a weapon twice as 
 
 Here are examples of similar tech level Particle Beam, Particle Lance and Laser.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/1c98766b3dad7e69e07eca964e5963a424f1280a.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/1c98766b3dad7e69e07eca964e5963a424f1280a.png)
 
-image566×167 5.97 KB
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2670d6e8ee065703cd1a05858f2eb0a4480ffad7.png)
 
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/1c98766b3dad7e69e07eca964e5963a424f1280a.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2670d6e8ee065703cd1a05858f2eb0a4480ffad7.png)
-
-image561×182 6.36 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2670d6e8ee065703cd1a05858f2eb0a4480ffad7.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9d6947a0f7890b3e8fdfa67306f0a3d075d063d3.png)
-
-image564×189 7.71 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9d6947a0f7890b3e8fdfa67306f0a3d075d063d3.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9d6947a0f7890b3e8fdfa67306f0a3d075d063d3.png)
 
 **Comparison of Damage Templates at 240,000 km**
 
@@ -83,11 +71,7 @@ The Launch Velocity still has six levels with the following progression in RP: 5
 
 Power plants will no longer have linear power vs size. Additional power will be produced by larger reactors, using a similar formula to the increase in fuel efficiency for larger engines. This change will provide a reason to create larger power plants and will result in a small improvement in energy weapon capabilities. The table below shows power per HS and total power for a given size of reactor. This value is multiplied by the base technology of the power plant (Pressurised Water, Pebble Bed, etc).
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ee8faa4be0517da7125114d3028887ed27ba8780.png)
-
-image385×226 3.13 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ee8faa4be0517da7125114d3028887ed27ba8780.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/ee8faa4be0517da7125114d3028887ed27ba8780.png)
 
 The additional boost provided by the “Power Plant Boost” technology line provides double the previous bonus, with lower research costs and slightly higher explosion chances. This is intended for smaller ships that are short on space. The updated tech line provides between 10% and 100% additional boost with research costs between 500 RP and 30,000 RP.
 

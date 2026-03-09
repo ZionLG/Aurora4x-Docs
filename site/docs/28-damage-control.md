@@ -17,8 +17,4 @@ Damage Control functions in a similar way to VB6 with a few exceptions.
 
 Below is the new damage control tab for the Ship section of the Naval Organization window. The Repair Chance on the rightmost column is the chance for the ship to repair the component in the time specified at the bottom of the screen in the Repair Chance Time text box. SM Repair All is only visible in SM mode and will repair everything, including armour. Auto Queue will queue everything using the automated damage control rules. Clicking the Automated Damage Control checkbox means the ship will automatically queue and repair damage (the queuing is done just prior to damage control in the sequence of play).
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/a6adf7c8cd1427e7a385fbad4aef2cd0776632bf_2_690x431.jpeg)
-
-image940×588 171 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a6adf7c8cd1427e7a385fbad4aef2cd0776632bf.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a6adf7c8cd1427e7a385fbad4aef2cd0776632bf.jpeg)

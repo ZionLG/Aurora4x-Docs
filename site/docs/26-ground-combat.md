@@ -70,11 +70,7 @@ The GSP requirement for a Ground Unit Class is the sum of its weapon components.
 
 Two new ground unit components have been added; the Logistics Module, which is Size 50 and provides 500 GSP, and the Logistics Module - Small, which is Size 10 and provides 100 GSP. The standard module is available for light vehicle and infantry base types, while the small module is only available to infantry. Here is an example of a light vehicle with the Logistics Module.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d2cd0d2579eef64110a45df7d7917c356f6ccf9e_2_690x444.png)
-
-image940×606 131 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d2cd0d2579eef64110a45df7d7917c356f6ccf9e.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d2cd0d2579eef64110a45df7d7917c356f6ccf9e.png)
 
 Ground units with either logistics module can be added to any level of the ground force hierarchy, either embedded with the front line combat formations or held at a superior formation, such as a headquarters.
 
@@ -88,27 +84,15 @@ When a formation element of logistics units provides supply, a number of units w
 
 Below is an example of a Formation Template for a Brigade Headquarters that includes 50 Supply Vehicles.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/061d99d0101c15bd6fa2037e5971f4e6d1e19969_2_690x445.png)
-
-image940×607 181 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/061d99d0101c15bd6fa2037e5971f4e6d1e19969.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/061d99d0101c15bd6fa2037e5971f4e6d1e19969.png)
 
 Below is an order of battle for a divisional formation. At the divisional level are 240 Supply Vehicles, indicated by LOG 120k (120,000 supply points) in the Formation Attributes column, with smaller numbers within each brigade headquarters formation. The GSP column shows the resupply requirement for each formation or formation element. The total divisional organisation requires 40,338 GSP for a complete resupply and there are sufficient supply vehicles (410) in that organisation to resupply five times. With the inherent supply as well, the entire division can stay in combat for sixty rounds before additional supply vehicles are required.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/38c7ccedbbda2f14f241292e3d1e4076e83312ab_2_690x445.jpeg)
-
-image940×607 198 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/38c7ccedbbda2f14f241292e3d1e4076e83312ab.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/38c7ccedbbda2f14f241292e3d1e4076e83312ab.jpeg)
 
 Finally here is a view of a single population, with the order of battle tab in Location mode.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/3b15eab13179133c12b87fb029f0fa65bdf3b709_2_690x446.jpeg)
-
-image940×608 167 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3b15eab13179133c12b87fb029f0fa65bdf3b709.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/3b15eab13179133c12b87fb029f0fa65bdf3b709.jpeg)
 
   
 

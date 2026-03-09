@@ -89,11 +89,7 @@ Shipping Line vessels will be ignored for this purpose if a trade treaty is in f
 
 This table shows the diplomatic point penalties for different ship tonnages in different value systems, assuming an NPR Xenophobia of 50. For populations, use EM Signature \* 10 for ‘Tonnage’.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/299c35d32accd69e4edd8092728c8c4ace74adac_2_690x149.png)
-
-image940×204 90.3 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/299c35d32accd69e4edd8092728c8c4ace74adac.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/299c35d32accd69e4edd8092728c8c4ace74adac.png)
 
 The warning message is issued during the first construction phase after detection and repeated during each subsequent construction phase where the violation still exists. Allied Races do not receive warnings as they can freely enter the NPR territory. Hostile races do not receive warnings as they are attacked instead. Trading will allow some exceptions to the rules above and I’ll cover that in a future post. I will also cover situations where the NPR considers claiming a system with a large existing player population in the ‘Alien Controlled’ update.
 

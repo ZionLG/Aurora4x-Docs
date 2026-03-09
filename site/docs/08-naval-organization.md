@@ -46,11 +46,7 @@ This command network is created using the new Admin Command tab on the Naval Org
 
 None of this functionality has to be used as all new fleets will be assigned to the single, starting Admin Command. However, for those players who wish to set up their own command structures, I hope this will add an interesting extra dimension to the game. As with all these changes, I may modify things a little as a result of play testing but the essential principles should remain the same.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/f5b88a954f0af29b46f6bd3d1c263f4cf7f26110_2_690x430.jpeg)
-
-image940×586 159 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f5b88a954f0af29b46f6bd3d1c263f4cf7f26110.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/f5b88a954f0af29b46f6bd3d1c263f4cf7f26110.jpeg)
 
   
 

@@ -19,29 +19,13 @@ The list of systems will highlight any populated systems in light green and any 
 
 These four screenshots below show an example journey. In the first, a US fleet in the Eta Cassiopeiae system (highlighted at the bottom) wants to return to Sol. In the second, the potential system list is displayed. As the Exclude Alien-Controlled option is checked, the fleet cannot travel through the Commonwealth systems starting with EV Lacertae so none of those systems are an option. The third screenshot shows the results as the path finding algorithm takes the fleet on a longer route via Oregon then displays the destination list for Sol. The fourth screenshot shows the journey of a French survey ship. In this case, the algorithm has determined that using Lagrange points in two of the systems will make the journey shorter.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/1c01eb5bc235f4031f6e0c80851291afcd216f6a_2_577x500.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/1c01eb5bc235f4031f6e0c80851291afcd216f6a.png)
 
-image940×814 174 KB
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/bff316072d954b096d8378b327ba8652ba9feee9.png)
 
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/1c01eb5bc235f4031f6e0c80851291afcd216f6a.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/33e1dca4ec14948ab7b2850a114bd3c6d6ca1e55.jpeg)
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/bff316072d954b096d8378b327ba8652ba9feee9_2_690x431.png)
-
-image940×588 158 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/bff316072d954b096d8378b327ba8652ba9feee9.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/33e1dca4ec14948ab7b2850a114bd3c6d6ca1e55_2_690x432.jpeg)
-
-image940×589 145 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/33e1dca4ec14948ab7b2850a114bd3c6d6ca1e55.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/9bb52e22b9b8f5b98321a9abc8b7bec00ec7e0d6_2_690x427.png)
-
-image940×583 144 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9bb52e22b9b8f5b98321a9abc8b7bec00ec7e0d6.png "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9bb52e22b9b8f5b98321a9abc8b7bec00ec7e0d6.png)
 
   
 
@@ -70,11 +54,7 @@ There will be some new standing orders for C#, which I will list here as I add t
 6.  Investigate Closest Point of Interest: A new type of waypoint (see changes post following this one) is the Point of Interest, which is a temporary waypoint that remain in place until a fleet arrives at the location or for six months, whichever happens first. The function of this order and the new waypoint is for the player to designate areas in a system which he wishes a fleet to visit automatically. Different fleets operating with the “Investigate Closest Point of Interest” order will take account of each other’s activity to avoid duplication of destination. Points of Interest can be designated as Urgent and these will take priority over other POIs.
     
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/a84b0e023906855768df5a3cf06922b9b3a61fdf_2_690x431.jpeg)
-
-image940×588 250 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a84b0e023906855768df5a3cf06922b9b3a61fdf.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/a84b0e023906855768df5a3cf06922b9b3a61fdf.jpeg)
 
   
 
@@ -97,17 +77,9 @@ Clicking on a system body icon when placing a waypoint of any kind will link the
 
 Example screenshots below:
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/9d9a0dc8bb47898f3f56c6e7d5456cfcd9ad0559_2_650x500.png)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9d9a0dc8bb47898f3f56c6e7d5456cfcd9ad0559.png)
 
-image940×722 128 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9d9a0dc8bb47898f3f56c6e7d5456cfcd9ad0559.png "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/51e2d4a974dbbc255e0e88a2d6100f7f1c5fd0f0_2_690x430.jpeg)
-
-image940×586 134 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/51e2d4a974dbbc255e0e88a2d6100f7f1c5fd0f0.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/51e2d4a974dbbc255e0e88a2d6100f7f1c5fd0f0.jpeg)
 
   
 
@@ -202,17 +174,9 @@ When the Order Templates option is chosen in the top left of the Movement Orders
 
 Templates can be deleted with the Delete Template button.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d903558a25d10b5da68dfa680995726cb031d2d6_2_690x429.jpeg)
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d903558a25d10b5da68dfa680995726cb031d2d6.jpeg)
 
-image940×585 135 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d903558a25d10b5da68dfa680995726cb031d2d6.jpeg "image")
-
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/44d2463c53c90ce6b30421a7db2ddcfce89951f9_2_690x430.jpeg)
-
-image940×587 151 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/44d2463c53c90ce6b30421a7db2ddcfce89951f9.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/44d2463c53c90ce6b30421a7db2ddcfce89951f9.jpeg)
 
   
 
@@ -222,11 +186,7 @@ When a fleet is given orders, the Naval Org window will show both the distance a
 
 There are a few other enhancement, such as military tonnage in the fleet (which helps with checking maintenance requirements) and total fleet cost.
 
-[![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/optimized/1X/d7a6b5981e9fec04db5c34c688521240b52326f7_2_690x430.jpeg)
-
-image940×586 190 KB
-
-](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d7a6b5981e9fec04db5c34c688521240b52326f7.jpeg "image")
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/d7a6b5981e9fec04db5c34c688521240b52326f7.jpeg)
 
   
 
