@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:aurora4x.com)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(npm list:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurora 4x — Documentation Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="scanline-overlay"></div>
+  <div class="grid-bg"></div>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="18" stroke="var(--accent)" stroke-width="1.5" opacity="0.4"/>
+              <circle cx="20" cy="20" r="12" stroke="var(--accent)" stroke-width="1"/>
+              <circle cx="20" cy="20" r="3" fill="var(--accent)"/>
+              <line x1="20" y1="2" x2="20" y2="10" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+              <line x1="20" y1="30" x2="20" y2="38" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+              <line x1="2" y1="20" x2="10" y2="20" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+              <line x1="30" y1="20" x2="38" y2="20" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
+              <ellipse cx="20" cy="20" rx="18" ry="7" stroke="var(--accent)" stroke-width="0.75" opacity="0.3" transform="rotate(35 20 20)"/>
+              <ellipse cx="20" cy="20" rx="18" ry="7" stroke="var(--accent)" stroke-width="0.75" opacity="0.3" transform="rotate(-35 20 20)"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">AURORA</span>
+            <span class="logo-sub">Documentation Archive</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="12.5" y1="12.5" x2="17" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="search" placeholder="Search sections..." autocomplete="off">
+          <kbd class="search-hint">/</kbd>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <div class="sidebar-footer">
+        <div class="status-line">
+          <span class="status-dot"></span>
+          <span id="sectionCount">0 sections loaded</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Main content -->
+    <main class="content" id="content">
+      <div class="content-inner" id="contentInner">
+        <div class="welcome" id="welcome">
+          <div class="welcome-badge">v1.0.0</div>
+          <h1>Aurora 4x Documentation</h1>
+          <p>Complete changelog and documentation archive for Aurora C#.<br>Select a section from the navigation to begin.</p>
+          <div class="welcome-stats" id="welcomeStats"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="docs-manifest.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
