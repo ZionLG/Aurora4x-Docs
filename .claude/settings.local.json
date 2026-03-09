@@ -6,7 +6,10 @@
       "Bash(node:*)",
       "Bash(npm list:*)",
       "Bash(mkdir:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm create:*)",
+      "Bash(rm:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

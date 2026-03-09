@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-deep: #06080d;
+  --color-bg-base: #0a0e17;
+  --color-bg-raised: #0f1420;
+  --color-bg-surface: #141a28;
+  --color-bg-hover: #1a2236;
+  --color-border: #1c2540;
+  --color-border-bright: #2a3555;
+  --color-text: #c8cdd8;
+  --color-text-dim: #6b7394;
+  --color-text-muted: #3d4668;
+  --color-accent: #4fc3f7;
+  --color-accent-dim: #1a3a52;
+  --color-accent-glow: rgba(79, 195, 247, 0.15);
+  --color-accent-glow-strong: rgba(79, 195, 247, 0.3);
+  --color-warning: #ffb74d;
+  --color-danger: #ef5350;
+  --color-success: #66bb6a;
+  --font-display: 'Chakra Petch', sans-serif;
+  --font-body: 'Exo 2', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html {
+  font-size: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-bright) var(--color-bg-base);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+  overflow: hidden;
+  height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg-base); }
+::-webkit-scrollbar-thumb { background: var(--color-border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-dim); }
+
+::selection { background: var(--color-accent-glow-strong); color: var(--color-accent); }
+
+/* ===== Background effects ===== */
+.scanline-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+}
+.grid-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.03;
+  background-image: linear-gradient(var(--color-accent) 1px, transparent 1px), linear-gradient(90deg, var(--color-accent) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ===== Sidebar edge glow ===== */
+.sidebar-edge::after {
+  content: ''; position: absolute; top: 0; right: -1px; width: 1px; height: 100%;
+  background: linear-gradient(180deg, var(--color-accent) 0%, transparent 15%, transparent 85%, var(--color-accent) 100%);
+  opacity: 0.2;
+}
+
+/* ===== Markdown rendered content ===== */
+.article-body strong {
+  font-family: var(--font-display); font-weight: 600; color: var(--color-accent);
+  font-size: 1.15em; display: block; margin-top: 2em; margin-bottom: 0.5em;
+}
+.article-body p + p { margin-top: 1em; }
+.article-body a { color: var(--color-accent); text-decoration: none; border-bottom: 1px solid var(--color-accent-dim); transition: border-color 0.2s; }
+.article-body a:hover { border-bottom-color: var(--color-accent); }
+.article-body img { max-width: 100%; border-radius: 6px; border: 1px solid var(--color-border); margin: 1em 0; }
+.article-body ul { padding-left: 1.5em; margin: 0.8em 0; list-style-type: disc; }
+.article-body ol { padding-left: 1.5em; margin: 0.8em 0; list-style-type: decimal; }
+.article-body li { margin: 0.3em 0; }
+.article-body li::marker { color: var(--color-accent-dim); }
+.article-body blockquote { border-left: 3px solid var(--color-accent-dim); padding: 8px 16px; margin: 1em 0; background: var(--color-bg-raised); border-radius: 0 6px 6px 0; color: var(--color-text-dim); }
+.article-body table { width: 100%; border-collapse: collapse; margin: 1.2em 0; font-size: 0.88rem; }
+.article-body th { font-family: var(--font-display); font-weight: 600; text-align: left; padding: 10px 14px; background: var(--color-bg-raised); border: 1px solid var(--color-border); color: var(--color-accent); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.article-body td { padding: 8px 14px; border: 1px solid var(--color-border); }
+.article-body tr:hover td { background: var(--color-bg-hover); }
+.article-body hr { border: none; height: 1px; background: var(--color-border); margin: 2em 0; }
+.article-body code { font-family: var(--font-mono); font-size: 0.88em; background: var(--color-bg-raised); border: 1px solid var(--color-border); border-radius: 4px; padding: 2px 6px; color: var(--color-accent); }
+.article-body pre { background: var(--color-bg-raised); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px; overflow-x: auto; margin: 1em 0; }
+.article-body pre code { background: none; border: none; padding: 0; }
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slow-rotate { to { transform: rotate(360deg); } }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
