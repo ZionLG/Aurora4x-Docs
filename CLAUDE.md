@@ -50,9 +50,9 @@ const td = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' }
 const markdown = td.turndown(post.cooked);
 ```
 
-### Step 4: Fix Discourse image artifacts
+### Step 4: Fix Discourse image artifacts (ALWAYS DO THIS)
 
-After conversion, two cleanup passes are needed:
+**This is a recurring issue.** Every fetched changelog will have broken images. ALWAYS run these cleanups immediately after turndown conversion — never skip this step:
 
 **1. Broken linked images** — Discourse wraps images in links that turndown splits across lines:
 ```

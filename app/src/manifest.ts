@@ -13,6 +13,8 @@ export interface HistoryEntry {
   version: string;
   file: string;
   notes?: string;
+  /** Classification: 'update' (default) = feature/change, 'bugfix' = bug fix (collapsed by default in UI) */
+  kind?: 'update' | 'bugfix';
   /** Extract only these **bold title** sections from the file. If omitted, loads the full file. */
   sections?: string[];
   /**
@@ -23,6 +25,20 @@ export interface HistoryEntry {
    * Example: { "Forced Labour Camps": "2.0.0" }
    */
   deprecated?: Record<string, string>;
+  /**
+   * Maps section titles in THIS entry to section titles in the BASE (oldest) entry
+   * that they replace. The old section becomes collapsible, and this section takes its place.
+   *
+   * Example: { "Forced Labour Camps": "Civilian Camps" }
+   */
+  replaces?: Record<string, string>;
+  /**
+   * Maps section titles in THIS entry to section titles in the base entry
+   * that they should be inserted after. Used for positioning patches within the base document.
+   *
+   * Example: { "Engine Tech": "Engine Design" }
+   */
+  insertAfter?: Record<string, string>;
 }
 
 export interface Topic {
@@ -40,6 +56,7 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
+    { version: "1.10.0", label: "v1.10.0 — Major Update", date: "2020-05-27" },
     { version: "1.9.5", label: "v1.9.5 — Bug Fixes", date: "2020-05-06" },
     { version: "1.9.0", label: "v1.9.0 — Minor Changes", date: "2020-04-28" },
     { version: "1.0.0", label: "v1.0.0 — Launch", date: "2020-04-12" },
@@ -63,6 +80,11 @@ export const manifest: DocsManifest = {
       title: "Planetary Installations",
       category: "economy",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Unused Construction Capacity"],
+          insertAfter: { "Unused Construction Capacity": "Conventional Industry" },
+        },
         { version: "1.0.0", file: "v1.0.0/02-planetary-installations.md" },
       ],
     },
@@ -71,7 +93,21 @@ export const manifest: DocsManifest = {
       title: "Shipyards",
       category: "economy",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Prototypes", "Class Deletion", "Refit Dropdown", "Refit Tasks"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Ship Design Fixes", "Scrap and Refit Display"],
+          insertAfter: { "Ship Design Fixes": "Shipbuilding Changes", "Scrap and Refit Display": "Auto Refit Tasks" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Prototypes", "Class Deletion", "Refit Dropdown", "Refit Tasks"],
+          insertAfter: {
+            "Prototypes": "Shipbuilding Changes",
+            "Class Deletion": "Shipyard Worker Requirements",
+            "Refit Dropdown": "Auto Refit Tasks",
+            "Refit Tasks": "Refit Size",
+          },
+        },
         { version: "1.0.0", file: "v1.0.0/03-shipyards.md" },
       ],
     },
@@ -79,14 +115,30 @@ export const manifest: DocsManifest = {
       id: "colonies",
       title: "Colonies",
       category: "economy",
-      history: [{ version: "1.0.0", file: "v1.0.0/06-colonies.md" }],
+      history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Population and Colony Fixes"],
+          insertAfter: { "Population and Colony Fixes": "Delete Empty Colonies" },
+        },
+        { version: "1.0.0", file: "v1.0.0/06-colonies.md" },
+      ],
     },
     {
       id: "civilians",
       title: "Civilians",
       category: "economy",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Civilian Colony Ships"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Civilian Shipping Fixes"],
+          insertAfter: { "Civilian Shipping Fixes": "Shipping Lines" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Civilian Colony Ships"],
+          insertAfter: { "Civilian Colony Ships": "Civilian Destinations" },
+        },
         { version: "1.0.0", file: "v1.0.0/07-civilians.md" },
       ],
     },
@@ -94,7 +146,14 @@ export const manifest: DocsManifest = {
       id: "wealth-and-mining",
       title: "Wealth & Mining",
       category: "economy",
-      history: [{ version: "1.0.0", file: "v1.0.0/34-wealth-and-mining.md" }],
+      history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Sorium Depletion Event"],
+          insertAfter: { "Sorium Depletion Event": "Mineral Search Flag" },
+        },
+        { version: "1.0.0", file: "v1.0.0/34-wealth-and-mining.md" },
+      ],
     },
 
     // Ships & Design
@@ -103,7 +162,11 @@ export const manifest: DocsManifest = {
       title: "Engines",
       category: "ships",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Engine Tech"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Engine Tech"],
+          insertAfter: { "Engine Tech": "Engine Technology Progression" },
+        },
         { version: "1.0.0", file: "v1.0.0/12-engines.md" },
       ],
     },
@@ -112,8 +175,21 @@ export const manifest: DocsManifest = {
       title: "Ship Components",
       category: "ships",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Fire Control Range"] },
-        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Conventional Reactor"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Hangar and Parasite Fix"],
+          insertAfter: { "Hangar and Parasite Fix": "Fuel Storage Costs" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Fire Control Range"],
+          insertAfter: { "Fire Control Range": "Prototype Components" },
+        },
+        {
+          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
+          sections: ["Conventional Reactor"],
+          insertAfter: { "Conventional Reactor": "Fuel Storage Costs" },
+        },
         { version: "1.0.0", file: "v1.0.0/15-ship-components.md" },
       ],
     },
@@ -122,7 +198,14 @@ export const manifest: DocsManifest = {
       title: "Sensors & Contacts",
       category: "ships",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["DSTS Display", "Buoy Design"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["DSTS Display", "Buoy Design"],
+          insertAfter: {
+            "DSTS Display": "Ground Forces Detection",
+            "Buoy Design": "Transponders",
+          },
+        },
         { version: "1.0.0", file: "v1.0.0/14-sensors-and-contacts.md" },
       ],
     },
@@ -131,6 +214,15 @@ export const manifest: DocsManifest = {
       title: "Direct Fire Weapons & Power Plants",
       category: "ships",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Railgun Point Defence", "Fire Control Fixes", "Hit Chance Fix"],
+          insertAfter: {
+            "Railgun Point Defence": "Gauss Cannon Research Changes",
+            "Fire Control Fixes": "Turret Update",
+            "Hit Chance Fix": "Weapon Failure",
+          },
+        },
         {
           version: "1.0.0",
           file: "v1.0.0/13-direct-fire-weapons-and-power-plants.md",
@@ -142,6 +234,11 @@ export const manifest: DocsManifest = {
       title: "Missiles & Launchers",
       category: "ships",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Fire Control Fixes"],
+          insertAfter: { "Fire Control Fixes": "Ship Ordnance Templates" },
+        },
         { version: "1.0.0", file: "v1.0.0/16-missiles-and-launchers.md" },
       ],
     },
@@ -150,6 +247,10 @@ export const manifest: DocsManifest = {
       title: "Space Stations & Orbital Habitats",
       category: "ships",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Overhaul and Station Fixes"],
+        },
         {
           version: "1.0.0",
           file: "v1.0.0/23-space-stations-and-orbital-habitats.md",
@@ -163,7 +264,11 @@ export const manifest: DocsManifest = {
       title: "Naval Organization",
       category: "fleet",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["PPV Display"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["PPV Display"],
+          insertAfter: { "PPV Display": "Naval Organization" },
+        },
         { version: "1.0.0", file: "v1.0.0/08-naval-organization.md" },
       ],
     },
@@ -172,8 +277,28 @@ export const manifest: DocsManifest = {
       title: "Fleet Movement & Orders",
       category: "fleet",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Passenger Liner", "Colony Fleets", "Fleet Window"] },
-        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Order Delay"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Land on Assigned Mothership as Sub-Fleet", "Fleet Order Fixes"],
+          insertAfter: {
+            "Land on Assigned Mothership as Sub-Fleet": "Standing Orders",
+            "Fleet Order Fixes": "Fleet Order Templates",
+          },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Passenger Liner", "Colony Fleets", "Fleet Window"],
+          insertAfter: {
+            "Passenger Liner": "Fleet Maximum Speed",
+            "Colony Fleets": "Standing Orders",
+            "Fleet Window": "Fleet Distance and Time",
+          },
+        },
+        {
+          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
+          sections: ["Order Delay"],
+          insertAfter: { "Order Delay": "Fleet Order Templates" },
+        },
         { version: "1.0.0", file: "v1.0.0/22-fleet-movement-and-orders.md" },
       ],
     },
@@ -182,7 +307,14 @@ export const manifest: DocsManifest = {
       title: "Logistics",
       category: "fleet",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Underway Replenishment", "Load Orders"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Underway Replenishment", "Load Orders"],
+          insertAfter: {
+            "Underway Replenishment": "Resupply Changes",
+            "Load Orders": "Load & Unload Cargo",
+          },
+        },
         { version: "1.0.0", file: "v1.0.0/04-logistics.md" },
       ],
     },
@@ -191,7 +323,19 @@ export const manifest: DocsManifest = {
       title: "Crew, Commanders & Control Systems",
       category: "fleet",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Rank Requirements", "SM Add Commanders"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Commander Fixes"],
+          insertAfter: { "Commander Fixes": "Academy Commandants" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Rank Requirements", "SM Add Commanders"],
+          insertAfter: {
+            "Rank Requirements": "Academy Commandants",
+            "SM Add Commanders": "Commander Careers",
+          },
+        },
         {
           version: "1.0.0",
           file: "v1.0.0/09-crew-commanders-and-control-systems.md",
@@ -203,7 +347,16 @@ export const manifest: DocsManifest = {
       title: "Maintenance",
       category: "fleet",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Maintenance Failure"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Maintenance Report Additions"],
+          insertAfter: { "Maintenance Report Additions": "Abandon Overhaul" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Maintenance Failure"],
+          insertAfter: { "Maintenance Failure": "New Maintenance Rules" },
+        },
         { version: "1.0.0", file: "v1.0.0/10-maintenance.md" },
       ],
     },
@@ -212,6 +365,11 @@ export const manifest: DocsManifest = {
       title: "Deployment & Life Support",
       category: "fleet",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Deployment Fix"],
+          insertAfter: { "Deployment Fix": "Deployment Clock" },
+        },
         {
           version: "1.0.0",
           file: "v1.0.0/17-deployment-overcrowding-under-manning-and-life-support-failures.md",
@@ -225,6 +383,11 @@ export const manifest: DocsManifest = {
       title: "Combat Setup & Mechanics",
       category: "combat",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Hit Chance Fix"],
+          insertAfter: { "Hit Chance Fix": "Fire Delay" },
+        },
         { version: "1.0.0", file: "v1.0.0/24-combat-setup-and-mechanics.md" },
       ],
     },
@@ -233,8 +396,29 @@ export const manifest: DocsManifest = {
       title: "Ground Forces",
       category: "combat",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Ground Combat Fixes", "Formation Templates", "New Formations", "Ground Force Capture"] },
-        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Civilian Ground Forces Toggle"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Queued Ground Formation Training Tasks", "Ground Formation Fixes"],
+          insertAfter: {
+            "Queued Ground Formation Training Tasks": "Ground Forces: Part 2 - Formation Templates",
+            "Ground Formation Fixes": "Ground Formation Element Transfer UI",
+          },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Ground Combat Fixes", "Formation Templates", "New Formations", "Ground Force Capture"],
+          insertAfter: {
+            "Ground Combat Fixes": "Ground Force Fortification",
+            "Formation Templates": "Ground Forces: Part 2 - Formation Templates",
+            "New Formations": "Setting Ground Formation Support",
+            "Ground Force Capture": "Genetically Enhanced Soldiers",
+          },
+        },
+        {
+          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
+          sections: ["Civilian Ground Forces Toggle"],
+          insertAfter: { "Civilian Ground Forces Toggle": "Ground Forces: Part 2 - Formation Templates" },
+        },
         { version: "1.0.0", file: "v1.0.0/19-ground-forces.md" },
       ],
     },
@@ -243,7 +427,11 @@ export const manifest: DocsManifest = {
       title: "Ground Combat",
       category: "combat",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Ground Combat Fixes"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Ground Combat Fixes"],
+          insertAfter: { "Ground Combat Fixes": "Base Ground Combat Rules" },
+        },
         { version: "1.0.0", file: "v1.0.0/26-ground-combat.md" },
       ],
     },
@@ -252,7 +440,11 @@ export const manifest: DocsManifest = {
       title: "Ground Support Fighters",
       category: "combat",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Ground Combat Fixes"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Ground Combat Fixes"],
+          insertAfter: { "Ground Combat Fixes": "Ground-based AA Fire" },
+        },
         { version: "1.0.0", file: "v1.0.0/27-ground-support-fighters.md" },
       ],
     },
@@ -261,7 +453,11 @@ export const manifest: DocsManifest = {
       title: "Surface-to-Orbit Combat",
       category: "combat",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["STO Availability"] },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["STO Availability"],
+          insertAfter: { "STO Availability": "Surface-to-Orbit Weapons" },
+        },
         { version: "1.0.0", file: "v1.0.0/29-surface-to-orbit-combat.md" },
       ],
     },
@@ -289,14 +485,30 @@ export const manifest: DocsManifest = {
       id: "terraforming",
       title: "Terraforming",
       category: "galaxy",
-      history: [{ version: "1.0.0", file: "v1.0.0/11-terraforming.md" }],
+      history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
+          sections: ["Terraforming Fix"],
+          insertAfter: { "Terraforming Fix": "Terraforming Update" },
+        },
+        { version: "1.0.0", file: "v1.0.0/11-terraforming.md" },
+      ],
     },
     {
       id: "ruins",
-      title: "Ruins",
+      title: "Ruins & Ancient Constructs",
       category: "galaxy",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Anomalies"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Ancient Constructs"],
+          insertAfter: { "Ancient Constructs": "Ruins in Sol" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Anomalies"],
+          insertAfter: { "Anomalies": "Chance of Ruins" },
+        },
         { version: "1.0.0", file: "v1.0.0/20-ruins.md" },
       ],
     },
@@ -305,8 +517,34 @@ export const manifest: DocsManifest = {
       title: "Star System Design",
       category: "galaxy",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Random Stars", "Planet Minerals"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Random Stars Fix", "Sector and System Fixes"],
+          insertAfter: {
+            "Random Stars Fix": "Star System Design Part 2: Adding Stars",
+            "Sector and System Fixes": "Star System Design Part 4: Deleting Stars and System Bodies",
+          },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Random Stars", "Planet Minerals"],
+          insertAfter: {
+            "Random Stars": "Star System Design Part 2: Adding Stars",
+            "Planet Minerals": "Star System Design Part 5: Adding Planets, Comets and Asteroid Belts",
+          },
+        },
         { version: "1.0.0", file: "v1.0.0/37-star-system-design.md" },
+      ],
+    },
+    {
+      id: "aether-rifts",
+      title: "Aether Rifts",
+      category: "galaxy",
+      history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Aether Rifts"],
+        },
       ],
     },
 
@@ -330,7 +568,16 @@ export const manifest: DocsManifest = {
       title: "Alien Races & Species Attributes",
       category: "diplomacy",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["Alien Class Renaming"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["NPR Design Variety"],
+          insertAfter: { "NPR Design Variety": "Human NPRs" },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["Alien Class Renaming"],
+          insertAfter: { "Alien Class Renaming": "New Spoiler Race" },
+        },
         {
           version: "1.0.0",
           file: "v1.0.0/33-alien-races-and-species-attributes.md",
@@ -344,6 +591,11 @@ export const manifest: DocsManifest = {
       title: "Medals & Achievements",
       category: "personnel",
       history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Medal Import"],
+          insertAfter: { "Medal Import": "Ship Achievements" },
+        },
         { version: "1.0.0", file: "v1.0.0/30-medals-and-achievements.md" },
       ],
     },
@@ -366,9 +618,47 @@ export const manifest: DocsManifest = {
       title: "User Interface Updates",
       category: "setup",
       history: [
-        { version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", sections: ["PPV Display", "Select Name", "Task Completion Time"] },
-        { version: "1.9.0", file: "v1.9.0/01-minor-changes.md", sections: ["Tactical Map Events", "Fighter Construction Event", "New Events", "Distance Measuring", "Multiple Window Option", "Low G Habitable Worlds"] },
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Hot Keys", "Faster Save", "UI Display Improvements"],
+          insertAfter: {
+            "Hot Keys": "Survey Site List",
+            "Faster Save": "Survey Site List",
+            "UI Display Improvements": "Linked Windows",
+          },
+        },
+        {
+          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
+          sections: ["PPV Display", "Select Name", "Task Completion Time"],
+          insertAfter: {
+            "PPV Display": "Assigned Mothership Display",
+            "Select Name": "Save Button",
+          },
+        },
+        {
+          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
+          sections: ["Tactical Map Events", "Fighter Construction Event", "New Events", "Distance Measuring", "Multiple Window Option", "Low G Habitable Worlds"],
+          insertAfter: {
+            "Tactical Map Events": "Tactical Map in Background",
+            "Distance Measuring": "Tactical Map Popup Menu",
+            "Low G Habitable Worlds": "Race Comparison Window",
+          },
+          replaces: {
+            "Multiple Window Option": "Multiple Window Instances",
+          },
+        },
         { version: "1.0.0", file: "v1.0.0/36-user-interface-updates.md" },
+      ],
+    },
+    {
+      id: "automatic-research",
+      title: "Automatic Research",
+      category: "setup",
+      history: [
+        {
+          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
+          sections: ["Automatic Research"],
+        },
       ],
     },
     {
