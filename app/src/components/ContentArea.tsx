@@ -28,7 +28,7 @@ interface Props {
   onSelectEntry: (topic: Topic, version?: string) => void
 }
 
-export default function ContentArea({ manifest, view, selection, changelogCache, cacheReady, onSelectEntry }: Props) {
+export default function ContentArea({ manifest, view, selection, changelogCache, cacheReady }: Props) {
   const [mergedSections, setMergedSections] = useState<MergedSection[] | null>(null)
   const [changelogSections, setChangelogSections] = useState<MarkdownSection[]>([])
   const [loading, setLoading] = useState(false)
