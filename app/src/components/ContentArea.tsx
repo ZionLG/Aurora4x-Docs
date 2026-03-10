@@ -72,6 +72,14 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
           topic.deprecated,
         )
 
+        // Mark sections from unreleased versions as 'planned'
+        const unreleasedVersions = new Set(
+          manifest.versions.filter(v => v.unreleased).map(v => v.version)
+        )
+        for (const s of merged) {
+          if (unreleasedVersions.has(s.version)) s.kind = 'planned'
+        }
+
         setMergedSections(merged)
         setChangelogSections([])
         setLoading(false)
@@ -259,9 +267,10 @@ function MergedSectionBlock({
     )
   }
 
-  // ── Patch section (update or bugfix, inserted into base doc) ──
+  // ── Patch section (update, bugfix, or planned — inserted into base doc) ──
   if (section.isPatch) {
     const isBugfix = section.kind === 'bugfix'
+    const isPlanned = section.kind === 'planned'
 
     if (isBugfix) {
       return (
@@ -279,6 +288,23 @@ function MergedSectionBlock({
             <ReactMarkdown>{section.content}</ReactMarkdown>
           </div>
         </details>
+      )
+    }
+
+    // Planned: expanded, violet styling
+    if (isPlanned) {
+      return (
+        <div id={anchorId} className="patch-card my-4 rounded-lg border border-violet-500/30 bg-violet-500/[0.06] overflow-hidden scroll-mt-6">
+          <div className="flex items-center gap-2.5 px-4 py-1.5 border-b border-violet-500/20 bg-violet-500/[0.08]">
+            <VersionBadge version={section.version} date={ver?.date} dim />
+            <span className="font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase text-violet-400">
+              Planned
+            </span>
+          </div>
+          <div className="px-4 py-2">
+            <ReactMarkdown>{section.content}</ReactMarkdown>
+          </div>
+        </div>
       )
     }
 
@@ -301,26 +327,35 @@ function MergedSectionBlock({
   // ── Replaced section (has previous versions) ──
   if (section.previousVersions && section.previousVersions.length > 0) {
     const isBugfix = section.kind === 'bugfix'
+    const isPlanned = section.kind === 'planned'
     return (
       <div id={anchorId} className="my-4 scroll-mt-6">
         <div className={`patch-card rounded-lg border overflow-hidden ${
-          isBugfix
-            ? 'border-warning/25 bg-warning/[0.04]'
-            : 'border-accent-dim/30 bg-accent-glow/20'
+          isPlanned
+            ? 'border-violet-500/30 bg-violet-500/[0.06]'
+            : isBugfix
+              ? 'border-warning/25 bg-warning/[0.04]'
+              : 'border-accent-dim/30 bg-accent-glow/20'
         }`}>
           <div className={`flex items-center gap-2.5 px-4 py-1.5 border-b ${
-            isBugfix
-              ? 'border-warning/20 bg-warning/[0.06]'
-              : 'border-accent-dim/20 bg-accent-glow/30'
+            isPlanned
+              ? 'border-violet-500/20 bg-violet-500/[0.08]'
+              : isBugfix
+                ? 'border-warning/20 bg-warning/[0.06]'
+                : 'border-accent-dim/20 bg-accent-glow/30'
           }`}>
-            <VersionBadge version={section.version} date={ver?.date} accent={!isBugfix} dim={isBugfix} />
+            <VersionBadge version={section.version} date={ver?.date} accent={!isBugfix && !isPlanned} dim={isBugfix || isPlanned} />
             <span className={`font-mono text-[0.6rem] font-semibold tracking-[0.08em] uppercase ${
-              isBugfix ? 'text-warning/70' : 'text-accent/80'
+              isPlanned ? 'text-violet-400' : isBugfix ? 'text-warning/70' : 'text-accent/80'
             }`}>
-              {isBugfix ? 'Bug Fix' : 'Update'}
+              {isPlanned ? 'Planned' : isBugfix ? 'Bug Fix' : 'Update'}
             </span>
-            <span className="font-mono text-[0.55rem] font-semibold tracking-[0.08em] uppercase px-1.5 py-0.5 rounded text-success bg-success/10 border border-success/25">
-              current
+            <span className={`font-mono text-[0.55rem] font-semibold tracking-[0.08em] uppercase px-1.5 py-0.5 rounded ${
+              isPlanned
+                ? 'text-violet-400 bg-violet-500/10 border border-violet-500/25'
+                : 'text-success bg-success/10 border border-success/25'
+            }`}>
+              {isPlanned ? 'planned' : 'current'}
             </span>
           </div>
           <div className="px-4 py-2">

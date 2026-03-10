@@ -3,6 +3,7 @@ export interface VersionInfo {
   label: string;
   date: string;
   file?: string;
+  unreleased?: boolean;
 }
 
 export interface Category {
@@ -23,7 +24,7 @@ export interface SectionRoute {
   topic: string;
   after?: string;
   replaces?: string;
-  kind?: 'update' | 'bugfix';
+  kind?: 'update' | 'bugfix' | 'planned';
 }
 
 export interface DocsManifest {
@@ -36,6 +37,7 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
+    { version: "2.8.0", label: "v2.8.0 — Unreleased", date: "", file: "v2.8.0/01-patch-notes.md", unreleased: true },
     { version: "2.7.0", label: "v2.7.0 — Major Update", date: "2025-10-30", file: "v2.7.0/01-patch-notes.md" },
     { version: "2.6.0", label: "v2.6.0 — Major Update", date: "2025-09-06", file: "v2.6.0/01-patch-notes.md" },
     { version: "2.5.1", label: "v2.5.1 — Minor Update", date: "2024-01-25", file: "v2.5.1/01-patch-notes.md" },
@@ -937,9 +939,71 @@ export const manifest: DocsManifest = {
 
     // ── v2.7.0 Alien Races ──
     "The Ancients": { topic: "alien-races", after: "New Species Attributes" },
+
+    // ═══════════════════════════════════════════
+    // v2.8.0 sections (unreleased)
+    // ═══════════════════════════════════════════
+
+    // ── v2.8.0 Generic Patches ──
+    "v2.8.0 Bug Fixes": { topic: "user-interface", after: "v2.7.0 Minor Changes", kind: "bugfix" },
+    "v2.8.0 Minor Changes": { topic: "user-interface", after: "v2.8.0 Bug Fixes" },
+
+    // ── v2.8.0 Fleet Movement ──
+    "Dynamic Lagrange Point Orders": { topic: "fleet-movement", replaces: "Auto-include Lagrange Points" },
+    "Civilian Contract Standing Order": { topic: "fleet-movement", after: "Standing Orders" },
+    "Load All Ship Components": { topic: "fleet-movement", after: "Fleet Order Templates" },
+
+    // ── v2.8.0 Sensors & Contacts ──
+    "Using Buoys in Alien-Controlled Space": { topic: "sensors-and-contacts", after: "Transponders" },
+
+    // ── v2.8.0 New Game Setup ──
+    "Lost Colonies": { topic: "new-game-setup", after: "Starting Financial Centres" },
+    "No Research Projects": { topic: "new-game-setup", after: "Starting Financial Centres" },
+
+    // ── v2.8.0 Shipyards ──
+    "Repeat Shipyard Tasks": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Light Naval Shipyards": { topic: "shipyards", after: "Shipbuilding Changes" },
+
+    // ── v2.8.0 Ship Components ──
+    "Fighter and FAC Updates": { topic: "ship-components", after: "Fuel Storage Costs" },
+    "Engineering Projects": { topic: "ship-components", after: "Researching Prototypes" },
+    "'Narrow Text' Class Summary": { topic: "ship-components", after: "Researching Prototypes" },
+    "Summary Highlighting for Obsolete Components": { topic: "ship-components", after: "Researching Prototypes" },
+    "Class Summary to Clipboard": { topic: "ship-components", after: "Researching Prototypes" },
+
+    // ── v2.8.0 Crew & Commanders ──
+    "Light Tactical Bonus": { topic: "crew-and-commanders", after: "Academy Commandants" },
+
+    // ── v2.8.0 Ruins ──
+    "Alien Artifact Changes": { topic: "ruins" },
+    "Xenoarchaeology Update": { topic: "ruins" },
+
+    // ── v2.8.0 Ground Support Fighters ──
+    "Ground Support Fighters Removed": { topic: "ground-support-fighters" },
+
+    // ── v2.8.0 Surface to Orbit ──
+    "Mass STO Target Type Reassignment": { topic: "surface-to-orbit" },
+
+    // ── v2.8.0 Ground Combat ──
+    "Orbital Bombardment Support Update": { topic: "ground-combat" },
+
+    // ── v2.8.0 Terraforming ──
+    "Estimated Future Temperature": { topic: "terraforming" },
+
+    // ── v2.8.0 Ground Forces ──
+    "Ground Forces Window Update": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+
+    // ── v2.8.0 Aether Rifts ──
+    "Aether Gate Detection and Prevention": { topic: "aether-rifts" },
   },
 
   versionTopics: {
+    "2.8.0": [
+      "aether-rifts", "crew-and-commanders", "fleet-movement", "ground-combat",
+      "ground-forces", "ground-support-fighters", "new-game-setup", "ruins",
+      "sensors-and-contacts", "ship-components", "shipyards", "surface-to-orbit",
+      "terraforming", "user-interface",
+    ],
     "2.7.0": [
       "alien-races", "civilians", "crew-and-commanders", "direct-fire-weapons",
       "fleet-movement", "ground-forces", "missiles-and-launchers", "new-game-setup",

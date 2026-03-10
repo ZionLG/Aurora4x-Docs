@@ -18,8 +18,8 @@ export interface MergedSection {
   isPatch?: boolean
   /** Unmapped patch — goes into the "Additional Notes" section at the end */
   isMisc?: boolean
-  /** 'update' (default) or 'bugfix' — bugfixes are collapsed by default */
-  kind?: 'update' | 'bugfix'
+  /** 'update' (default), 'bugfix' (collapsed), or 'planned' (unreleased) */
+  kind?: 'update' | 'bugfix' | 'planned'
 }
 
 /**
