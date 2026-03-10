@@ -200,35 +200,121 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
           const hasMisc = mergedSections.some(s => s.isMisc)
           const firstMiscIdx = mergedSections.findIndex(s => s.isMisc)
           return (
-            <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-              {mergedSections.map((sec, i) => (
-                <div key={`${sec.title}-${i}`}>
-                  {hasMisc && i === firstMiscIdx && (
-                    <div className="flex items-center gap-3 mt-12 mb-4">
-                      <div className="flex-1 h-px bg-border" />
-                      <span className="font-mono text-[0.65rem] text-text-muted uppercase tracking-[0.1em]">
-                        Additional Notes
-                      </span>
-                      <div className="flex-1 h-px bg-border" />
-                    </div>
-                  )}
-                  <MergedSectionBlock section={sec} manifest={manifest} onSectionClick={handleSectionClick} />
-                </div>
-              ))}
-            </div>
+            <>
+              <TableOfContents
+                items={mergedSections.map(s => ({
+                  title: s.title,
+                  kind: s.kind,
+                  isPatch: s.isPatch,
+                  deprecatedBy: s.deprecatedBy,
+                }))}
+                scrollRef={scrollRef}
+              />
+              <div className="article-body text-[0.95rem] leading-[1.75] text-text">
+                {mergedSections.map((sec, i) => (
+                  <div key={`${sec.title}-${i}`}>
+                    {hasMisc && i === firstMiscIdx && (
+                      <div className="flex items-center gap-3 mt-12 mb-4">
+                        <div className="flex-1 h-px bg-border" />
+                        <span className="font-mono text-[0.65rem] text-text-muted uppercase tracking-[0.1em]">
+                          Additional Notes
+                        </span>
+                        <div className="flex-1 h-px bg-border" />
+                      </div>
+                    )}
+                    <MergedSectionBlock section={sec} manifest={manifest} onSectionClick={handleSectionClick} />
+                  </div>
+                ))}
+              </div>
+            </>
           )
         })()}
 
         {/* CHANGELOG VIEW: Single version's sections for this topic */}
         {!loading && view === 'changelog' && changelogSections.length > 0 && (
-          <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-            {changelogSections.map((sec, si) => (
-              <ReactMarkdown key={si}>{sec.content}</ReactMarkdown>
-            ))}
-          </div>
+          <>
+            <TableOfContents
+              items={changelogSections.map(s => ({ title: s.title }))}
+              scrollRef={scrollRef}
+            />
+            <div className="article-body text-[0.95rem] leading-[1.75] text-text">
+              {changelogSections.map((sec, si) => (
+                <ReactMarkdown key={si}>{sec.content}</ReactMarkdown>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </main>
+  )
+}
+
+/* ── Table of Contents ───────────────────────────────────────── */
+
+interface TocItem {
+  title: string
+  kind?: 'update' | 'bugfix' | 'planned'
+  isPatch?: boolean
+  deprecatedBy?: string
+}
+
+function TableOfContents({ items, scrollRef }: {
+  items: TocItem[]
+  scrollRef: React.RefObject<HTMLElement | null>
+}) {
+  const [open, setOpen] = useState(false)
+
+  if (items.length <= 2) return null
+
+  const handleScrollTo = (title: string) => {
+    const slug = slugify(title)
+    const el = scrollRef.current?.querySelector(`#s-${slug}`)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  return (
+    <div className="mb-8 border border-border rounded-lg overflow-hidden sticky top-0 z-10 bg-[#0c0e14] shadow-lg shadow-black/40">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left cursor-pointer bg-bg-raised/50 hover:bg-bg-hover transition-colors"
+      >
+        <svg
+          className={`w-3 h-3 text-text-muted shrink-0 transition-transform duration-200 ${open ? 'rotate-90' : ''}`}
+          viewBox="0 0 12 12" fill="none"
+        >
+          <path d="M4 2L8 6L4 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span className="font-mono text-[0.7rem] text-text-dim uppercase tracking-[0.1em]">
+          Contents
+        </span>
+        <span className="font-mono text-[0.62rem] text-text-muted ml-auto">
+          {items.length} sections
+        </span>
+      </button>
+      {open && (
+        <div className="px-4 pb-3 pt-1 columns-2 gap-x-6 border-t border-border bg-[#0c0e14]">
+          {items.map((item, i) => (
+            <button
+              key={i}
+              onClick={() => handleScrollTo(item.title)}
+              className={`block w-full text-left py-[3px] text-[0.78rem] truncate cursor-pointer transition-colors break-inside-avoid ${
+                item.deprecatedBy
+                  ? 'text-text-muted line-through opacity-40 hover:opacity-70'
+                  : item.kind === 'planned'
+                    ? 'text-violet-400/70 hover:text-violet-300'
+                    : item.kind === 'bugfix'
+                      ? 'text-warning/60 hover:text-warning/90'
+                      : item.isPatch
+                        ? 'text-accent/70 hover:text-accent'
+                        : 'text-text-dim hover:text-text'
+              }`}
+            >
+              {item.title}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 

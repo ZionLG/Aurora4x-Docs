@@ -14,6 +14,9 @@ export interface ActiveSelection {
 /** Cache: version string → all parsed sections from that version's changelog file */
 export type ChangelogCache = Record<string, MarkdownSection[]>
 
+/** Cache: topic id → raw markdown content of the base document */
+export type BaseDocsCache = Record<string, string>
+
 /** Encode current state into URL hash */
 function toHash(view: ViewMode, sel: ActiveSelection | null): string {
   if (!sel) return `#${view}`
@@ -50,24 +53,44 @@ export default function App() {
   const [selection, setSelection] = useState<ActiveSelection | null>(initial.selection)
 
   const [changelogCache, setChangelogCache] = useState<ChangelogCache>({})
+  const [baseDocsCache, setBaseDocsCache] = useState<BaseDocsCache>({})
   const [cacheReady, setCacheReady] = useState(false)
 
-  // Load all version changelog files on app init
+  // Load all version changelog files + base docs on app init
   useEffect(() => {
     const versionsWithFiles = manifest.versions.filter(v => v.file)
-    Promise.all(
+    const changelogPromise = Promise.all(
       versionsWithFiles.map(v =>
         fetch(`/docs/${v.file!}`)
           .then(r => r.text())
           .then(raw => ({ version: v.version, sections: parseSections(raw) }))
           .catch(() => ({ version: v.version, sections: [] as MarkdownSection[] }))
       )
-    ).then(results => {
+    )
+
+    const topicsWithBase = manifest.topics.filter(t => t.base)
+    const baseDocsPromise = Promise.all(
+      topicsWithBase.map(t =>
+        fetch(`/docs/${t.base!}`)
+          .then(r => r.text())
+          .then(raw => ({ id: t.id, content: raw }))
+          .catch(() => ({ id: t.id, content: '' }))
+      )
+    )
+
+    Promise.all([changelogPromise, baseDocsPromise]).then(([clResults, bdResults]) => {
       const cache: ChangelogCache = {}
-      for (const { version, sections } of results) {
+      for (const { version, sections } of clResults) {
         cache[version] = sections
       }
       setChangelogCache(cache)
+
+      const baseDocs: BaseDocsCache = {}
+      for (const { id, content } of bdResults) {
+        if (content) baseDocs[id] = content
+      }
+      setBaseDocsCache(baseDocs)
+
       setCacheReady(true)
     })
   }, [])
@@ -114,6 +137,8 @@ export default function App() {
           selection={selection}
           onSelect={handleSelect}
           onToggleView={toggleView}
+          changelogCache={changelogCache}
+          baseDocsCache={baseDocsCache}
         />
         <ContentArea
           manifest={manifest}
