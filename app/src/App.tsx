@@ -51,6 +51,7 @@ export default function App() {
   const initial = fromHash()
   const [view, setView] = useState<ViewMode>(initial.view)
   const [selection, setSelection] = useState<ActiveSelection | null>(initial.selection)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const [changelogCache, setChangelogCache] = useState<ChangelogCache>({})
   const [baseDocsCache, setBaseDocsCache] = useState<BaseDocsCache>({})
@@ -119,6 +120,7 @@ export default function App() {
   const handleSelect = useCallback((topic: Topic, version?: string) => {
     const v = version ?? manifest.versions[0].version
     setSelection({ topic, version: v })
+    setSidebarOpen(false)
   }, [])
 
   const toggleView = useCallback(() => {
@@ -131,6 +133,13 @@ export default function App() {
       <div className="scanline-overlay" />
       <div className="grid-bg" />
       <div className="flex h-screen relative z-1">
+        {/* Mobile backdrop */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 z-[99] md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
         <Sidebar
           manifest={manifest}
           view={view}
@@ -139,6 +148,8 @@ export default function App() {
           onToggleView={toggleView}
           changelogCache={changelogCache}
           baseDocsCache={baseDocsCache}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
         />
         <ContentArea
           manifest={manifest}
@@ -147,6 +158,7 @@ export default function App() {
           changelogCache={changelogCache}
           cacheReady={cacheReady}
           onSelectEntry={handleSelect}
+          onOpenSidebar={() => setSidebarOpen(true)}
         />
       </div>
     </>

@@ -26,9 +26,10 @@ interface Props {
   changelogCache: Record<string, MarkdownSection[]>
   cacheReady: boolean
   onSelectEntry: (topic: Topic, version?: string) => void
+  onOpenSidebar: () => void
 }
 
-export default function ContentArea({ manifest, view, selection, changelogCache, cacheReady }: Props) {
+export default function ContentArea({ manifest, view, selection, changelogCache, cacheReady, onOpenSidebar }: Props) {
   const [mergedSections, setMergedSections] = useState<MergedSection[] | null>(null)
   const [changelogSections, setChangelogSections] = useState<MarkdownSection[]>([])
   const [loading, setLoading] = useState(false)
@@ -149,7 +150,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
   }, [])
 
   if (!selection) {
-    return <Welcome manifest={manifest} view={view} />
+    return <Welcome manifest={manifest} view={view} onOpenSidebar={onOpenSidebar} />
   }
 
   const { topic } = selection
@@ -163,7 +164,22 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
 
   return (
     <main ref={scrollRef} className="flex-1 overflow-y-auto scroll-smooth">
-      <div className="max-w-[860px] mx-auto px-12 pt-12 pb-30 animate-[fade-up_0.35s_ease_both]">
+      {/* Mobile header */}
+      <div className="md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-bg-base/95 backdrop-blur-sm border-b border-border">
+        <button
+          onClick={onOpenSidebar}
+          className="w-9 h-9 flex items-center justify-center text-text-dim hover:text-accent transition-colors cursor-pointer rounded-md border border-border hover:border-accent-dim"
+          aria-label="Open navigation"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5H17M3 10H17M3 15H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+        <span className="font-display text-[0.95rem] font-semibold text-text truncate">
+          {topic.title}
+        </span>
+      </div>
+      <div className="max-w-[860px] mx-auto px-4 pt-6 pb-20 md:px-12 md:pt-12 md:pb-30 animate-[fade-up_0.35s_ease_both]">
         {/* Topic header */}
         <div className="mb-10 pb-6 border-b border-border">
           {cat && (
@@ -171,7 +187,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
               {cat.label}
             </span>
           )}
-          <h1 className="font-display text-[1.9rem] font-bold tracking-[0.03em] text-text leading-tight">
+          <h1 className="font-display text-[1.4rem] md:text-[1.9rem] font-bold tracking-[0.03em] text-text leading-tight">
             {topic.title}
           </h1>
 
@@ -292,7 +308,7 @@ function TableOfContents({ items, scrollRef }: {
         </span>
       </button>
       {open && (
-        <div className="px-4 pb-3 pt-1 columns-2 gap-x-6 border-t border-border bg-[#0c0e14]">
+        <div className="px-4 pb-3 pt-1 columns-1 md:columns-2 gap-x-6 border-t border-border bg-[#0c0e14]">
           {items.map((item, i) => (
             <button
               key={i}
@@ -583,15 +599,30 @@ function VersionBadge({
 
 /* ── Welcome Screen ──────────────────────────────────────────── */
 
-function Welcome({ manifest, view }: { manifest: DocsManifest; view: ViewMode }) {
+function Welcome({ manifest, view, onOpenSidebar }: { manifest: DocsManifest; view: ViewMode; onOpenSidebar: () => void }) {
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="max-w-[860px] mx-auto px-12 pt-12 pb-30">
-        <div className="text-center pt-28 pb-16 animate-[fade-up_0.6s_ease_both]">
+      {/* Mobile header */}
+      <div className="md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-bg-base/95 backdrop-blur-sm border-b border-border">
+        <button
+          onClick={onOpenSidebar}
+          className="w-9 h-9 flex items-center justify-center text-text-dim hover:text-accent transition-colors cursor-pointer rounded-md border border-border hover:border-accent-dim"
+          aria-label="Open navigation"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5H17M3 10H17M3 15H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+        <span className="font-display text-[0.95rem] font-semibold text-accent tracking-[0.1em]">
+          AURORA
+        </span>
+      </div>
+      <div className="max-w-[860px] mx-auto px-4 pt-6 pb-20 md:px-12 md:pt-12 md:pb-30">
+        <div className="text-center pt-12 pb-10 md:pt-28 md:pb-16 animate-[fade-up_0.6s_ease_both]">
           <div className="inline-block font-mono text-[0.75rem] font-medium text-accent bg-accent-glow border border-accent-dim rounded-full px-4 py-1 mb-6 tracking-[0.1em]">
             {view === 'current' ? 'Current State' : 'Changelog'}
           </div>
-          <h1 className="font-display text-[2.4rem] font-bold tracking-[0.06em] text-text mb-4">
+          <h1 className="font-display text-[1.6rem] md:text-[2.4rem] font-bold tracking-[0.06em] text-text mb-4">
             Aurora 4x Documentation
           </h1>
           <p className="text-text-dim text-base leading-relaxed">

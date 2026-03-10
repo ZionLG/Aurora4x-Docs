@@ -17,6 +17,8 @@ interface Props {
   onToggleView: () => void
   changelogCache: ChangelogCache
   baseDocsCache: BaseDocsCache
+  isOpen: boolean
+  onClose: () => void
 }
 
 interface SearchResult {
@@ -48,7 +50,7 @@ function extractSnippet(text: string, query: string): string {
   return s
 }
 
-export default function Sidebar({ manifest, view, selection, onSelect, onToggleView, changelogCache, baseDocsCache }: Props) {
+export default function Sidebar({ manifest, view, selection, onSelect, onToggleView, changelogCache, baseDocsCache, isOpen, onClose }: Props) {
   const [search, setSearch] = useState('')
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
   const inputRef = useRef<HTMLInputElement>(null)
@@ -183,10 +185,20 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
   const contentResults = searchResults.filter(r => r.matchType === 'content')
 
   return (
-    <aside className="sidebar-edge relative z-[100] w-80 min-w-80 h-screen flex flex-col bg-bg-base border-r border-border">
+    <aside className={`sidebar-edge fixed md:relative z-[100] w-80 min-w-80 h-screen flex flex-col bg-bg-base border-r border-border transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
       {/* Logo */}
       <div className="px-5 pt-5 pb-4 border-b border-border shrink-0">
         <div className="flex items-center gap-3.5">
+          {/* Mobile close button */}
+          <button
+            onClick={onClose}
+            className="md:hidden w-8 h-8 flex items-center justify-center text-text-dim hover:text-accent transition-colors cursor-pointer shrink-0 -ml-1"
+            aria-label="Close sidebar"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none">
+              <path d="M6 6L14 14M14 6L6 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
           <div className="w-10 h-10 shrink-0 animate-[slow-rotate_30s_linear_infinite]">
             <svg viewBox="0 0 40 40" fill="none">
               <circle cx="20" cy="20" r="18" stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.4"/>
