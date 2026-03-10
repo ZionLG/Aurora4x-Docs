@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react'
-import { type DocsManifest, type Topic, type HistoryEntry } from '../manifest'
+import { type DocsManifest, type Topic } from '../manifest'
 import type { ViewMode, ActiveSelection } from '../App'
 
 interface Props {
   manifest: DocsManifest
   view: ViewMode
   selection: ActiveSelection | null
-  onSelect: (topic: Topic, entry?: HistoryEntry) => void
+  onSelect: (topic: Topic, version?: string) => void
   onToggleView: () => void
 }
 
@@ -27,18 +27,24 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
         label: cat.label,
         items: manifest.topics
           .filter(t => t.category === cat.id)
-          .map(t => ({ topic: t, entry: t.history[0] })),
+          .map(t => ({ topic: t, version: manifest.versions[0].version })),
       })).filter(g => g.items.length > 0)
     } else {
-      return manifest.versions.map(ver => ({
-        id: ver.version,
-        label: ver.label,
-        items: manifest.topics
-          .flatMap(t => t.history
-            .filter(h => h.version === ver.version)
-            .map(h => ({ topic: t, entry: h }))
-          ),
-      })).filter(g => g.items.length > 0)
+      return manifest.versions.map(ver => {
+        let topicItems;
+        if (ver.version === '1.0.0') {
+          // Show all topics with a base document
+          topicItems = manifest.topics
+            .filter(t => t.base)
+            .map(t => ({ topic: t, version: ver.version }))
+        } else {
+          topicItems = (manifest.versionTopics[ver.version] || [])
+            .map(id => manifest.topics.find(t => t.id === id)!)
+            .filter(Boolean)
+            .map(t => ({ topic: t, version: ver.version }))
+        }
+        return { id: ver.version, label: ver.label, items: topicItems }
+      }).filter(g => g.items.length > 0)
     }
   }, [manifest, view])
 
@@ -136,16 +142,22 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
 
               {!isCollapsed && (
                 <div>
-                  {filtered.map(({ topic, entry }) => {
+                  {filtered.map(({ topic, version }) => {
                     const isActive = selection?.topic.id === topic.id &&
-                      selection?.entry.version === entry.version
-                    const isLatest = topic.history[0].version === entry.version
-                    const hasMulti = topic.history.length > 1
+                      selection?.version === version
+                    const latestVer = manifest.versions.find(v =>
+                      v.version === '1.0.0' ? !!topic.base : manifest.versionTopics[v.version]?.includes(topic.id)
+                    )?.version
+                    const isLatest = version === latestVer
+                    const versionCount = manifest.versions.filter(v =>
+                      v.version === '1.0.0' ? !!topic.base : manifest.versionTopics[v.version]?.includes(topic.id)
+                    ).length
+                    const hasMulti = versionCount > 1
 
                     return (
                       <div
-                        key={topic.id + entry.version}
-                        onClick={() => onSelect(topic, entry)}
+                        key={topic.id + version}
+                        onClick={() => onSelect(topic, version)}
                         className={`flex items-center gap-2 py-[7px] px-5 pl-7 text-[0.82rem] cursor-pointer transition-all border-l-2
                           ${isActive
                             ? 'text-accent bg-accent-glow border-l-accent'
@@ -164,7 +176,7 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
                         )}
                         {view === 'current' && hasMulti && (
                           <span className="font-mono text-[0.55rem] font-semibold tracking-[0.08em] uppercase px-1.5 py-0.5 rounded text-warning bg-warning/10 border border-warning/25 shrink-0">
-                            v{entry.version}
+                            v{latestVer}
                           </span>
                         )}
                       </div>

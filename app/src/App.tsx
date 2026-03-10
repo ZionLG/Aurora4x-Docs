@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
-import { manifest, type Topic, type HistoryEntry } from './manifest'
+import { manifest, type Topic } from './manifest'
+import { parseSections, type MarkdownSection } from './utils/extractSections'
 import Sidebar from './components/Sidebar'
 import ContentArea from './components/ContentArea'
 
@@ -7,14 +8,17 @@ export type ViewMode = 'current' | 'changelog'
 
 export interface ActiveSelection {
   topic: Topic
-  entry: HistoryEntry
+  version: string
 }
+
+/** Cache: version string → all parsed sections from that version's changelog file */
+export type ChangelogCache = Record<string, MarkdownSection[]>
 
 /** Encode current state into URL hash */
 function toHash(view: ViewMode, sel: ActiveSelection | null): string {
   if (!sel) return `#${view}`
   if (view === 'changelog') {
-    return `#changelog/${sel.topic.id}/${sel.entry.version}`
+    return `#changelog/${sel.topic.id}/${sel.version}`
   }
   return `#current/${sel.topic.id}`
 }
@@ -33,20 +37,40 @@ function fromHash(): { view: ViewMode; selection: ActiveSelection | null } {
   const topic = manifest.topics.find(t => t.id === topicId)
   if (!topic) return { view, selection: null }
 
-  let entry: HistoryEntry
   if (view === 'changelog' && version) {
-    entry = topic.history.find(h => h.version === version) ?? topic.history[0]
+    return { view, selection: { topic, version } }
   } else {
-    entry = topic.history[0]
+    return { view, selection: { topic, version: manifest.versions[0].version } }
   }
-
-  return { view, selection: { topic, entry } }
 }
 
 export default function App() {
   const initial = fromHash()
   const [view, setView] = useState<ViewMode>(initial.view)
   const [selection, setSelection] = useState<ActiveSelection | null>(initial.selection)
+
+  const [changelogCache, setChangelogCache] = useState<ChangelogCache>({})
+  const [cacheReady, setCacheReady] = useState(false)
+
+  // Load all version changelog files on app init
+  useEffect(() => {
+    const versionsWithFiles = manifest.versions.filter(v => v.file)
+    Promise.all(
+      versionsWithFiles.map(v =>
+        fetch(`/docs/${v.file!}`)
+          .then(r => r.text())
+          .then(raw => ({ version: v.version, sections: parseSections(raw) }))
+          .catch(() => ({ version: v.version, sections: [] as MarkdownSection[] }))
+      )
+    ).then(results => {
+      const cache: ChangelogCache = {}
+      for (const { version, sections } of results) {
+        cache[version] = sections
+      }
+      setChangelogCache(cache)
+      setCacheReady(true)
+    })
+  }, [])
 
   // Update URL hash when state changes (preserve section slug if same topic)
   useEffect(() => {
@@ -69,9 +93,9 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
-  const handleSelect = useCallback((topic: Topic, entry?: HistoryEntry) => {
-    const e = entry ?? topic.history[0]
-    setSelection({ topic, entry: e })
+  const handleSelect = useCallback((topic: Topic, version?: string) => {
+    const v = version ?? manifest.versions[0].version
+    setSelection({ topic, version: v })
   }, [])
 
   const toggleView = useCallback(() => {
@@ -95,6 +119,8 @@ export default function App() {
           manifest={manifest}
           view={view}
           selection={selection}
+          changelogCache={changelogCache}
+          cacheReady={cacheReady}
           onSelectEntry={handleSelect}
         />
       </div>

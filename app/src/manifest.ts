@@ -2,6 +2,7 @@ export interface VersionInfo {
   version: string;
   label: string;
   date: string;
+  file?: string;
 }
 
 export interface Category {
@@ -9,59 +10,37 @@ export interface Category {
   label: string;
 }
 
-export interface HistoryEntry {
-  version: string;
-  file: string;
-  notes?: string;
-  /** Classification: 'update' (default) = feature/change, 'bugfix' = bug fix (collapsed by default in UI) */
-  kind?: 'update' | 'bugfix';
-  /** Extract only these **bold title** sections from the file. If omitted, loads the full file. */
-  sections?: string[];
-  /**
-   * Mark specific **bold title** sections in THIS entry as outdated.
-   * Each entry maps section title → version that replaced it.
-   * The renderer will show a "superseded by vX.Y.Z" banner on those sections.
-   *
-   * Example: { "Forced Labour Camps": "2.0.0" }
-   */
-  deprecated?: Record<string, string>;
-  /**
-   * Maps section titles in THIS entry to section titles in the BASE (oldest) entry
-   * that they replace. The old section becomes collapsible, and this section takes its place.
-   *
-   * Example: { "Forced Labour Camps": "Civilian Camps" }
-   */
-  replaces?: Record<string, string>;
-  /**
-   * Maps section titles in THIS entry to section titles in the base entry
-   * that they should be inserted after. Used for positioning patches within the base document.
-   *
-   * Example: { "Engine Tech": "Engine Design" }
-   */
-  insertAfter?: Record<string, string>;
-}
-
 export interface Topic {
   id: string;
   title: string;
   category: string;
-  history: HistoryEntry[];
+  base?: string;
+}
+
+export interface SectionRoute {
+  topic: string;
+  after?: string;
+  replaces?: string;
+  kind?: 'update' | 'bugfix';
 }
 
 export interface DocsManifest {
   versions: VersionInfo[];
   categories: Category[];
   topics: Topic[];
+  sectionMap: Record<string, SectionRoute | SectionRoute[]>;
+  versionTopics: Record<string, string[]>;
 }
 
 export const manifest: DocsManifest = {
   versions: [
-    { version: "1.13.0", label: "v1.13.0 — Major Update", date: "2021-04-21" },
-    { version: "1.12.0", label: "v1.12.0 — Major Update", date: "2020-10-11" },
-    { version: "1.11.0", label: "v1.11.0 — Bug Fixes", date: "2020-05-29" },
-    { version: "1.10.0", label: "v1.10.0 — Major Update", date: "2020-05-27" },
-    { version: "1.9.5", label: "v1.9.5 — Bug Fixes", date: "2020-05-06" },
-    { version: "1.9.0", label: "v1.9.0 — Minor Changes", date: "2020-04-28" },
+    { version: "2.0.0", label: "v2.0.0 — Major Update", date: "2022-08-06", file: "v2.0.0/01-patch-notes.md" },
+    { version: "1.13.0", label: "v1.13.0 — Major Update", date: "2021-04-21", file: "v1.13.0/01-patch-notes.md" },
+    { version: "1.12.0", label: "v1.12.0 — Major Update", date: "2020-10-11", file: "v1.12.0/01-patch-notes.md" },
+    { version: "1.11.0", label: "v1.11.0 — Bug Fixes", date: "2020-05-29", file: "v1.11.0/01-patch-notes.md" },
+    { version: "1.10.0", label: "v1.10.0 — Major Update", date: "2020-05-27", file: "v1.10.0/01-patch-notes.md" },
+    { version: "1.9.5", label: "v1.9.5 — Bug Fixes", date: "2020-05-06", file: "v1.9.5/01-bug-fixes.md" },
+    { version: "1.9.0", label: "v1.9.0 — Minor Changes", date: "2020-04-28", file: "v1.9.0/01-minor-changes.md" },
     { version: "1.0.0", label: "v1.0.0 — Launch", date: "2020-04-12" },
   ],
 
@@ -78,1015 +57,581 @@ export const manifest: DocsManifest = {
 
   topics: [
     // Economy & Colonies
-    {
-      id: "planetary-installations",
-      title: "Planetary Installations",
-      category: "economy",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Assign New Labs"],
-          insertAfter: { "Assign New Labs": "Conventional Industry" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Unused Construction Capacity"],
-          insertAfter: { "Unused Construction Capacity": "Conventional Industry" },
-        },
-        { version: "1.0.0", file: "v1.0.0/02-planetary-installations.md" },
-      ],
-    },
-    {
-      id: "shipyards",
-      title: "Shipyards",
-      category: "economy",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Repair Yards", "Shipyard Repair Capacity Fix", "Commercial Shipyard Repair Fix", "Shipyard Class Lock Fix", "Instant Build to Carriers"],
-          insertAfter: {
-            "Repair Yards": "Shipyard Worker Requirements",
-            "Shipyard Repair Capacity Fix": "Shipyard Worker Requirements",
-            "Commercial Shipyard Repair Fix": "Shipyard Worker Requirements",
-            "Shipyard Class Lock Fix": "Shipbuilding Changes",
-            "Instant Build to Carriers": "Shipbuilding Changes",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Shipyard Slipway Destruction Fix", "Fire Control Refit Fix", "Refit Overhead Display Fix", "Refit Ordnance Adjustment", "Shipyard Scrap Fix", "Scrapping Wealth Fix"],
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Shipyard Retool Error Fix"],
-          insertAfter: { "Shipyard Retool Error Fix": "Shipbuilding Changes" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Ship Design Fixes", "Scrap and Refit Display"],
-          insertAfter: { "Ship Design Fixes": "Shipbuilding Changes", "Scrap and Refit Display": "Auto Refit Tasks" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Prototypes", "Class Deletion", "Refit Dropdown", "Refit Tasks"],
-          insertAfter: {
-            "Prototypes": "Shipbuilding Changes",
-            "Class Deletion": "Shipyard Worker Requirements",
-            "Refit Dropdown": "Auto Refit Tasks",
-            "Refit Tasks": "Refit Size",
-          },
-        },
-        { version: "1.0.0", file: "v1.0.0/03-shipyards.md" },
-      ],
-    },
-    {
-      id: "colonies",
-      title: "Colonies",
-      category: "economy",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Colony Governor Protection Fix", "Colony Importance Error Fix", "Colony Governor Event Fix", "Sector Governor Bonus Fix", "Surrender Strength Fix", "Orbital Habitat Capacity Fix", "Population Ground Units"],
-          insertAfter: {
-            "Colony Governor Protection Fix": "Population Capacity",
-            "Colony Importance Error Fix": "Population Capacity",
-            "Colony Governor Event Fix": "Population Capacity",
-            "Sector Governor Bonus Fix": "Population Capacity",
-            "Surrender Strength Fix": "Population Capacity",
-            "Orbital Habitat Capacity Fix": "Population Capacity",
-            "Population Ground Units": "Automatic Pop Selection from Galactic Map",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Change Capital Population", "Resurrecting Population Fix", "Gas Giant Colony Fix", "Delete Empty Populations Fix", "Occupation Strength and Police Modifiers"],
-          insertAfter: {
-            "Change Capital Population": "Population Capacity",
-            "Resurrecting Population Fix": "Population Capacity",
-            "Gas Giant Colony Fix": "Potential Colony Locations",
-            "Delete Empty Populations Fix": "Delete Empty Colonies",
-            "Occupation Strength and Police Modifiers": "Automatic Pop Selection from Galactic Map",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Population and Colony Fixes"],
-          insertAfter: { "Population and Colony Fixes": "Delete Empty Colonies" },
-        },
-        { version: "1.0.0", file: "v1.0.0/06-colonies.md" },
-      ],
-    },
-    {
-      id: "civilians",
-      title: "Civilians",
-      category: "economy",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Civilian Harvester Fix"],
-          insertAfter: { "Civilian Harvester Fix": "Shipping Lines" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Civilian Shipping Fixes"],
-          insertAfter: { "Civilian Shipping Fixes": "Shipping Lines" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Civilian Colony Ships"],
-          insertAfter: { "Civilian Colony Ships": "Civilian Destinations" },
-        },
-        { version: "1.0.0", file: "v1.0.0/07-civilians.md" },
-      ],
-    },
-    {
-      id: "wealth-and-mining",
-      title: "Wealth & Mining",
-      category: "economy",
-      history: [
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Sorium Depletion Event"],
-          insertAfter: { "Sorium Depletion Event": "Mineral Search Flag" },
-        },
-        { version: "1.0.0", file: "v1.0.0/34-wealth-and-mining.md" },
-      ],
-    },
+    { id: "planetary-installations", title: "Planetary Installations", category: "economy", base: "v1.0.0/02-planetary-installations.md" },
+    { id: "shipyards", title: "Shipyards", category: "economy", base: "v1.0.0/03-shipyards.md" },
+    { id: "colonies", title: "Colonies", category: "economy", base: "v1.0.0/06-colonies.md" },
+    { id: "civilians", title: "Civilians", category: "economy", base: "v1.0.0/07-civilians.md" },
+    { id: "wealth-and-mining", title: "Wealth & Mining", category: "economy", base: "v1.0.0/34-wealth-and-mining.md" },
 
     // Ships & Design
-    {
-      id: "engines",
-      title: "Engines",
-      category: "ships",
-      history: [
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Engine Tech"],
-          insertAfter: { "Engine Tech": "Engine Technology Progression" },
-        },
-        { version: "1.0.0", file: "v1.0.0/12-engines.md" },
-      ],
-    },
-    {
-      id: "ship-components",
-      title: "Ship Components",
-      category: "ships",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Miscellaneous Components", "Fractional Capacitors", "Boat Bay Size Change", "Armour Repair in Hangars", "Automated Hangar Resupply", "Carrier Operations Bonus", "Distance Travelled", "Component Development Cost Changes", "Cloak Research Fix", "Boat Bay Design Fix", "Jump Drive Cost Fix", "Obsolete Component Button Fix", "Insufficient Power Alert", "Class Function Display", "Spinal Weapon Fix"],
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Negative Spare Berths Fix", "Single System Multiples Fix", "Spinal Weapon Type Fix", "C&C Disassembly Fix"],
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Cloaking Device Size Fix", "Stabilisation Module Fix"],
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Hangar and Parasite Fix"],
-          insertAfter: { "Hangar and Parasite Fix": "Fuel Storage Costs" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Fire Control Range"],
-          insertAfter: { "Fire Control Range": "Prototype Components" },
-        },
-        {
-          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
-          sections: ["Conventional Reactor"],
-          insertAfter: { "Conventional Reactor": "Fuel Storage Costs" },
-        },
-        { version: "1.0.0", file: "v1.0.0/15-ship-components.md" },
-      ],
-    },
-    {
-      id: "sensors-and-contacts",
-      title: "Sensors & Contacts",
-      category: "ships",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Short Name Contact Grouping Fix", "Buoy Orbit Fix", "Tracking Station Range Fix", "Tractor Link Fix"],
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["ELINT Passive Sensor Fix", "Passive Sensor Buoy Fix"],
-          insertAfter: {
-            "ELINT Passive Sensor Fix": "Ground Forces Detection",
-            "Passive Sensor Buoy Fix": "Transponders",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["DSTS Display", "Buoy Design"],
-          insertAfter: {
-            "DSTS Display": "Ground Forces Detection",
-            "Buoy Design": "Transponders",
-          },
-        },
-        { version: "1.0.0", file: "v1.0.0/14-sensors-and-contacts.md" },
-      ],
-    },
-    {
-      id: "direct-fire-weapons",
-      title: "Direct Fire Weapons & Power Plants",
-      category: "ships",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Reduced Shot Railguns", "Single Weapon Fire Controls", "Beam FC Option Fix", "Spinal Railgun Removal", "Zero Hit Chance Beam Fix"],
-          insertAfter: {
-            "Reduced Shot Railguns": "Gauss Cannon Research Changes",
-            "Single Weapon Fire Controls": "Turret Update",
-            "Beam FC Option Fix": "Turret Update",
-            "Spinal Railgun Removal": "Gauss Cannon Research Changes",
-            "Zero Hit Chance Beam Fix": "Weapon Failure",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Auto Assign FC ECCM Fix"],
-          insertAfter: { "Auto Assign FC ECCM Fix": "Turret Update" },
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Auto Assign FC ECCM Fix"],
-          insertAfter: { "Auto Assign FC ECCM Fix": "Turret Update" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Railgun Point Defence", "Fire Control Fixes", "Hit Chance Fix"],
-          insertAfter: {
-            "Railgun Point Defence": "Gauss Cannon Research Changes",
-            "Fire Control Fixes": "Turret Update",
-            "Hit Chance Fix": "Weapon Failure",
-          },
-        },
-        {
-          version: "1.0.0",
-          file: "v1.0.0/13-direct-fire-weapons-and-power-plants.md",
-        },
-      ],
-    },
-    {
-      id: "missiles-and-launchers",
-      title: "Missiles & Launchers",
-      category: "ships",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Random Second Stage Targeting", "Missile Launcher Ammo Check Fix", "Geosurvey Missile Option Fix"],
-          insertAfter: {
-            "Random Second Stage Targeting": "Missile Updates",
-            "Missile Launcher Ammo Check Fix": "Missile Launcher Changes",
-            "Geosurvey Missile Option Fix": "Missile Updates",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Second-Stage Missile Magazine Fix", "Missile Shipyard Target Fix", "Missile Project Creation Fix", "Missile PD Mode Fix", "Missile FC AMM Launch"],
-          insertAfter: {
-            "Second-Stage Missile Magazine Fix": "Magazine Design",
-            "Missile Shipyard Target Fix": "Launch Ready Ordnance",
-            "Missile Project Creation Fix": "Launch Ready Ordnance",
-            "Missile PD Mode Fix": "Tracking Time Bonus vs Missiles",
-            "Missile FC AMM Launch": "Launch Ready Ordnance",
-          },
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Reduced-Size Missile Launcher Fix"],
-          insertAfter: { "Reduced-Size Missile Launcher Fix": "Missile Launcher Changes" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Fire Control Fixes"],
-          insertAfter: { "Fire Control Fixes": "Ship Ordnance Templates" },
-        },
-        { version: "1.0.0", file: "v1.0.0/16-missiles-and-launchers.md" },
-      ],
-    },
-    {
-      id: "space-stations",
-      title: "Space Stations & Orbital Habitats",
-      category: "ships",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Station No Armour Fix"],
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Overhaul and Station Fixes"],
-        },
-        {
-          version: "1.0.0",
-          file: "v1.0.0/23-space-stations-and-orbital-habitats.md",
-        },
-      ],
-    },
+    { id: "engines", title: "Engines", category: "ships", base: "v1.0.0/12-engines.md" },
+    { id: "ship-components", title: "Ship Components", category: "ships", base: "v1.0.0/15-ship-components.md" },
+    { id: "sensors-and-contacts", title: "Sensors & Contacts", category: "ships", base: "v1.0.0/14-sensors-and-contacts.md" },
+    { id: "direct-fire-weapons", title: "Direct Fire Weapons & Power Plants", category: "ships", base: "v1.0.0/13-direct-fire-weapons-and-power-plants.md" },
+    { id: "missiles-and-launchers", title: "Missiles & Launchers", category: "ships", base: "v1.0.0/16-missiles-and-launchers.md" },
+    { id: "space-stations", title: "Space Stations & Orbital Habitats", category: "ships", base: "v1.0.0/23-space-stations-and-orbital-habitats.md" },
 
     // Fleet & Operations
-    {
-      id: "naval-organization",
-      title: "Naval Organization",
-      category: "fleet",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Parasites on Transported Items", "Required Power Display Fix"],
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["PPV Display"],
-          insertAfter: { "PPV Display": "Naval Organization" },
-        },
-        { version: "1.0.0", file: "v1.0.0/08-naval-organization.md" },
-      ],
-    },
-    {
-      id: "fleet-movement",
-      title: "Fleet Movement & Orders",
-      category: "fleet",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Sorium Gas Giant Survey Fix", "Set Specific Threat Fix", "Refuel Resupply Overhaul Standing Order Fix", "Fleet Window UI Additions", "Fleet Creation Location Fix", "Hide Fleets in Orbit", "Fleet Name in Events"],
-          insertAfter: {
-            "Sorium Gas Giant Survey Fix": "Standing Orders",
-            "Set Specific Threat Fix": "Standing Orders",
-            "Refuel Resupply Overhaul Standing Order Fix": "Standing Orders",
-            "Fleet Window UI Additions": "Fleet Distance and Time",
-            "Fleet Creation Location Fix": "Fleet Order Templates",
-            "Hide Fleets in Orbit": "Fleet Distance and Time",
-            "Fleet Name in Events": "Fleet Distance and Time",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: [
-            "Fleet Escort Orders", "Move Fleet to Waypoint", "Load All Minerals Until Full",
-            "Pickup Nearest Lifepod", "Deployment Exceeded Condition", "Repeat Orders X Times",
-            "Refuel, Resupply and Overhaul Conditional Order", "Survey Next Three Bodies or Locations",
-            "Lagrange Point Order Display Fix", "Tug Fuel Consumption Fix", "Wreck Salvage Display Fix",
-          ],
-          insertAfter: {
-            "Fleet Escort Orders": "Standing Orders",
-            "Move Fleet to Waypoint": "Fleet Order Templates",
-            "Load All Minerals Until Full": "Fleet Order Templates",
-            "Pickup Nearest Lifepod": "Standing Orders",
-            "Deployment Exceeded Condition": "Standing Orders",
-            "Repeat Orders X Times": "Fleet Order Templates",
-            "Refuel, Resupply and Overhaul Conditional Order": "Standing Orders",
-            "Survey Next Three Bodies or Locations": "Standing Orders",
-            "Lagrange Point Order Display Fix": "Fleet Distance and Time",
-            "Tug Fuel Consumption Fix": "Fleet Maximum Speed",
-            "Wreck Salvage Display Fix": "Fleet Distance and Time",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Land on Assigned Mothership as Sub-Fleet", "Fleet Order Fixes"],
-          insertAfter: {
-            "Land on Assigned Mothership as Sub-Fleet": "Standing Orders",
-            "Fleet Order Fixes": "Fleet Order Templates",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Passenger Liner", "Colony Fleets", "Fleet Window"],
-          insertAfter: {
-            "Passenger Liner": "Fleet Maximum Speed",
-            "Colony Fleets": "Standing Orders",
-            "Fleet Window": "Fleet Distance and Time",
-          },
-        },
-        {
-          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
-          sections: ["Order Delay"],
-          insertAfter: { "Order Delay": "Fleet Order Templates" },
-        },
-        { version: "1.0.0", file: "v1.0.0/22-fleet-movement-and-orders.md" },
-      ],
-    },
-    {
-      id: "logistics",
-      title: "Logistics",
-      category: "fleet",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Resupply from Stationary Supply Ship", "SM Partial Refuel Fix", "Underway Replenishment Reset Fix", "Unload Max Items Fix", "Cargo Shuttle Maintenance Fix", "Fighter Cargo Loading"],
-          insertAfter: {
-            "Resupply from Stationary Supply Ship": "Resupply Changes",
-            "SM Partial Refuel Fix": "Load & Unload Cargo",
-            "Underway Replenishment Reset Fix": "Resupply Changes",
-            "Unload Max Items Fix": "Load & Unload Cargo",
-            "Cargo Shuttle Maintenance Fix": "Resupply Changes",
-            "Fighter Cargo Loading": "Load & Unload Cargo",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Underway Replenishment", "Load Orders"],
-          insertAfter: {
-            "Underway Replenishment": "Resupply Changes",
-            "Load Orders": "Load & Unload Cargo",
-          },
-        },
-        { version: "1.0.0", file: "v1.0.0/04-logistics.md" },
-      ],
-    },
-    {
-      id: "crew-and-commanders",
-      title: "Crew, Commanders & Control Systems",
-      category: "fleet",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Removal of Ground Combat Command Bonus", "Commander Abbreviations", "Destroyed Colony Commander Fix", "C&C Disassembly Fix"],
-          insertAfter: {
-            "Removal of Ground Combat Command Bonus": "Ground Commander Bonuses",
-            "Commander Abbreviations": "Ship Commander Rank",
-            "Destroyed Colony Commander Fix": "Commander Careers",
-            "C&C Disassembly Fix": "Command & Control Rules",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Commander Search Fix", "Automated Assignment for Colony Governors", "Commander Assignment Priority", "Admin Command Deletion Fix"],
-          insertAfter: {
-            "Commander Search Fix": "Auto-Assignment of Naval Commanders",
-            "Automated Assignment for Colony Governors": "Academy Commandants",
-            "Commander Assignment Priority": "Auto-Assignment of Naval Commanders",
-            "Admin Command Deletion Fix": "Commander Careers",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Commander Fixes"],
-          insertAfter: { "Commander Fixes": "Academy Commandants" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Rank Requirements", "SM Add Commanders"],
-          insertAfter: {
-            "Rank Requirements": "Academy Commandants",
-            "SM Add Commanders": "Commander Careers",
-          },
-        },
-        {
-          version: "1.0.0",
-          file: "v1.0.0/09-crew-commanders-and-control-systems.md",
-        },
-      ],
-    },
-    {
-      id: "maintenance",
-      title: "Maintenance",
-      category: "fleet",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Commercial Overhaul Penalty Fix"],
-          insertAfter: { "Commercial Overhaul Penalty Fix": "Abandon Overhaul" },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Overhaul No Maintenance Fix", "Maintenance Explosion Fix", "Overhaul Fleet Position Fix"],
-          insertAfter: {
-            "Overhaul No Maintenance Fix": "Abandon Overhaul",
-            "Maintenance Explosion Fix": "New Maintenance Rules",
-            "Overhaul Fleet Position Fix": "Abandon Overhaul",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Maintenance Report Additions"],
-          insertAfter: { "Maintenance Report Additions": "Abandon Overhaul" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Maintenance Failure"],
-          insertAfter: { "Maintenance Failure": "New Maintenance Rules" },
-        },
-        { version: "1.0.0", file: "v1.0.0/10-maintenance.md" },
-      ],
-    },
-    {
-      id: "deployment-life-support",
-      title: "Deployment & Life Support",
-      category: "fleet",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Deployment Exceeded Condition"],
-          insertAfter: { "Deployment Exceeded Condition": "Deployment Clock" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Deployment Fix"],
-          insertAfter: { "Deployment Fix": "Deployment Clock" },
-        },
-        {
-          version: "1.0.0",
-          file: "v1.0.0/17-deployment-overcrowding-under-manning-and-life-support-failures.md",
-        },
-      ],
-    },
+    { id: "naval-organization", title: "Naval Organization", category: "fleet", base: "v1.0.0/08-naval-organization.md" },
+    { id: "fleet-movement", title: "Fleet Movement & Orders", category: "fleet", base: "v1.0.0/22-fleet-movement-and-orders.md" },
+    { id: "logistics", title: "Logistics", category: "fleet", base: "v1.0.0/04-logistics.md" },
+    { id: "crew-and-commanders", title: "Crew, Commanders & Control Systems", category: "fleet", base: "v1.0.0/09-crew-commanders-and-control-systems.md" },
+    { id: "maintenance", title: "Maintenance", category: "fleet", base: "v1.0.0/10-maintenance.md" },
+    { id: "deployment-life-support", title: "Deployment & Life Support", category: "fleet", base: "v1.0.0/17-deployment-overcrowding-under-manning-and-life-support-failures.md" },
 
     // Combat
-    {
-      id: "combat-mechanics",
-      title: "Combat Setup & Mechanics",
-      category: "combat",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Fire At Will", "Fire Delay for Point Defence"],
-          insertAfter: {
-            "Fire At Will": "Automated Weapon Assignment",
-            "Fire Delay for Point Defence": "Fire Delay",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Area PD Multi-Fire Fix", "Area PD Impact Display Fix", "Fire Delay Fix"],
-          insertAfter: {
-            "Area PD Multi-Fire Fix": "Point Defence",
-            "Area PD Impact Display Fix": "Point Defence",
-            "Fire Delay Fix": "Fire Delay",
-          },
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Hit Chance Display Fix"],
-          insertAfter: { "Hit Chance Display Fix": "Fire Delay" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Hit Chance Fix"],
-          insertAfter: { "Hit Chance Fix": "Fire Delay" },
-        },
-        { version: "1.0.0", file: "v1.0.0/24-combat-setup-and-mechanics.md" },
-      ],
-    },
-    {
-      id: "ground-forces",
-      title: "Ground Forces",
-      category: "combat",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Ordinal Numbers for Ground Formation Templates", "Ground Unit Series Creation Fix", "Ground Unit Series Deletion Fix", "Ground Force Mothership Display", "Parasite Ship Measurement Fix"],
-          insertAfter: {
-            "Ordinal Numbers for Ground Formation Templates": "Ground Forces: Part 2 - Formation Templates",
-            "Ground Unit Series Creation Fix": "Ground Forces: Part 2 - Formation Templates",
-            "Ground Unit Series Deletion Fix": "Ground Forces: Part 2 - Formation Templates",
-            "Ground Force Mothership Display": "Ground Formation Element Transfer UI",
-            "Parasite Ship Measurement Fix": "Ground Formation Element Transfer UI",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Ground Forces Replacements", "Ground Force Queue Fix", "Inherent Supply Fire Rate Fix", "Ground Unit Capability Fix", "Inherent Supply Replenishment Fix", "Auto Queue Ground Construction", "Ground Survey Speed Fix"],
-          insertAfter: {
-            "Ground Forces Replacements": "Ground Forces: Part 2 - Formation Templates",
-            "Ground Force Queue Fix": "Ground Forces: Part 2 - Formation Templates",
-            "Inherent Supply Fire Rate Fix": "Ground Force Logistics",
-            "Ground Unit Capability Fix": "Ground Forces: Part 1 - Unit Design",
-            "Inherent Supply Replenishment Fix": "Ground Force Logistics",
-            "Auto Queue Ground Construction": "Ground Forces: Part 2 - Formation Templates",
-            "Ground Survey Speed Fix": "Ground-based Geological Survey",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Queued Ground Formation Training Tasks", "Ground Formation Fixes"],
-          insertAfter: {
-            "Queued Ground Formation Training Tasks": "Ground Forces: Part 2 - Formation Templates",
-            "Ground Formation Fixes": "Ground Formation Element Transfer UI",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Ground Combat Fixes", "Formation Templates", "New Formations", "Ground Force Capture"],
-          insertAfter: {
-            "Ground Combat Fixes": "Ground Force Fortification",
-            "Formation Templates": "Ground Forces: Part 2 - Formation Templates",
-            "New Formations": "Setting Ground Formation Support",
-            "Ground Force Capture": "Genetically Enhanced Soldiers",
-          },
-        },
-        {
-          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
-          sections: ["Civilian Ground Forces Toggle"],
-          insertAfter: { "Civilian Ground Forces Toggle": "Ground Forces: Part 2 - Formation Templates" },
-        },
-        { version: "1.0.0", file: "v1.0.0/19-ground-forces.md" },
-      ],
-    },
-    {
-      id: "ground-combat",
-      title: "Ground Combat",
-      category: "combat",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Ground Combat Intel Fix"],
-          insertAfter: { "Ground Combat Intel Fix": "Base Ground Combat Rules" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Ground Combat Fixes"],
-          insertAfter: { "Ground Combat Fixes": "Base Ground Combat Rules" },
-        },
-        { version: "1.0.0", file: "v1.0.0/26-ground-combat.md" },
-      ],
-    },
-    {
-      id: "ground-support-fighters",
-      title: "Ground Support Fighters",
-      category: "combat",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["STO Fighter Fix"],
-          insertAfter: { "STO Fighter Fix": "Ground-based AA Fire" },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Foreign Fighter Ground Support Fix"],
-          insertAfter: { "Foreign Fighter Ground Support Fix": "Ground-based AA Fire" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Ground Combat Fixes"],
-          insertAfter: { "Ground Combat Fixes": "Ground-based AA Fire" },
-        },
-        { version: "1.0.0", file: "v1.0.0/27-ground-support-fighters.md" },
-      ],
-    },
-    {
-      id: "surface-to-orbit",
-      title: "Surface-to-Orbit Combat",
-      category: "combat",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["STO Fighter Fix", "STO Target Dropdown Fix", "STO Weapon Error Fix"],
-          insertAfter: {
-            "STO Fighter Fix": "Surface-to-Orbit Weapons",
-            "STO Target Dropdown Fix": "Surface-to-Orbit Weapons",
-            "STO Weapon Error Fix": "Surface-to-Orbit Weapons",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["STO Availability"],
-          insertAfter: { "STO Availability": "Surface-to-Orbit Weapons" },
-        },
-        { version: "1.0.0", file: "v1.0.0/29-surface-to-orbit-combat.md" },
-      ],
-    },
-    {
-      id: "boarding-combat",
-      title: "Boarding Combat",
-      category: "combat",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Boarding Hostile Act Fix", "Captured Ship Class Lock Fix"],
-        },
-        { version: "1.0.0", file: "v1.0.0/32-boarding-combat.md" },
-      ],
-    },
-    {
-      id: "damage-control",
-      title: "Damage Control",
-      category: "combat",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Repair Damage Control Fix"],
-        },
-        { version: "1.0.0", file: "v1.0.0/28-damage-control.md" },
-      ],
-    },
+    { id: "combat-mechanics", title: "Combat Setup & Mechanics", category: "combat", base: "v1.0.0/24-combat-setup-and-mechanics.md" },
+    { id: "ground-forces", title: "Ground Forces", category: "combat", base: "v1.0.0/19-ground-forces.md" },
+    { id: "ground-combat", title: "Ground Combat", category: "combat", base: "v1.0.0/26-ground-combat.md" },
+    { id: "ground-support-fighters", title: "Ground Support Fighters", category: "combat", base: "v1.0.0/27-ground-support-fighters.md" },
+    { id: "surface-to-orbit", title: "Surface-to-Orbit Combat", category: "combat", base: "v1.0.0/29-surface-to-orbit-combat.md" },
+    { id: "boarding-combat", title: "Boarding Combat", category: "combat", base: "v1.0.0/32-boarding-combat.md" },
+    { id: "damage-control", title: "Damage Control", category: "combat", base: "v1.0.0/28-damage-control.md" },
 
     // Galaxy & Exploration
-    {
-      id: "systems-and-bodies",
-      title: "Systems & Bodies",
-      category: "galaxy",
-      history: [{ version: "1.0.0", file: "v1.0.0/18-systems-and-bodies.md" }],
-    },
-    {
-      id: "terraforming",
-      title: "Terraforming",
-      category: "galaxy",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Change to Greenhouse Gas and Dust Mechanics"],
-          insertAfter: { "Change to Greenhouse Gas and Dust Mechanics": "Terraforming Update" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Terraforming Fix"],
-          insertAfter: { "Terraforming Fix": "Terraforming Update" },
-        },
-        { version: "1.0.0", file: "v1.0.0/11-terraforming.md" },
-      ],
-    },
-    {
-      id: "ruins",
-      title: "Ruins & Ancient Constructs",
-      category: "galaxy",
-      history: [
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["SM Random Ruins Fix"],
-          insertAfter: { "SM Random Ruins Fix": "Chance of Ruins" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Ancient Constructs"],
-          insertAfter: { "Ancient Constructs": "Ruins in Sol" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Anomalies"],
-          insertAfter: { "Anomalies": "Chance of Ruins" },
-        },
-        { version: "1.0.0", file: "v1.0.0/20-ruins.md" },
-      ],
-    },
-    {
-      id: "star-system-design",
-      title: "Star System Design",
-      category: "galaxy",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Constellation Names", "Minerva Trojan Naming Fix", "Trojan Asteroid Orbit Fix", "Sector Assignment Fix"],
-          insertAfter: {
-            "Constellation Names": "Star System Design Part 1: Modifying Stars",
-            "Minerva Trojan Naming Fix": "Star System Design Part 6: Adding Moons and Lagrange Points",
-            "Trojan Asteroid Orbit Fix": "Star System Design Part 6: Adding Moons and Lagrange Points",
-            "Sector Assignment Fix": "Star System Design Part 1: Modifying Stars",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Small Comet Orbit Fix", "Moon Numbering Fix", "Dust and Radiation Editing"],
-          insertAfter: {
-            "Small Comet Orbit Fix": "Star System Design Part 5: Adding Planets, Comets and Asteroid Belts",
-            "Moon Numbering Fix": "Star System Design Part 6: Adding Moons and Lagrange Points",
-            "Dust and Radiation Editing": "Star System Design Part 3: Modifying System Bodies",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Random Stars Fix", "Sector and System Fixes"],
-          insertAfter: {
-            "Random Stars Fix": "Star System Design Part 2: Adding Stars",
-            "Sector and System Fixes": "Star System Design Part 4: Deleting Stars and System Bodies",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Random Stars", "Planet Minerals"],
-          insertAfter: {
-            "Random Stars": "Star System Design Part 2: Adding Stars",
-            "Planet Minerals": "Star System Design Part 5: Adding Planets, Comets and Asteroid Belts",
-          },
-        },
-        { version: "1.0.0", file: "v1.0.0/37-star-system-design.md" },
-      ],
-    },
-    {
-      id: "aether-rifts",
-      title: "Aether Rifts",
-      category: "galaxy",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["NPR Generation of Spoilers"],
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Aether Rift Save Fix"],
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Aether Rifts"],
-        },
-      ],
-    },
+    { id: "systems-and-bodies", title: "Systems & Bodies", category: "galaxy", base: "v1.0.0/18-systems-and-bodies.md" },
+    { id: "terraforming", title: "Terraforming", category: "galaxy", base: "v1.0.0/11-terraforming.md" },
+    { id: "ruins", title: "Ruins & Ancient Constructs", category: "galaxy", base: "v1.0.0/20-ruins.md" },
+    { id: "star-system-design", title: "Star System Design", category: "galaxy", base: "v1.0.0/37-star-system-design.md" },
+    { id: "aether-rifts", title: "Aether Rifts", category: "galaxy" }, // no base
 
     // Diplomacy & Intelligence
-    {
-      id: "diplomacy",
-      title: "Diplomacy",
-      category: "diplomacy",
-      history: [{ version: "1.0.0", file: "v1.0.0/35-diplomacy.md" }],
-    },
-    {
-      id: "intelligence-gathering",
-      title: "Intelligence Gathering",
-      category: "diplomacy",
-      history: [
-        { version: "1.0.0", file: "v1.0.0/31-intelligence-gathering.md" },
-      ],
-    },
-    {
-      id: "alien-races",
-      title: "Alien Races & Species Attributes",
-      category: "diplomacy",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["NPR Random Ship Names", "Fighter Search and Destroy Fix"],
-          insertAfter: {
-            "NPR Random Ship Names": "Human NPRs",
-            "Fighter Search and Destroy Fix": "Human NPRs",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["AI Point Defence Estimate Fix", "AI Ram Fix", "SM Race Customization", "AI System Withdrawal", "NPR Active Sensors", "Rakhas Generation Change"],
-          insertAfter: {
-            "AI Point Defence Estimate Fix": "Human NPRs",
-            "AI Ram Fix": "Human NPRs",
-            "SM Race Customization": "New Spoiler Race",
-            "AI System Withdrawal": "Human NPRs",
-            "NPR Active Sensors": "Human NPRs",
-            "Rakhas Generation Change": "New Spoiler Race",
-          },
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["AI Repair Function Fix"],
-          insertAfter: { "AI Repair Function Fix": "Human NPRs" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["NPR Design Variety"],
-          insertAfter: { "NPR Design Variety": "Human NPRs" },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["Alien Class Renaming"],
-          insertAfter: { "Alien Class Renaming": "New Spoiler Race" },
-        },
-        {
-          version: "1.0.0",
-          file: "v1.0.0/33-alien-races-and-species-attributes.md",
-        },
-      ],
-    },
+    { id: "diplomacy", title: "Diplomacy", category: "diplomacy", base: "v1.0.0/35-diplomacy.md" },
+    { id: "intelligence-gathering", title: "Intelligence Gathering", category: "diplomacy", base: "v1.0.0/31-intelligence-gathering.md" },
+    { id: "alien-races", title: "Alien Races & Species Attributes", category: "diplomacy", base: "v1.0.0/33-alien-races-and-species-attributes.md" },
 
     // Personnel
-    {
-      id: "medals-and-achievements",
-      title: "Medals & Achievements",
-      category: "personnel",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Export Medals"],
-          insertAfter: { "Export Medals": "Ship Achievements" },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Medal Save Fix", "Medal Deletion Fix"],
-          insertAfter: {
-            "Medal Save Fix": "Manual Medal Awards",
-            "Medal Deletion Fix": "Manual Medal Awards",
-          },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Medal Import"],
-          insertAfter: { "Medal Import": "Ship Achievements" },
-        },
-        { version: "1.0.0", file: "v1.0.0/30-medals-and-achievements.md" },
-      ],
-    },
+    { id: "medals-and-achievements", title: "Medals & Achievements", category: "personnel", base: "v1.0.0/30-medals-and-achievements.md" },
 
     // Game Setup & UI
-    {
-      id: "new-game-setup",
-      title: "New Game Setup",
-      category: "setup",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Death Spiral Luna Fix"],
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Earth Death Spiral", "New Game Exit Fix"],
-        },
-        { version: "1.0.0", file: "v1.0.0/21-new-game-setup.md" },
-      ],
-    },
-    {
-      id: "nomenclature",
-      title: "Nomenclature",
-      category: "setup",
-      history: [{ version: "1.0.0", file: "v1.0.0/05-nomenclature.md" }],
-    },
-    {
-      id: "user-interface",
-      title: "User Interface Updates",
-      category: "setup",
-      history: [
-        {
-          version: "1.13.0", file: "v1.13.0/01-patch-notes.md",
-          sections: ["Import and Export Event Colours", "Disassemble Refresh", "Low Gravity Habitable World Display Fix", "Survey Percentage Display Fix", "Waypoint Name Fix", "Paused Research Change", "Obsolete Class Copy Fix", "Mass Driver Error Fix"],
-          insertAfter: {
-            "Import and Export Event Colours": "Survey Site List",
-            "Disassemble Refresh": "Survey Site List",
-            "Low Gravity Habitable World Display Fix": "Race Comparison Window",
-            "Survey Percentage Display Fix": "Survey Site List",
-            "Waypoint Name Fix": "Survey Site List",
-            "Paused Research Change": "Survey Site List",
-            "Obsolete Class Copy Fix": "Save Button",
-            "Mass Driver Error Fix": "Survey Site List",
-          },
-        },
-        {
-          version: "1.12.0", file: "v1.12.0/01-patch-notes.md",
-          sections: ["Tactical Map Events", "Cycle Previous Locations", "Popup Menu Fix", "Species Temperature Display Fix", "SM Fill Ship Fix", "Galactic Map Position Fix", "Turret Research Project Fix", "Non-Active Research Fix"],
-          insertAfter: {
-            "Tactical Map Events": "Tactical Map in Background",
-            "Cycle Previous Locations": "Tactical Map Popup Menu",
-            "Popup Menu Fix": "Tactical Map Popup Menu",
-            "Species Temperature Display Fix": "Race Comparison Window",
-            "SM Fill Ship Fix": "Save Button",
-            "Galactic Map Position Fix": "Survey Site List",
-            "Turret Research Project Fix": "Survey Site List",
-            "Non-Active Research Fix": "Survey Site List",
-          },
-        },
-        {
-          version: "1.11.0", file: "v1.11.0/01-patch-notes.md", kind: "bugfix",
-          sections: ["Alt-F4 Hot Key Fix"],
-          insertAfter: { "Alt-F4 Hot Key Fix": "Survey Site List" },
-        },
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Hot Keys", "Faster Save", "UI Display Improvements"],
-          insertAfter: {
-            "Hot Keys": "Survey Site List",
-            "Faster Save": "Survey Site List",
-            "UI Display Improvements": "Linked Windows",
-          },
-        },
-        {
-          version: "1.9.5", file: "v1.9.5/01-bug-fixes.md", kind: "bugfix",
-          sections: ["PPV Display", "Select Name", "Task Completion Time"],
-          insertAfter: {
-            "PPV Display": "Assigned Mothership Display",
-            "Select Name": "Save Button",
-          },
-        },
-        {
-          version: "1.9.0", file: "v1.9.0/01-minor-changes.md",
-          sections: ["Tactical Map Events", "Fighter Construction Event", "New Events", "Distance Measuring", "Multiple Window Option", "Low G Habitable Worlds"],
-          insertAfter: {
-            "Tactical Map Events": "Tactical Map in Background",
-            "Distance Measuring": "Tactical Map Popup Menu",
-            "Low G Habitable Worlds": "Race Comparison Window",
-          },
-          replaces: {
-            "Multiple Window Option": "Multiple Window Instances",
-          },
-        },
-        { version: "1.0.0", file: "v1.0.0/36-user-interface-updates.md" },
-      ],
-    },
-    {
-      id: "automatic-research",
-      title: "Automatic Research",
-      category: "setup",
-      history: [
-        {
-          version: "1.10.0", file: "v1.10.0/01-patch-notes.md",
-          sections: ["Automatic Research"],
-        },
-      ],
-    },
-    {
-      id: "text-summaries",
-      title: "Text Summaries",
-      category: "setup",
-      history: [{ version: "1.0.0", file: "v1.0.0/38-text-summaries.md" }],
-    },
+    { id: "new-game-setup", title: "New Game Setup", category: "setup", base: "v1.0.0/21-new-game-setup.md" },
+    { id: "nomenclature", title: "Nomenclature", category: "setup", base: "v1.0.0/05-nomenclature.md" },
+    { id: "user-interface", title: "User Interface Updates", category: "setup", base: "v1.0.0/36-user-interface-updates.md" },
+    { id: "automatic-research", title: "Automatic Research", category: "setup" }, // no base
+    { id: "text-summaries", title: "Text Summaries", category: "setup", base: "v1.0.0/38-text-summaries.md" },
   ],
+
+  sectionMap: {
+    // ── Planetary Installations ──
+    "Assign New Labs": { topic: "planetary-installations", after: "Conventional Industry" },
+    "Unused Construction Capacity": { topic: "planetary-installations", after: "Conventional Industry" },
+
+    // ── Shipyards ──
+    "Repair Yards": { topic: "shipyards", after: "Shipyard Worker Requirements" },
+    "Shipyard Repair Capacity Fix": { topic: "shipyards", after: "Shipyard Worker Requirements" },
+    "Commercial Shipyard Repair Fix": { topic: "shipyards", after: "Shipyard Worker Requirements" },
+    "Shipyard Class Lock Fix": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Instant Build to Carriers": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Shipyard Slipway Destruction Fix": { topic: "shipyards" },
+    "Fire Control Refit Fix": { topic: "shipyards" },
+    "Refit Overhead Display Fix": { topic: "shipyards" },
+    "Refit Ordnance Adjustment": { topic: "shipyards", kind: "bugfix" },
+    "Shipyard Scrap Fix": { topic: "shipyards" },
+    "Scrapping Wealth Fix": { topic: "shipyards" },
+    "Shipyard Retool Error Fix": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Ship Design Fixes": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Scrap and Refit Display": { topic: "shipyards", after: "Auto Refit Tasks", kind: "bugfix" },
+    "Prototypes": { topic: "shipyards", after: "Shipbuilding Changes", kind: "bugfix" },
+    "Class Deletion": { topic: "shipyards", after: "Shipyard Worker Requirements", kind: "bugfix" },
+    "Refit Dropdown": { topic: "shipyards", after: "Auto Refit Tasks", kind: "bugfix" },
+    "Refit Tasks": { topic: "shipyards", after: "Refit Size", kind: "bugfix" },
+
+    // ── Colonies ──
+    "Colony Governor Protection Fix": { topic: "colonies", after: "Population Capacity" },
+    "Colony Importance Error Fix": { topic: "colonies", after: "Population Capacity" },
+    "Colony Governor Event Fix": { topic: "colonies", after: "Population Capacity" },
+    "Sector Governor Bonus Fix": { topic: "colonies", after: "Population Capacity" },
+    "Surrender Strength Fix": { topic: "colonies", after: "Population Capacity" },
+    "Orbital Habitat Capacity Fix": { topic: "colonies", after: "Population Capacity" },
+    "Population Ground Units": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Change Capital Population": { topic: "colonies", after: "Population Capacity" },
+    "Resurrecting Population Fix": { topic: "colonies", after: "Population Capacity" },
+    "Gas Giant Colony Fix": { topic: "colonies", after: "Potential Colony Locations" },
+    "Delete Empty Populations Fix": { topic: "colonies", after: "Delete Empty Colonies" },
+    "Occupation Strength and Police Modifiers": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Population and Colony Fixes": { topic: "colonies", after: "Delete Empty Colonies" },
+
+    // ── Civilians ──
+    "Civilian Harvester Fix": { topic: "civilians", after: "Shipping Lines" },
+    "Civilian Shipping Fixes": { topic: "civilians", after: "Shipping Lines" },
+    "Civilian Colony Ships": { topic: "civilians", after: "Civilian Destinations", kind: "bugfix" },
+
+    // ── Wealth & Mining ──
+    "Sorium Depletion Event": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+
+    // ── Engines ──
+    "Engine Tech": { topic: "engines", after: "Engine Technology Progression", kind: "bugfix" },
+
+    // ── Ship Components ──
+    "Miscellaneous Components": { topic: "ship-components" },
+    "Fractional Capacitors": { topic: "ship-components" },
+    "Boat Bay Size Change": { topic: "ship-components" },
+    "Armour Repair in Hangars": { topic: "ship-components" },
+    "Automated Hangar Resupply": { topic: "ship-components" },
+    "Carrier Operations Bonus": { topic: "ship-components" },
+    "Distance Travelled": { topic: "ship-components" },
+    "Component Development Cost Changes": { topic: "ship-components" },
+    "Cloak Research Fix": { topic: "ship-components" },
+    "Boat Bay Design Fix": { topic: "ship-components" },
+    "Jump Drive Cost Fix": { topic: "ship-components" },
+    "Obsolete Component Button Fix": { topic: "ship-components" },
+    "Insufficient Power Alert": { topic: "ship-components" },
+    "Class Function Display": { topic: "ship-components" },
+    "Spinal Weapon Fix": { topic: "ship-components" },
+    "Negative Spare Berths Fix": { topic: "ship-components" },
+    "Single System Multiples Fix": { topic: "ship-components" },
+    "Spinal Weapon Type Fix": { topic: "ship-components" },
+    "C&C Disassembly Fix": [
+      { topic: "ship-components" },
+      { topic: "crew-and-commanders", after: "Command & Control Rules" },
+    ],
+    "Cloaking Device Size Fix": { topic: "ship-components" },
+    "Stabilisation Module Fix": { topic: "ship-components" },
+    "Hangar and Parasite Fix": { topic: "ship-components", after: "Fuel Storage Costs" },
+    "Fire Control Range": { topic: "ship-components", after: "Prototype Components", kind: "bugfix" },
+    "Conventional Reactor": { topic: "ship-components", after: "Fuel Storage Costs" },
+
+    // ── Sensors & Contacts ──
+    "Short Name Contact Grouping Fix": { topic: "sensors-and-contacts" },
+    "Buoy Orbit Fix": { topic: "sensors-and-contacts" },
+    "Tracking Station Range Fix": { topic: "sensors-and-contacts" },
+    "Tractor Link Fix": { topic: "sensors-and-contacts" },
+    "ELINT Passive Sensor Fix": { topic: "sensors-and-contacts", after: "Ground Forces Detection" },
+    "Passive Sensor Buoy Fix": { topic: "sensors-and-contacts", after: "Transponders" },
+    "DSTS Display": { topic: "sensors-and-contacts", after: "Ground Forces Detection", kind: "bugfix" },
+    "Buoy Design": { topic: "sensors-and-contacts", after: "Transponders", kind: "bugfix" },
+
+    // ── Direct Fire Weapons ──
+    "Reduced Shot Railguns": { topic: "direct-fire-weapons", after: "Gauss Cannon Research Changes" },
+    "Single Weapon Fire Controls": { topic: "direct-fire-weapons", after: "Turret Update" },
+    "Beam FC Option Fix": { topic: "direct-fire-weapons", after: "Turret Update" },
+    "Spinal Railgun Removal": { topic: "direct-fire-weapons", after: "Gauss Cannon Research Changes" },
+    "Zero Hit Chance Beam Fix": { topic: "direct-fire-weapons", after: "Weapon Failure" },
+    "Auto Assign FC ECCM Fix": { topic: "direct-fire-weapons", after: "Turret Update" },
+    "Railgun Point Defence": { topic: "direct-fire-weapons", after: "Gauss Cannon Research Changes" },
+    "Fire Control Fixes": [
+      { topic: "direct-fire-weapons", after: "Turret Update" },
+      { topic: "missiles-and-launchers", after: "Ship Ordnance Templates" },
+    ],
+    "Hit Chance Fix": [
+      { topic: "direct-fire-weapons", after: "Weapon Failure" },
+      { topic: "combat-mechanics", after: "Fire Delay" },
+    ],
+
+    // ── Missiles & Launchers ──
+    "Random Second Stage Targeting": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Missile Launcher Ammo Check Fix": { topic: "missiles-and-launchers", after: "Missile Launcher Changes" },
+    "Geosurvey Missile Option Fix": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Second-Stage Missile Magazine Fix": { topic: "missiles-and-launchers", after: "Magazine Design" },
+    "Missile Shipyard Target Fix": { topic: "missiles-and-launchers", after: "Launch Ready Ordnance" },
+    "Missile Project Creation Fix": { topic: "missiles-and-launchers", after: "Launch Ready Ordnance" },
+    "Missile PD Mode Fix": { topic: "missiles-and-launchers", after: "Tracking Time Bonus vs Missiles" },
+    "Missile FC AMM Launch": { topic: "missiles-and-launchers", after: "Launch Ready Ordnance" },
+    "Reduced-Size Missile Launcher Fix": { topic: "missiles-and-launchers", after: "Missile Launcher Changes" },
+
+    // ── Space Stations ──
+    "Station No Armour Fix": { topic: "space-stations" },
+    "Overhaul and Station Fixes": { topic: "space-stations" },
+
+    // ── Naval Organization ──
+    "Parasites on Transported Items": { topic: "naval-organization" },
+    "Required Power Display Fix": { topic: "naval-organization" },
+    "PPV Display": [
+      { topic: "naval-organization", after: "Naval Organization", kind: "bugfix" },
+      { topic: "user-interface", after: "Assigned Mothership Display", kind: "bugfix" },
+    ],
+
+    // ── Fleet Movement ──
+    "Sorium Gas Giant Survey Fix": { topic: "fleet-movement", after: "Standing Orders" },
+    "Set Specific Threat Fix": { topic: "fleet-movement", after: "Standing Orders" },
+    "Refuel Resupply Overhaul Standing Order Fix": { topic: "fleet-movement", after: "Standing Orders" },
+    "Fleet Window UI Additions": { topic: "fleet-movement", after: "Fleet Distance and Time" },
+    "Fleet Creation Location Fix": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Hide Fleets in Orbit": { topic: "fleet-movement", after: "Fleet Distance and Time" },
+    "Fleet Name in Events": { topic: "fleet-movement", after: "Fleet Distance and Time" },
+    "Fleet Escort Orders": { topic: "fleet-movement", after: "Standing Orders" },
+    "Move Fleet to Waypoint": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Load All Minerals Until Full": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Pickup Nearest Lifepod": { topic: "fleet-movement", after: "Standing Orders" },
+    "Deployment Exceeded Condition": [
+      { topic: "fleet-movement", after: "Standing Orders" },
+      { topic: "deployment-life-support", after: "Deployment Clock" },
+    ],
+    "Repeat Orders X Times": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Refuel, Resupply and Overhaul Conditional Order": { topic: "fleet-movement", after: "Standing Orders" },
+    "Survey Next Three Bodies or Locations": { topic: "fleet-movement", after: "Standing Orders" },
+    "Lagrange Point Order Display Fix": { topic: "fleet-movement", after: "Fleet Distance and Time" },
+    "Tug Fuel Consumption Fix": { topic: "fleet-movement", after: "Fleet Maximum Speed" },
+    "Wreck Salvage Display Fix": { topic: "fleet-movement", after: "Fleet Distance and Time" },
+    "Land on Assigned Mothership as Sub-Fleet": { topic: "fleet-movement", after: "Standing Orders" },
+    "Fleet Order Fixes": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Passenger Liner": { topic: "fleet-movement", after: "Fleet Maximum Speed", kind: "bugfix" },
+    "Colony Fleets": { topic: "fleet-movement", after: "Standing Orders", kind: "bugfix" },
+    "Fleet Window": { topic: "fleet-movement", after: "Fleet Distance and Time", kind: "bugfix" },
+    "Order Delay": { topic: "fleet-movement", after: "Fleet Order Templates" },
+
+    // ── Logistics ──
+    "Resupply from Stationary Supply Ship": { topic: "logistics", after: "Resupply Changes" },
+    "SM Partial Refuel Fix": { topic: "logistics", after: "Load & Unload Cargo" },
+    "Underway Replenishment Reset Fix": { topic: "logistics", after: "Resupply Changes" },
+    "Unload Max Items Fix": { topic: "logistics", after: "Load & Unload Cargo" },
+    "Cargo Shuttle Maintenance Fix": { topic: "logistics", after: "Resupply Changes" },
+    "Fighter Cargo Loading": { topic: "logistics", after: "Load & Unload Cargo" },
+    "Underway Replenishment": { topic: "logistics", after: "Resupply Changes", kind: "bugfix" },
+    "Load Orders": { topic: "logistics", after: "Load & Unload Cargo", kind: "bugfix" },
+
+    // ── Crew & Commanders ──
+    "Removal of Ground Combat Command Bonus": { topic: "crew-and-commanders", after: "Ground Commander Bonuses" },
+    "Commander Abbreviations": { topic: "crew-and-commanders", after: "Ship Commander Rank" },
+    "Destroyed Colony Commander Fix": { topic: "crew-and-commanders", after: "Commander Careers" },
+    "Commander Search Fix": { topic: "crew-and-commanders", after: "Auto-Assignment of Naval Commanders" },
+    "Automated Assignment for Colony Governors": { topic: "crew-and-commanders", after: "Academy Commandants" },
+    "Commander Assignment Priority": { topic: "crew-and-commanders", after: "Auto-Assignment of Naval Commanders" },
+    "Admin Command Deletion Fix": { topic: "crew-and-commanders", after: "Commander Careers" },
+    "Commander Fixes": { topic: "crew-and-commanders", after: "Academy Commandants" },
+    "Rank Requirements": { topic: "crew-and-commanders", after: "Academy Commandants", kind: "bugfix" },
+    "SM Add Commanders": { topic: "crew-and-commanders", after: "Commander Careers", kind: "bugfix" },
+
+    // ── Maintenance ──
+    "Commercial Overhaul Penalty Fix": { topic: "maintenance", after: "Abandon Overhaul" },
+    "Overhaul No Maintenance Fix": { topic: "maintenance", after: "Abandon Overhaul" },
+    "Maintenance Explosion Fix": { topic: "maintenance", after: "New Maintenance Rules" },
+    "Overhaul Fleet Position Fix": { topic: "maintenance", after: "Abandon Overhaul" },
+    "Maintenance Report Additions": { topic: "maintenance", after: "Abandon Overhaul" },
+    "Maintenance Failure": { topic: "maintenance", after: "New Maintenance Rules", kind: "bugfix" },
+
+    // ── Deployment & Life Support ──
+    "Deployment Fix": { topic: "deployment-life-support", after: "Deployment Clock" },
+
+    // ── Combat Mechanics ──
+    "Fire At Will": { topic: "combat-mechanics", after: "Automated Weapon Assignment" },
+    "Fire Delay for Point Defence": { topic: "combat-mechanics", after: "Fire Delay" },
+    "Area PD Multi-Fire Fix": { topic: "combat-mechanics", after: "Point Defence" },
+    "Area PD Impact Display Fix": { topic: "combat-mechanics", after: "Point Defence" },
+    "Fire Delay Fix": { topic: "combat-mechanics", after: "Fire Delay" },
+    "Hit Chance Display Fix": { topic: "combat-mechanics", after: "Fire Delay" },
+
+    // ── Ground Forces ──
+    "Ordinal Numbers for Ground Formation Templates": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Unit Series Creation Fix": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Unit Series Deletion Fix": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Force Mothership Display": { topic: "ground-forces", after: "Ground Formation Element Transfer UI" },
+    "Parasite Ship Measurement Fix": { topic: "ground-forces", after: "Ground Formation Element Transfer UI" },
+    "Ground Forces Replacements": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Force Queue Fix": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Inherent Supply Fire Rate Fix": { topic: "ground-forces", after: "Ground Force Logistics" },
+    "Ground Unit Capability Fix": { topic: "ground-forces", after: "Ground Forces: Part 1 - Unit Design" },
+    "Inherent Supply Replenishment Fix": { topic: "ground-forces", after: "Ground Force Logistics" },
+    "Auto Queue Ground Construction": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Survey Speed Fix": { topic: "ground-forces", after: "Ground-based Geological Survey" },
+    "Queued Ground Formation Training Tasks": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Formation Fixes": { topic: "ground-forces", after: "Ground Formation Element Transfer UI" },
+    "Ground Combat Fixes": [
+      { topic: "ground-forces", after: "Ground Force Fortification" },
+      { topic: "ground-combat", after: "Base Ground Combat Rules" },
+      { topic: "ground-support-fighters", after: "Ground-based AA Fire" },
+    ],
+    "Formation Templates": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates", kind: "bugfix" },
+    "New Formations": { topic: "ground-forces", after: "Setting Ground Formation Support", kind: "bugfix" },
+    "Ground Force Capture": { topic: "ground-forces", after: "Genetically Enhanced Soldiers", kind: "bugfix" },
+    "Civilian Ground Forces Toggle": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+
+    // ── Ground Combat ──
+    "Ground Combat Intel Fix": { topic: "ground-combat", after: "Base Ground Combat Rules" },
+
+    // ── Ground Support Fighters ──
+    "STO Fighter Fix": [
+      { topic: "ground-support-fighters", after: "Ground-based AA Fire" },
+      { topic: "surface-to-orbit", after: "Surface-to-Orbit Weapons" },
+    ],
+    "Foreign Fighter Ground Support Fix": { topic: "ground-support-fighters", after: "Ground-based AA Fire" },
+
+    // ── Surface-to-Orbit ──
+    "STO Target Dropdown Fix": { topic: "surface-to-orbit", after: "Surface-to-Orbit Weapons" },
+    "STO Weapon Error Fix": { topic: "surface-to-orbit", after: "Surface-to-Orbit Weapons" },
+    "STO Availability": { topic: "surface-to-orbit", after: "Surface-to-Orbit Weapons", kind: "bugfix" },
+
+    // ── Boarding Combat ──
+    "Boarding Hostile Act Fix": { topic: "boarding-combat" },
+    "Captured Ship Class Lock Fix": { topic: "boarding-combat" },
+
+    // ── Damage Control ──
+    "Repair Damage Control Fix": { topic: "damage-control" },
+
+    // ── Terraforming ──
+    "Change to Greenhouse Gas and Dust Mechanics": { topic: "terraforming", after: "Terraforming Update" },
+    "Terraforming Fix": { topic: "terraforming", after: "Terraforming Update" },
+
+    // ── Ruins ──
+    "SM Random Ruins Fix": { topic: "ruins", after: "Chance of Ruins" },
+    "Ancient Constructs": { topic: "ruins", after: "Ruins in Sol" },
+    "Anomalies": { topic: "ruins", after: "Chance of Ruins", kind: "bugfix" },
+
+    // ── Star System Design ──
+    "Constellation Names": { topic: "star-system-design", after: "Star System Design Part 1: Modifying Stars" },
+    "Minerva Trojan Naming Fix": { topic: "star-system-design", after: "Star System Design Part 6: Adding Moons and Lagrange Points" },
+    "Trojan Asteroid Orbit Fix": { topic: "star-system-design", after: "Star System Design Part 6: Adding Moons and Lagrange Points" },
+    "Sector Assignment Fix": { topic: "star-system-design", after: "Star System Design Part 1: Modifying Stars" },
+    "Small Comet Orbit Fix": { topic: "star-system-design", after: "Star System Design Part 5: Adding Planets, Comets and Asteroid Belts" },
+    "Moon Numbering Fix": { topic: "star-system-design", after: "Star System Design Part 6: Adding Moons and Lagrange Points" },
+    "Dust and Radiation Editing": { topic: "star-system-design", after: "Star System Design Part 3: Modifying System Bodies" },
+    "Random Stars Fix": { topic: "star-system-design", after: "Star System Design Part 2: Adding Stars" },
+    "Sector and System Fixes": { topic: "star-system-design", after: "Star System Design Part 4: Deleting Stars and System Bodies" },
+    "Random Stars": { topic: "star-system-design", after: "Star System Design Part 2: Adding Stars", kind: "bugfix" },
+    "Planet Minerals": { topic: "star-system-design", after: "Star System Design Part 5: Adding Planets, Comets and Asteroid Belts", kind: "bugfix" },
+
+    // ── Aether Rifts ──
+    "NPR Generation of Spoilers": { topic: "aether-rifts" },
+    "Aether Rift Save Fix": { topic: "aether-rifts" },
+    "Aether Rifts": { topic: "aether-rifts" },
+
+    // ── Alien Races ──
+    "NPR Random Ship Names": { topic: "alien-races", after: "Human NPRs" },
+    "Fighter Search and Destroy Fix": { topic: "alien-races", after: "Human NPRs" },
+    "AI Point Defence Estimate Fix": { topic: "alien-races", after: "Human NPRs" },
+    "AI Ram Fix": { topic: "alien-races", after: "Human NPRs" },
+    "SM Race Customization": { topic: "alien-races", after: "New Spoiler Race" },
+    "AI System Withdrawal": { topic: "alien-races", after: "Human NPRs" },
+    "NPR Active Sensors": { topic: "alien-races", after: "Human NPRs" },
+    "Rakhas Generation Change": { topic: "alien-races", after: "New Spoiler Race" },
+    "AI Repair Function Fix": { topic: "alien-races", after: "Human NPRs" },
+    "NPR Design Variety": { topic: "alien-races", after: "Human NPRs" },
+    "Alien Class Renaming": { topic: "alien-races", after: "New Spoiler Race", kind: "bugfix" },
+
+    // ── Medals & Achievements ──
+    "Export Medals": { topic: "medals-and-achievements", after: "Ship Achievements" },
+    "Medal Save Fix": { topic: "medals-and-achievements", after: "Manual Medal Awards" },
+    "Medal Deletion Fix": { topic: "medals-and-achievements", after: "Manual Medal Awards" },
+    "Medal Import": { topic: "medals-and-achievements", after: "Ship Achievements" },
+
+    // ── New Game Setup ──
+    "Death Spiral Luna Fix": { topic: "new-game-setup" },
+    "Earth Death Spiral": { topic: "new-game-setup" },
+    "New Game Exit Fix": { topic: "new-game-setup" },
+
+    // ── User Interface ──
+    "Import and Export Event Colours": { topic: "user-interface", after: "Survey Site List" },
+    "Disassemble Refresh": { topic: "user-interface", after: "Survey Site List" },
+    "Low Gravity Habitable World Display Fix": { topic: "user-interface", after: "Race Comparison Window" },
+    "Survey Percentage Display Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Waypoint Name Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Paused Research Change": { topic: "user-interface", after: "Survey Site List" },
+    "Obsolete Class Copy Fix": { topic: "user-interface", after: "Save Button" },
+    "Mass Driver Error Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Tactical Map Events": { topic: "user-interface", after: "Tactical Map in Background" },
+    "Cycle Previous Locations": { topic: "user-interface", after: "Tactical Map Popup Menu" },
+    "Popup Menu Fix": { topic: "user-interface", after: "Tactical Map Popup Menu" },
+    "Species Temperature Display Fix": { topic: "user-interface", after: "Race Comparison Window" },
+    "SM Fill Ship Fix": { topic: "user-interface", after: "Save Button" },
+    "Galactic Map Position Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Turret Research Project Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Non-Active Research Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Alt-F4 Hot Key Fix": { topic: "user-interface", after: "Survey Site List" },
+    "Hot Keys": { topic: "user-interface", after: "Survey Site List" },
+    "Faster Save": { topic: "user-interface", after: "Survey Site List" },
+    "UI Display Improvements": { topic: "user-interface", after: "Linked Windows" },
+    "Select Name": { topic: "user-interface", after: "Save Button", kind: "bugfix" },
+    "Task Completion Time": { topic: "user-interface", kind: "bugfix" },
+    "Fighter Construction Event": { topic: "user-interface" },
+    "New Events": { topic: "user-interface" },
+    "Distance Measuring": { topic: "user-interface", after: "Tactical Map Popup Menu" },
+    "Multiple Window Option": { topic: "user-interface", replaces: "Multiple Window Instances" },
+    "Low G Habitable Worlds": { topic: "user-interface", after: "Race Comparison Window" },
+
+    // ── Automatic Research ──
+    "Automatic Research": { topic: "automatic-research" },
+
+    // ═══════════════════════════════════════════
+    // v2.0.0 sections
+    // ═══════════════════════════════════════════
+
+    // ── v2 Planetary Installations ──
+    "Scrapping Installations": { topic: "planetary-installations", after: "Planetary Installations" },
+
+    // ── v2 Colonies ──
+    "Colony Cost Projection": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Deep Space Populations": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Population Changes and Ark Modules": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Automated Refuel Option for Colonies": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Stockpile Transfers": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Additional Conventional Systems": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+
+    // ── v2 Civilians ──
+    "Civilian Contracts": { topic: "civilians", after: "C# Civilian Mining Check" },
+    "Highlighted Civilian Mining Colonies": { topic: "civilians", after: "C# Civilian Mining Check" },
+    "Commercial Jumps": { topic: "civilians", after: "C# Civilian Mining Check" },
+
+    // ── v2 Wealth & Mining ──
+    "Wealth History": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+
+    // ── v2 Engines ──
+    "Minimum Jump Engine Size": { topic: "engines", after: "Engine Technology Progression" },
+    "Engine Technology Naming": { topic: "engines", after: "Engine Technology Progression" },
+
+    // ── v2 Ship Components ──
+    "Automatic Bridge": { topic: "ship-components", after: "Researching Prototypes" },
+    "Small Craft Refuelling System": { topic: "ship-components", after: "Researching Prototypes" },
+    "Hull Numbers": { topic: "ship-components", after: "Researching Prototypes" },
+    "Class Design Highlighting": { topic: "ship-components", after: "Researching Prototypes" },
+    "Cargo Holds Required": { topic: "ship-components", after: "Researching Prototypes" },
+    "Mobile Repair Bays": { topic: "ship-components", after: "Researching Prototypes" },
+
+    // ── v2 Sensors & Contacts ──
+    "Re-Establish Ship Contact": { topic: "sensors-and-contacts", after: "Transponders" },
+
+    // ── v2 Space Stations ──
+    "Changes to Commercial Hangar Repairs": { topic: "space-stations", after: "Orbital Habitats" },
+
+    // ── v2 Naval Organization ──
+    "Sub Fleet View": { topic: "naval-organization", after: "Assignment of Ships to Populations" },
+    "Squadrons": { topic: "naval-organization", after: "Assignment of Ships to Populations" },
+    "Admin Command Required Ranks": { topic: "naval-organization", after: "Assignment of Ships to Populations" },
+    "Automated Assignment for Naval Admin Commands": { topic: "naval-organization", after: "Assignment of Ships to Populations" },
+
+    // ── v2 Fleet Movement ──
+    "Fleet Active Sensor Button": { topic: "fleet-movement", after: "Survey Speed" },
+    "Overhauls and Movement Orders": [
+      { topic: "fleet-movement", after: "Survey Speed" },
+      { topic: "maintenance", after: "Abandon Overhaul" },
+    ],
+    "Jump Shock": { topic: "fleet-movement", after: "Survey Speed" },
+    "Default Movement Actions": { topic: "fleet-movement", after: "Survey Speed" },
+    "Fleet Interception Interrupt": { topic: "fleet-movement", after: "Survey Speed" },
+    "Launch All": { topic: "fleet-movement", after: "Survey Speed" },
+    "Contacts as Move Destination": { topic: "fleet-movement", after: "Survey Speed" },
+    "Fleet Raise Shields Button": { topic: "fleet-movement", after: "Survey Speed" },
+    "Transfer Fleet to Alien Race": { topic: "fleet-movement", after: "Survey Speed" },
+
+    // ── v2 Logistics ──
+    "Loss of Cargo": { topic: "logistics", after: "Logistics Reports" },
+    "Logistics and Cargo Handling": { topic: "logistics", after: "Logistics Reports" },
+    "Non-Combat Resupply": { topic: "logistics", after: "Logistics Reports" },
+    "Cargo Transfers": { topic: "logistics", after: "Logistics Reports" },
+
+    // ── v2 Crew & Commanders ──
+    "Academy Commandant Display": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Retired/Dead Commanders": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Changes to Crew Training / Fleet Training": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Academy Training Rates": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "On-Demand Promotions": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Commander Bonuses": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Starting Commanders": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "No Officers Option": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Limited Research Administration": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Reduced Crew for Short Deployments": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+
+    // ── v2 Combat Mechanics ──
+    "Collateral Damage": { topic: "combat-mechanics", after: "Point Defence Fire Control" },
+    "Cloaks and Combat": { topic: "combat-mechanics", after: "Point Defence Fire Control" },
+    "Cease Fire All Ships": { topic: "combat-mechanics", after: "Point Defence Fire Control" },
+    "One Second Sub Pulses": { topic: "combat-mechanics", after: "Point Defence Fire Control" },
+    "Detailed Combat Events": { topic: "combat-mechanics", after: "Point Defence Fire Control" },
+    "Fleet Point Defence Summary": { topic: "combat-mechanics", after: "Point Defence Fire Control" },
+
+    // ── v2 Ground Forces ──
+    "Rename Alien Ground Units": { topic: "ground-forces", after: "Genetically Enhanced Soldiers" },
+    "Scrapping Ground Unit Formations": { topic: "ground-forces", after: "Genetically Enhanced Soldiers" },
+
+    // ── v2 Ground Combat ──
+    "Dominant Terrain Change": { topic: "ground-combat", after: "Ground Combat Events" },
+    "New Planetary Terrains": { topic: "ground-combat", after: "Ground Combat Events" },
+    "Combat Capabilities vs Planetary Terrain": { topic: "ground-combat", after: "Ground Combat Events" },
+
+    // ── v2 Surface-to-Orbit ──
+    "STO Targeting": { topic: "surface-to-orbit", after: "Planetary Bombardment" },
+
+    // ── v2 Systems & Bodies ──
+    "Twin Planets": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Eccentric Orbits": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Gas Giant Effects": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Water without Atmosphere": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Hydrosphere Changes": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Sol Bodies with Water": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Black Holes": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Mass Modifier for Jump Points": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+
+    // ── v2 Terraforming ──
+    "Terraforming Installations Update": { topic: "terraforming", after: "Terraforming Update" },
+
+    // ── v2 Ruins ──
+    "Alien Artifacts": { topic: "ruins", after: "Ruins in Sol" },
+
+    // ── v2 Star System Design ──
+    "Regenerate Jump Points and Minerals": { topic: "star-system-design", after: "Star System Design Part 7: Deleting Asteroids and Lagrange Points" },
+
+    // ── v2 Aether Rifts ──
+    "Aether Raiders": { topic: "aether-rifts" },
+
+    // ── v2 Diplomacy ──
+    "Hostility Modifier": { topic: "diplomacy", after: "Diplomacy Part 8: Diplomatic Ships" },
+
+    // ── v2 Alien Races ──
+    "Starting Tech Points for NPRs and Spoilers": { topic: "alien-races", after: "New Species Attributes" },
+    "AI Threat Assessment Changes": { topic: "alien-races", after: "New Species Attributes" },
+    "System AI Update": { topic: "alien-races", after: "New Species Attributes" },
+    "AI Ground Offensives": { topic: "alien-races", after: "New Species Attributes" },
+
+    // ── v2 New Game Setup ──
+    "Minimum Player Systems for Spoilers": { topic: "new-game-setup", after: "Starting Financial Centres" },
+
+    // ── v2 User Interface ──
+    "Events for All Player Races on Tactical Map": { topic: "user-interface", after: "Survey Site List" },
+    "Single Orbit View": { topic: "user-interface", after: "Survey Site List" },
+    "Largest Planet Selected": { topic: "user-interface", after: "Survey Site List" },
+    "Galactic Map Restricted Distance": { topic: "user-interface", after: "Survey Site List" },
+    "Bug Fixes": { topic: "user-interface", after: "Survey Site List" },
+    "Minor Changes": { topic: "user-interface", after: "Survey Site List" },
+  },
+
+  versionTopics: {
+    "2.0.0": [
+      "aether-rifts", "alien-races", "civilians", "colonies",
+      "combat-mechanics", "crew-and-commanders", "diplomacy",
+      "engines", "fleet-movement", "ground-combat", "ground-forces",
+      "logistics", "naval-organization", "new-game-setup",
+      "planetary-installations", "ruins", "sensors-and-contacts",
+      "ship-components", "space-stations", "star-system-design",
+      "surface-to-orbit", "systems-and-bodies", "terraforming",
+      "user-interface", "wealth-and-mining",
+    ],
+    "1.13.0": [
+      "aether-rifts", "alien-races", "boarding-combat", "civilians",
+      "colonies", "combat-mechanics", "crew-and-commanders", "direct-fire-weapons",
+      "fleet-movement", "ground-forces", "ground-support-fighters", "maintenance",
+      "medals-and-achievements", "missiles-and-launchers", "new-game-setup",
+      "sensors-and-contacts", "ship-components", "shipyards",
+      "star-system-design", "surface-to-orbit", "user-interface",
+    ],
+    "1.12.0": [
+      "alien-races", "colonies", "combat-mechanics", "crew-and-commanders",
+      "damage-control", "deployment-life-support", "direct-fire-weapons",
+      "fleet-movement", "ground-combat", "ground-forces", "ground-support-fighters",
+      "logistics", "maintenance", "medals-and-achievements", "missiles-and-launchers",
+      "naval-organization", "new-game-setup", "planetary-installations", "ruins",
+      "sensors-and-contacts", "ship-components", "shipyards", "space-stations",
+      "star-system-design", "terraforming", "user-interface",
+    ],
+    "1.11.0": [
+      "aether-rifts", "alien-races", "combat-mechanics", "direct-fire-weapons",
+      "missiles-and-launchers", "ship-components", "shipyards", "user-interface",
+    ],
+    "1.10.0": [
+      "aether-rifts", "alien-races", "automatic-research", "civilians",
+      "colonies", "combat-mechanics", "crew-and-commanders", "deployment-life-support",
+      "direct-fire-weapons", "fleet-movement", "ground-forces", "maintenance",
+      "medals-and-achievements", "missiles-and-launchers", "planetary-installations",
+      "ruins", "ship-components", "shipyards", "space-stations",
+      "star-system-design", "terraforming", "user-interface", "wealth-and-mining",
+    ],
+    "1.9.5": [
+      "alien-races", "civilians", "crew-and-commanders", "engines",
+      "fleet-movement", "ground-combat", "ground-forces", "ground-support-fighters",
+      "logistics", "maintenance", "naval-organization", "ruins",
+      "sensors-and-contacts", "ship-components", "shipyards",
+      "star-system-design", "surface-to-orbit", "user-interface",
+    ],
+    "1.9.0": [
+      "fleet-movement", "ground-forces", "ship-components", "user-interface",
+    ],
+  },
 };

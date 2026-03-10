@@ -1,11 +1,9 @@
-import { useEffect, useState, useMemo, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { type DocsManifest, type Topic, type HistoryEntry } from '../manifest'
+import { type DocsManifest, type Topic } from '../manifest'
 import type { ViewMode, ActiveSelection } from '../App'
 import { parseSections, type MarkdownSection } from '../utils/extractSections'
 import { mergeTopicContent, type MergedSection } from '../utils/mergeContent'
-
-const DOCS_BASE = '/docs/'
 
 function slugify(text: string): string {
   return text
@@ -25,53 +23,93 @@ interface Props {
   manifest: DocsManifest
   view: ViewMode
   selection: ActiveSelection | null
-  onSelectEntry: (topic: Topic, entry?: HistoryEntry) => void
+  changelogCache: Record<string, MarkdownSection[]>
+  cacheReady: boolean
+  onSelectEntry: (topic: Topic, version?: string) => void
 }
 
-interface LoadedEntry {
-  entry: HistoryEntry
-  sections: MarkdownSection[]
-  error?: string
-}
-
-export default function ContentArea({ manifest, view, selection, onSelectEntry }: Props) {
-  const [entries, setEntries] = useState<LoadedEntry[]>([])
+export default function ContentArea({ manifest, view, selection, changelogCache, cacheReady, onSelectEntry }: Props) {
+  const [mergedSections, setMergedSections] = useState<MergedSection[] | null>(null)
+  const [changelogSections, setChangelogSections] = useState<MarkdownSection[]>([])
   const [loading, setLoading] = useState(false)
   const scrollRef = useRef<HTMLElement>(null)
 
-  // Load history entries
+  // Load and merge content
   useEffect(() => {
     if (!selection) return
-
-    const toLoad = view === 'current'
-      ? selection.topic.history
-      : [selection.entry]
-
+    if (view === 'current' && !cacheReady) return // wait for changelog cache
+    const { topic, version } = selection
     let cancelled = false
     setLoading(true)
 
-    Promise.all(
-      toLoad.map(entry =>
-        fetch(DOCS_BASE + entry.file)
-          .then(r => {
-            if (!r.ok) throw new Error(`HTTP ${r.status}`)
-            return r.text()
+    if (view === 'current') {
+      // Load base file (if any), then combine with cached changelogs
+      const loadBase = topic.base
+        ? fetch('/docs/' + topic.base)
+            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
+            .then(raw => parseSections(raw))
+            .catch(() => [] as MarkdownSection[])
+        : Promise.resolve([] as MarkdownSection[])
+
+      loadBase.then(baseSections => {
+        if (cancelled) return
+
+        // Filter cached changelog sections for this topic
+        const versionSections = manifest.versions
+          .filter(v => v.file && changelogCache[v.version])
+          .map(v => ({
+            version: v.version,
+            sections: changelogCache[v.version],
+          }))
+          .reverse() // oldest first for merge algorithm
+
+        const merged = mergeTopicContent(
+          topic.id,
+          baseSections,
+          '1.0.0',
+          versionSections,
+          manifest.sectionMap,
+          topic.deprecated,
+        )
+
+        setMergedSections(merged)
+        setChangelogSections([])
+        setLoading(false)
+      })
+    } else {
+      // Changelog view - show single version's sections for this topic
+      if (version === '1.0.0' && topic.base) {
+        fetch('/docs/' + topic.base)
+          .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
+          .then(raw => {
+            if (cancelled) return
+            setChangelogSections(parseSections(raw))
+            setMergedSections(null)
+            setLoading(false)
           })
-          .then(raw => ({
-            entry,
-            sections: parseSections(raw, entry.sections, entry.deprecated),
-          } as LoadedEntry))
-          .catch(err => ({ entry, sections: [], error: err.message } as LoadedEntry))
-      )
-    ).then(results => {
-      if (!cancelled) {
-        setEntries(results)
+          .catch(() => {
+            if (cancelled) return
+            setChangelogSections([])
+            setMergedSections(null)
+            setLoading(false)
+          })
+      } else {
+        // Filter cached sections by topic
+        const allSections = changelogCache[version] || []
+        const filtered = allSections.filter(s => {
+          const entry = manifest.sectionMap[s.title]
+          if (!entry) return false
+          if (Array.isArray(entry)) return entry.some(r => r.topic === topic.id)
+          return entry.topic === topic.id
+        })
+        setChangelogSections(filtered)
+        setMergedSections(null)
         setLoading(false)
       }
-    })
+    }
 
     return () => { cancelled = true }
-  }, [selection, view])
+  }, [selection, view, changelogCache, cacheReady])
 
   // Scroll to section anchor after content loads, or to top
   useEffect(() => {
@@ -90,14 +128,7 @@ export default function ContentArea({ manifest, view, selection, onSelectEntry }
     } else {
       scrollRef.current.scrollTo(0, 0)
     }
-  }, [loading, entries])
-
-  // Merge entries for "current" view
-  const merged = useMemo(() => {
-    if (view !== 'current' || entries.length === 0) return null
-    if (entries.some(e => e.error)) return null
-    return mergeTopicContent(entries.map(e => ({ entry: e.entry, sections: e.sections })))
-  }, [entries, view])
+  }, [loading, mergedSections, changelogSections])
 
   const handleSectionClick = useCallback((title: string) => {
     const slug = slugify(title)
@@ -115,7 +146,12 @@ export default function ContentArea({ manifest, view, selection, onSelectEntry }
 
   const { topic } = selection
   const cat = manifest.categories.find(c => c.id === topic.category)
-  const contributingVersions = topic.history.map(h => h.version)
+  const contributingVersions = manifest.versions
+    .filter(v => {
+      if (v.version === '1.0.0') return !!topic.base
+      return manifest.versionTopics[v.version]?.includes(topic.id)
+    })
+    .map(v => v.version)
 
   return (
     <main ref={scrollRef} className="flex-1 overflow-y-auto scroll-smooth">
@@ -152,12 +188,12 @@ export default function ContentArea({ manifest, view, selection, onSelectEntry }
         {loading && <p className="text-text-muted">Loading...</p>}
 
         {/* CURRENT VIEW: Merged content */}
-        {!loading && view === 'current' && merged && (() => {
-          const hasMisc = merged.some(s => s.isMisc)
-          const firstMiscIdx = merged.findIndex(s => s.isMisc)
+        {!loading && view === 'current' && mergedSections && (() => {
+          const hasMisc = mergedSections.some(s => s.isMisc)
+          const firstMiscIdx = mergedSections.findIndex(s => s.isMisc)
           return (
             <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-              {merged.map((sec, i) => (
+              {mergedSections.map((sec, i) => (
                 <div key={`${sec.title}-${i}`}>
                   {hasMisc && i === firstMiscIdx && (
                     <div className="flex items-center gap-3 mt-12 mb-4">
@@ -175,36 +211,14 @@ export default function ContentArea({ manifest, view, selection, onSelectEntry }
           )
         })()}
 
-        {/* CURRENT VIEW: Fallback if merge failed (errors) */}
-        {!loading && view === 'current' && !merged && entries.length > 0 && (
+        {/* CHANGELOG VIEW: Single version's sections for this topic */}
+        {!loading && view === 'changelog' && changelogSections.length > 0 && (
           <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-            {entries.map(({ entry, sections, error }) => (
-              <div key={entry.version}>
-                {error && (
-                  <p className="text-danger">Could not load <code>{entry.file}</code>: {error}</p>
-                )}
-                {sections.map((sec, si) => (
-                  <ReactMarkdown key={si}>{sec.content}</ReactMarkdown>
-                ))}
-              </div>
+            {changelogSections.map((sec, si) => (
+              <ReactMarkdown key={si}>{sec.content}</ReactMarkdown>
             ))}
           </div>
         )}
-
-        {/* CHANGELOG VIEW: Single entry rendering */}
-        {!loading && view === 'changelog' && entries.map(({ entry, sections, error }) => (
-          <section key={entry.version}>
-            <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-              {error ? (
-                <p className="text-danger">Could not load <code>{entry.file}</code>: {error}</p>
-              ) : (
-                sections.map((sec, si) => (
-                  <ReactMarkdown key={si}>{sec.content}</ReactMarkdown>
-                ))
-              )}
-            </div>
-          </section>
-        ))}
       </div>
     </main>
   )

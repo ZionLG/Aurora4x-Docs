@@ -1,5 +1,7 @@
-import type { HistoryEntry } from '../manifest'
+import type { SectionRoute } from '../manifest'
 import type { MarkdownSection } from './extractSections'
+
+export type { SectionRoute }
 
 export interface MergedSection {
   title: string
@@ -21,76 +23,171 @@ export interface MergedSection {
 }
 
 /**
- * Merges all loaded history entries for a topic into a single unified document.
+ * Resolves a sectionMap entry for a given section title and topic ID.
+ * Returns the matching SectionRoute if found, or undefined.
+ */
+function lookupRoutes(
+  sectionMap: Record<string, SectionRoute | SectionRoute[]>,
+  title: string,
+  topicId: string,
+): SectionRoute | undefined {
+  const entry = sectionMap[title]
+  if (!entry) return undefined
+  if (Array.isArray(entry)) {
+    return entry.find(r => r.topic === topicId)
+  }
+  return entry.topic === topicId ? entry : undefined
+}
+
+/**
+ * Auto-detect section kind from its title.
+ * Titles containing "Fix" are treated as bugfixes; everything else is an update.
+ */
+function detectKind(title: string): 'update' | 'bugfix' {
+  return /fix/i.test(title) ? 'bugfix' : 'update'
+}
+
+/**
+ * Merges a topic's base document with all changelog sections routed to it.
  *
- * - Entries are ordered newest-first (matching manifest convention).
- * - The oldest entry is the "base" document.
- * - Newer entries either:
- *   1. Replace a base section (via `replaces` mapping or exact title match)
- *   2. Insert after a base section (via `insertAfter` mapping)
- *   3. Appear as highlighted patches at the top (no mapping)
+ * - baseSections come from the topic's v1.0.0 (or other base) document.
+ * - versionSections are changelog files parsed into sections, ordered oldest-first.
+ * - sectionMap is the flat routing map from the manifest that directs changelog
+ *   sections to topics with optional positioning (after/replaces).
+ * - deprecated marks base sections that have been superseded.
  *
- * Deprecated base sections (no replacement) stay collapsed.
+ * For topics with a base document, changelog sections either:
+ *   1. Replace a base section (via `replaces` or exact title match)
+ *   2. Insert after a base section (via `after`)
+ *   3. Appear as misc patches at the end
+ *
+ * For topics WITHOUT a base document, all matched sections are collected in order.
  */
 export function mergeTopicContent(
-  entries: Array<{
-    entry: HistoryEntry
-    sections: MarkdownSection[]
-  }>,
+  topicId: string,
+  baseSections: MarkdownSection[],
+  baseVersion: string,
+  versionSections: Array<{ version: string; sections: MarkdownSection[] }>,
+  sectionMap: Record<string, SectionRoute | SectionRoute[]>,
+  deprecated?: Record<string, string>,
 ): MergedSection[] {
-  if (entries.length === 0) return []
+  const hasBase = baseSections.length > 0
 
-  if (entries.length === 1) {
-    return entries[0].sections.map(s => ({
-      title: s.title,
-      content: s.content,
-      version: entries[0].entry.version,
-      deprecatedBy: s.deprecatedBy,
-    }))
+  // --- Topics with NO base: collect all matched sections in order ---
+  if (!hasBase) {
+    const result: MergedSection[] = []
+
+    for (const { version, sections } of versionSections) {
+      for (const section of sections) {
+        const route = lookupRoutes(sectionMap, section.title, topicId)
+        if (!route) continue
+
+        const kind = route.kind ?? detectKind(section.title)
+
+        // Check if we already have a section with the same title (for replacement)
+        const existingIdx = result.findIndex(
+          m => m.title.toLowerCase() === section.title.toLowerCase(),
+        )
+
+        if (existingIdx !== -1) {
+          const old = result[existingIdx]
+          result[existingIdx] = {
+            title: section.title,
+            content: section.content,
+            version,
+            isPatch: true,
+            kind,
+            previousVersions: [
+              ...(old.previousVersions || []),
+              { version: old.version, content: old.content },
+            ],
+          }
+        } else {
+          result.push({
+            title: section.title,
+            content: section.content,
+            version,
+            isPatch: true,
+            kind,
+          })
+        }
+      }
+    }
+
+    return result
   }
 
-  // Base = oldest (last), patches = everything else newest-first
-  const base = entries[entries.length - 1]
-  const patches = entries.slice(0, -1)
+  // --- Topics WITH a base document ---
 
-  // Build merged array from base sections
-  const merged: MergedSection[] = base.sections.map(s => ({
+  // Build deprecated lookup (case-insensitive)
+  const depLower = deprecated
+    ? new Map(Object.entries(deprecated).map(([k, v]) => [k.toLowerCase(), v]))
+    : new Map<string, string>()
+
+  // Start with base sections, marking deprecated ones
+  const merged: MergedSection[] = baseSections.map(s => ({
     title: s.title,
     content: s.content,
-    version: base.entry.version,
-    deprecatedBy: s.deprecatedBy,
+    version: baseVersion,
+    deprecatedBy: depLower.get(s.title.toLowerCase()),
   }))
 
   const miscPatches: MergedSection[] = []
 
-  // Apply patches oldest-first so newer versions override older ones
-  for (const patch of [...patches].reverse()) {
-    for (const section of patch.sections) {
-      // 1. Check explicit `replaces` mapping
-      const replacesTitle = patch.entry.replaces?.[section.title]
-      let targetIdx = -1
+  // Apply changelog sections oldest-first so newer versions override older ones
+  for (const { version, sections } of versionSections) {
+    for (const section of sections) {
+      // 1. Look up explicit route in sectionMap
+      const route = lookupRoutes(sectionMap, section.title, topicId)
 
-      if (replacesTitle) {
-        targetIdx = merged.findIndex(
-          m => m.title.toLowerCase() === replacesTitle.toLowerCase(),
+      // 2. If no explicit route, try auto-match by title
+      const autoMatchIdx = !route
+        ? merged.findIndex(
+            m => m.title.toLowerCase() === section.title.toLowerCase(),
+          )
+        : -1
+
+      // If no route and no auto-match, this section is not for this topic — skip
+      if (!route && autoMatchIdx === -1) continue
+
+      const kind = route?.kind ?? detectKind(section.title)
+
+      // --- Route with `replaces`: find target and replace it ---
+      if (route?.replaces) {
+        const targetIdx = merged.findIndex(
+          m => m.title.toLowerCase() === route.replaces!.toLowerCase(),
         )
+        if (targetIdx !== -1) {
+          const old = merged[targetIdx]
+          merged[targetIdx] = {
+            title: section.title,
+            content: section.content,
+            version,
+            kind,
+            previousVersions: [
+              ...(old.previousVersions || []),
+              { version: old.version, content: old.content },
+            ],
+          }
+          continue
+        }
       }
 
-      // 2. Check exact title match
-      if (targetIdx === -1) {
-        targetIdx = merged.findIndex(
-          m => m.title.toLowerCase() === section.title.toLowerCase(),
-        )
-      }
+      // --- Exact title match in merged: replace it ---
+      const titleMatchIdx =
+        autoMatchIdx !== -1
+          ? autoMatchIdx
+          : merged.findIndex(
+              m => m.title.toLowerCase() === section.title.toLowerCase(),
+            )
 
-      if (targetIdx !== -1) {
-        // Replace: current content becomes history, new content takes over
-        const old = merged[targetIdx]
-        merged[targetIdx] = {
+      if (titleMatchIdx !== -1) {
+        const old = merged[titleMatchIdx]
+        merged[titleMatchIdx] = {
           title: section.title,
           content: section.content,
-          version: patch.entry.version,
-          kind: patch.entry.kind,
+          version,
+          kind,
           previousVersions: [
             ...(old.previousVersions || []),
             { version: old.version, content: old.content },
@@ -99,15 +196,13 @@ export function mergeTopicContent(
         continue
       }
 
-      // 3. Check `insertAfter` mapping
-      const insertAfterTitle = patch.entry.insertAfter?.[section.title]
-      if (insertAfterTitle) {
-        // Find the LAST occurrence of insertAfter target or any previously inserted
-        // section that also targeted the same base section (to maintain order)
+      // --- Route with `after`: insert after that section ---
+      if (route?.after) {
+        // Find the LAST occurrence of the after target, then skip past
+        // consecutive isPatch entries to maintain insertion order.
         let afterIdx = -1
         for (let j = merged.length - 1; j >= 0; j--) {
-          if (merged[j].title.toLowerCase() === insertAfterTitle.toLowerCase()) {
-            // Find the last consecutive inserted patch after this base section
+          if (merged[j].title.toLowerCase() === route.after.toLowerCase()) {
             let insertPos = j + 1
             while (insertPos < merged.length && merged[insertPos].isPatch) {
               insertPos++
@@ -120,22 +215,22 @@ export function mergeTopicContent(
           merged.splice(afterIdx, 0, {
             title: section.title,
             content: section.content,
-            version: patch.entry.version,
+            version,
             isPatch: true,
-            kind: patch.entry.kind,
+            kind,
           })
           continue
         }
       }
 
-      // 4. No match — miscellaneous patch, grouped at end
+      // --- Route exists but no after/replaces and no title match: misc patch ---
       miscPatches.push({
         title: section.title,
         content: section.content,
-        version: patch.entry.version,
+        version,
         isPatch: true,
         isMisc: true,
-        kind: patch.entry.kind,
+        kind,
       })
     }
   }
