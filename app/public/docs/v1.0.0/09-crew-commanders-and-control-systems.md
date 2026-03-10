@@ -252,13 +252,17 @@ Ground force commanders have a much greater variety of bonuses in C# Aurora. The
 *   Production (PROD): Increases the output of construction modules in ground units
     
 *   Xenoarchaeology (XEN): Increases the chance of successfully recovering abandoned installations
-    
 
-In addition to the above, each ground commander has a ‘Ground Combat Command’ rating, which represents the size of the formation he can effectively command. This rating is given a relatively high score for promotional purposes so officers with high command ratings will tend to progress though the ranks.
+
+Finally, ground forces officers have a Ground Combat Training bonus, which affects morale.
+
+**Ground Combat Command**
+
+Each ground commander has a ‘Ground Combat Command’ rating, which represents the size of the formation he can effectively command. This rating is given a relatively high score for promotional purposes so officers with high command ratings will tend to progress though the ranks.
 
 If an officer is commanding a formation that is larger than his command rating, the effectiveness of his other bonuses will be reduced by (command rating / formation size). For example, an officer with a 20% defence bonus and a command rating of 5000 is commanding a regiment with a size of 7000. The defence bonus is reduced to 14.3%. In addition, if the largest HQ in a formation has a rating less than the formation size, the effectiveness of the formation commander’s bonuses will be reduced by (HQ rating / formation size). These penalties (command rating and HQ rating) are cumulative. Note that if all HQ capacity in a formation is eliminated, no commander bonuses will apply.
 
-Finally, ground forces officers have a Ground Combat Training bonus, which affects morale. Each construction phase, any formation element with less than 100 morale will regain that morale at a rate of 100 per year, plus the commander training bonus (so a 20% bonus would increase morale recovery to 120 per year). Formation elements can continue to improve morale above 100, using the following process:
+**Ground Combat Training** Each construction phase, any formation element with less than 100 morale will regain that morale at a rate of 100 per year, plus the commander training bonus (so a 20% bonus would increase morale recovery to 120 per year). Formation elements can continue to improve morale above 100, using the following process:
 
 1.  The training bonus percentage (after any reduction for command rating and HQ rating penalties) is converted into a morale bonus at 1% = 1 morale point (so 10% training bonus = 10 morale bonus).
     

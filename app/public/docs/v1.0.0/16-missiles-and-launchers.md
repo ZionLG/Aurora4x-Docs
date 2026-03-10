@@ -32,17 +32,20 @@ These changes are intended to:
 The following changes will be made to missiles in C# Aurora:
 
 1.  Missile Armour has been removed.
-    
-2.  Laser warheads have been removed (I may add these back at some point in the future).
-    
-3.  ECM is now a fixed 0.25 MSP for missiles. The ‘Missile ECM’ tech line has been removed and if a missile is equipped with ECM it will have the same ECM capability as the current racial ECM technology, The missile design will maintain that ECM capability and will not be upgraded if the racial tech improves. For each level of ECM, the missile will be 10% harder to hit with energy weapons and will reduce the lock of missile fire controls by 10%. This can be negated by linking a similar level of ECCM to the point defence fire controls.
-    
-4.  Missiles can be equipped with ECCM, which is a fixed 0.25 MSP. The missile ECCM level will be equal to the current racial ECCM tech. In C# Aurora, the ECCM of missile fire controls will only affect the range at which the fire control can lock on. The ECCM of the missile itself will affect the chance of the missile striking its target, if that target has active ECM.
-    
-5.  Any missile sensor (active, thermal, EM or Geo) has to be a minimum of 0.25 MSP or it will have no effect.
-    
-6.  Missile series have been removed. Instead, there will be more detailed class loadout options.
-    
+
+2.  Any missile sensor (active, thermal, EM or Geo) has to be a minimum of 0.25 MSP or it will have no effect.
+
+3.  Missile series have been removed. Instead, there will be more detailed class loadout options.
+
+
+**Missile Electronic Warfare**
+
+1.  Laser warheads have been removed (I may add these back at some point in the future).
+
+2.  ECM is now a fixed 0.25 MSP for missiles. The ‘Missile ECM’ tech line has been removed and if a missile is equipped with ECM it will have the same ECM capability as the current racial ECM technology, The missile design will maintain that ECM capability and will not be upgraded if the racial tech improves. For each level of ECM, the missile will be 10% harder to hit with energy weapons and will reduce the lock of missile fire controls by 10%. This can be negated by linking a similar level of ECCM to the point defence fire controls.
+
+3.  Missiles can be equipped with ECCM, which is a fixed 0.25 MSP. The missile ECCM level will be equal to the current racial ECCM tech. In C# Aurora, the ECCM of missile fire controls will only affect the range at which the fire control can lock on. The ECCM of the missile itself will affect the chance of the missile striking its target, if that target has active ECM.
+
 
 These changes will make electronic warfare much more important for missile combat. Missiles with ECM will become harder to shoot down and missiles without ECCM will have a reduced chance to hit targets equipped with ECM. Anti-missile missiles will either be less effective, or larger, vs ECM-protected missiles, while anti-ship missiles are likely to increase in size (and therefore reduce salvo sizes). Large volleys of size-1 missiles will be less effective in a heavy EW environment and no longer have a huge advantage in launching speed (due to the missile launcher changes).
 

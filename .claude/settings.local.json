@@ -9,7 +9,8 @@
       "Bash(npm install:*)",
       "Bash(npm create:*)",
       "Bash(rm:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(grep:*)"
     ]
   }
 }

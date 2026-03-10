@@ -15,6 +15,8 @@ export interface Topic {
   title: string;
   category: string;
   base?: string;
+  /** Base sections superseded by a later version. Maps section title → version string. */
+  deprecated?: Record<string, string>;
 }
 
 export interface SectionRoute {
@@ -34,6 +36,17 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
+    { version: "2.5.1", label: "v2.5.1 — Minor Update", date: "2024-01-25", file: "v2.5.1/01-patch-notes.md" },
+    { version: "2.5.0", label: "v2.5.0 — Bug Fixes", date: "2023-12-24", file: "v2.5.0/01-patch-notes.md" },
+    { version: "2.4.0", label: "v2.4.0 — Major Update", date: "2023-12-18", file: "v2.4.0/01-patch-notes.md" },
+    { version: "2.3.1", label: "v2.3.1 — Bug Fixes", date: "2023-12-02", file: "v2.3.1/01-patch-notes.md" },
+    { version: "2.3.0", label: "v2.3.0 — Minor Update", date: "2023-12-01", file: "v2.3.0/01-patch-notes.md" },
+    { version: "2.2.1", label: "v2.2.1 — Bug Fixes", date: "2023-11-27", file: "v2.2.1/01-patch-notes.md" },
+    { version: "2.2.0", label: "v2.2.0 — Major Update", date: "2023-11-26", file: "v2.2.0/01-patch-notes.md" },
+    { version: "2.1.1", label: "v2.1.1 — Bug Fixes & Features", date: "2022-09-05", file: "v2.1.1/01-patch-notes.md" },
+    { version: "2.1.0", label: "v2.1.0 — Minor Update", date: "2022-08-15", file: "v2.1.0/01-patch-notes.md" },
+    { version: "2.0.3", label: "v2.0.3 — Bug Fixes", date: "2022-08-14", file: "v2.0.3/01-patch-notes.md" },
+    { version: "2.0.2", label: "v2.0.2 — Bug Fixes", date: "2022-08-07", file: "v2.0.2/01-patch-notes.md" },
     { version: "2.0.0", label: "v2.0.0 — Major Update", date: "2022-08-06", file: "v2.0.0/01-patch-notes.md" },
     { version: "1.13.0", label: "v1.13.0 — Major Update", date: "2021-04-21", file: "v1.13.0/01-patch-notes.md" },
     { version: "1.12.0", label: "v1.12.0 — Major Update", date: "2020-10-11", file: "v1.12.0/01-patch-notes.md" },
@@ -68,20 +81,20 @@ export const manifest: DocsManifest = {
     { id: "ship-components", title: "Ship Components", category: "ships", base: "v1.0.0/15-ship-components.md" },
     { id: "sensors-and-contacts", title: "Sensors & Contacts", category: "ships", base: "v1.0.0/14-sensors-and-contacts.md" },
     { id: "direct-fire-weapons", title: "Direct Fire Weapons & Power Plants", category: "ships", base: "v1.0.0/13-direct-fire-weapons-and-power-plants.md" },
-    { id: "missiles-and-launchers", title: "Missiles & Launchers", category: "ships", base: "v1.0.0/16-missiles-and-launchers.md" },
+    { id: "missiles-and-launchers", title: "Missiles & Launchers", category: "ships", base: "v1.0.0/16-missiles-and-launchers.md", deprecated: { "Missile Electronic Warfare": "2.2.0" } },
     { id: "space-stations", title: "Space Stations & Orbital Habitats", category: "ships", base: "v1.0.0/23-space-stations-and-orbital-habitats.md" },
 
     // Fleet & Operations
     { id: "naval-organization", title: "Naval Organization", category: "fleet", base: "v1.0.0/08-naval-organization.md" },
     { id: "fleet-movement", title: "Fleet Movement & Orders", category: "fleet", base: "v1.0.0/22-fleet-movement-and-orders.md" },
-    { id: "logistics", title: "Logistics", category: "fleet", base: "v1.0.0/04-logistics.md" },
-    { id: "crew-and-commanders", title: "Crew, Commanders & Control Systems", category: "fleet", base: "v1.0.0/09-crew-commanders-and-control-systems.md" },
+    { id: "logistics", title: "Logistics", category: "fleet", base: "v1.0.0/04-logistics.md", deprecated: { "Resupply Requirements": "1.12.0" } },
+    { id: "crew-and-commanders", title: "Crew, Commanders & Control Systems", category: "fleet", base: "v1.0.0/09-crew-commanders-and-control-systems.md", deprecated: { "Ground Combat Command": "1.13.0" } },
     { id: "maintenance", title: "Maintenance", category: "fleet", base: "v1.0.0/10-maintenance.md" },
     { id: "deployment-life-support", title: "Deployment & Life Support", category: "fleet", base: "v1.0.0/17-deployment-overcrowding-under-manning-and-life-support-failures.md" },
 
     // Combat
-    { id: "combat-mechanics", title: "Combat Setup & Mechanics", category: "combat", base: "v1.0.0/24-combat-setup-and-mechanics.md" },
-    { id: "ground-forces", title: "Ground Forces", category: "combat", base: "v1.0.0/19-ground-forces.md" },
+    { id: "combat-mechanics", title: "Combat Setup & Mechanics", category: "combat", base: "v1.0.0/24-combat-setup-and-mechanics.md", deprecated: { "Point Defence Fire Control": "2.2.0", "ECCM Auto-Assignment": "2.2.0" } },
+    { id: "ground-forces", title: "Ground Forces", category: "combat", base: "v1.0.0/19-ground-forces.md", deprecated: { "Logistics Module Specifications": "2.2.0", "Ground Survey Potential Tiers": "2.2.0" } },
     { id: "ground-combat", title: "Ground Combat", category: "combat", base: "v1.0.0/26-ground-combat.md" },
     { id: "ground-support-fighters", title: "Ground Support Fighters", category: "combat", base: "v1.0.0/27-ground-support-fighters.md" },
     { id: "surface-to-orbit", title: "Surface-to-Orbit Combat", category: "combat", base: "v1.0.0/29-surface-to-orbit-combat.md" },
@@ -275,13 +288,13 @@ export const manifest: DocsManifest = {
     "SM Partial Refuel Fix": { topic: "logistics", after: "Load & Unload Cargo" },
     "Underway Replenishment Reset Fix": { topic: "logistics", after: "Resupply Changes" },
     "Unload Max Items Fix": { topic: "logistics", after: "Load & Unload Cargo" },
-    "Cargo Shuttle Maintenance Fix": { topic: "logistics", after: "Resupply Changes" },
+    "Cargo Shuttle Maintenance Fix": { topic: "logistics", after: "Resupply Requirements" },
     "Fighter Cargo Loading": { topic: "logistics", after: "Load & Unload Cargo" },
     "Underway Replenishment": { topic: "logistics", after: "Resupply Changes", kind: "bugfix" },
     "Load Orders": { topic: "logistics", after: "Load & Unload Cargo", kind: "bugfix" },
 
     // ── Crew & Commanders ──
-    "Removal of Ground Combat Command Bonus": { topic: "crew-and-commanders", after: "Ground Commander Bonuses" },
+    "Removal of Ground Combat Command Bonus": { topic: "crew-and-commanders", after: "Ground Combat Command" },
     "Commander Abbreviations": { topic: "crew-and-commanders", after: "Ship Commander Rank" },
     "Destroyed Colony Commander Fix": { topic: "crew-and-commanders", after: "Commander Careers" },
     "Commander Search Fix": { topic: "crew-and-commanders", after: "Auto-Assignment of Naval Commanders" },
@@ -581,9 +594,179 @@ export const manifest: DocsManifest = {
     "Galactic Map Restricted Distance": { topic: "user-interface", after: "Survey Site List" },
     "Bug Fixes": { topic: "user-interface", after: "Survey Site List" },
     "Minor Changes": { topic: "user-interface", after: "Survey Site List" },
+
+    // ── v2.0.2 ──
+    "v2.0.2 Bug Fixes": { topic: "user-interface", after: "Minor Changes", kind: "bugfix" },
+    "v2.0.2 Minor Change": { topic: "user-interface", after: "Minor Changes" },
+
+    // ── v2.0.3 ──
+    "v2.0.3 Bug Fixes": { topic: "user-interface", after: "v2.0.2 Minor Change", kind: "bugfix" },
+
+    // ── v2.1.0 ──
+    "v2.1.0 Bug Fixes": { topic: "user-interface", after: "v2.0.3 Bug Fixes", kind: "bugfix" },
+    "v2.1.0 Minor Changes": { topic: "user-interface", after: "v2.1.0 Bug Fixes" },
+    "Automated Parasite Assignment": { topic: "shipyards", after: "Shipbuilding Changes" },
+
+    // ── v2.1.1 ──
+    "v2.1.1 Bug Fixes": { topic: "user-interface", after: "v2.1.0 Minor Changes", kind: "bugfix" },
+    "v2.1.1 Minor Changes": { topic: "user-interface", after: "v2.1.1 Bug Fixes" },
+    "Civilian Repairs": { topic: "civilians", after: "Shipping Lines" },
+    "Avoidance of Closed Universe": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+
+    // ═══════════════════════════════════════════
+    // v2.2.0 sections
+    // ═══════════════════════════════════════════
+
+    // ── v2.2.0 Generic Patches ──
+    "v2.2.0 Bug Fixes": { topic: "user-interface", after: "v2.1.1 Minor Changes", kind: "bugfix" },
+    "v2.2.0 Minor Changes": { topic: "user-interface", after: "v2.2.0 Bug Fixes" },
+
+    // ── v2.2.0 Systems & Bodies ──
+    "Radiation Reduction": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+    "Supernovae": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+
+    // ── v2.2.0 Ground Forces ──
+    "Decontamination": { topic: "ground-forces", after: "Genetically Enhanced Soldiers" },
+    "Ground Formation Bonuses": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Copy and Update Template": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Creating Formations from Elements": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Construction Change": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+    "Ground Force Organizations": { topic: "ground-forces", after: "Genetically Enhanced Soldiers" },
+
+    // ── v2.2.0 Ship Components ──
+    "Ship Scrapped Event": { topic: "ship-components", after: "Fuel Storage Costs" },
+    "Ship Module Changes": { topic: "ship-components", after: "Researching Prototypes" },
+    "Class Default Ground Forces": { topic: "ship-components", after: "Researching Prototypes" },
+    "Ship History": { topic: "ship-components", after: "Researching Prototypes" },
+    "Ship Class Templates": { topic: "ship-components", after: "Researching Prototypes" },
+
+    // ── v2.2.0 Fleet Movement ──
+    "Fleet Deletion": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Load Assigned Ground Templates": { topic: "fleet-movement", after: "Fleet Order Templates" },
+
+    // ── v2.2.0 Logistics ──
+    "New Logistics Orders": { topic: "logistics", after: "Logistics Reports" },
+
+    // ── v2.2.0 Shipyards ──
+    "Instant Build Parasites": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Instant Build Naming": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Refit Costs": { topic: "shipyards", after: "Auto Refit Tasks" },
+    "Instant Build Ship Class Templates": { topic: "shipyards", after: "Shipbuilding Changes" },
+
+    // ── v2.2.0 Wealth & Mining ──
+    "Empire Mining Production": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+
+    // ── v2.2.0 Combat Mechanics ──
+    "Combat Comparison": { topic: "combat-mechanics", after: "Fire Delay" },
+    "Assign # Weapons": { topic: "combat-mechanics", after: "Fire Delay" },
+    "Point Defence Changes": { topic: "combat-mechanics", replaces: "Point Defence" },
+    "New Point Defence Mechanics": { topic: "combat-mechanics", replaces: "Final Defensive Fire Changes" },
+    "Designated Targets": { topic: "combat-mechanics", after: "Fire Delay" },
+
+    // ── v2.2.0 Direct Fire Weapons ──
+    "Particle Beam Size": { topic: "direct-fire-weapons", after: "Turret Update" },
+    "Plasma Carronade Update": { topic: "direct-fire-weapons", replaces: "Plasma Carronades" },
+
+    // ── v2.2.0 Sensors & Contacts ──
+    "Change to Tractor Rules": { topic: "sensors-and-contacts", after: "Transponders" },
+    "Wreck Detection and Alien Salvage Events": { topic: "sensors-and-contacts", after: "Ground Forces Detection" },
+    "ECCM Change": { topic: "sensors-and-contacts", after: "Transponders" },
+    "Electronic Warfare Changes": { topic: "sensors-and-contacts", after: "Transponders" },
+
+    // ── v2.2.0 Missiles & Launchers ──
+    "Fractional Missile Warheads": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "New Missile Guidance Options": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Active Terminal Guidance (ATG)": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Missile Retargeting Capability": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Laser Warheads": [
+      { topic: "missiles-and-launchers", after: "Missile Updates" },
+      { topic: "direct-fire-weapons", after: "Gauss Cannon Research Changes" },
+    ],
+    "Missile Decoys": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Multiple Warhead Missiles": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Minimum AMM Range": { topic: "missiles-and-launchers", after: "Launch Ready Ordnance" },
+    "Decoy Missiles": { topic: "missiles-and-launchers", after: "Missile Updates" },
+
+    // ── v2.2.0 Damage Control ──
+    "Damage Control Changes": { topic: "damage-control" },
+
+    // ── v2.2.0 Star System Design ──
+    "Create Habitable System": { topic: "star-system-design", after: "Star System Design Part 3: Modifying System Bodies" },
+
+    // ── v2.2.0 Alien Races ──
+    "Raider, Swarm and Invader Start Times": { topic: "alien-races", after: "New Species Attributes" },
+    "NPR Ship Design Changes": { topic: "alien-races", after: "Human NPRs" },
+    "Genetic Modification": { topic: "alien-races", after: "New Species Attributes" },
+
+    // ── v2.2.0 Ground Combat ──
+    "Ground Combat Research Costs": { topic: "ground-combat", after: "Base Ground Combat Rules" },
+
+    // ── v2.2.0 Colonies ──
+    "Change to Governor Assignment for Populations": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+
+    // ── v2.2.0 Aether Rifts ──
+    "Aether Gate Disruption": { topic: "aether-rifts" },
+
+    // ── v2.2.0 User Interface ──
+    "Priority Order": { topic: "user-interface", after: "Survey Site List" },
+    "Limited Events On Load": { topic: "user-interface", after: "Survey Site List" },
+
+    // ── v2.2.1 ──
+    "v2.2.1 Bug Fixes": { topic: "user-interface", after: "v2.2.0 Minor Changes", kind: "bugfix" },
+    "v2.2.1 Minor Changes": { topic: "user-interface", after: "v2.2.1 Bug Fixes" },
+
+    // ── v2.3.0 ──
+    "v2.3.0 Bug Fixes": { topic: "user-interface", after: "v2.2.1 Minor Changes", kind: "bugfix" },
+    "v2.3.0 Minor Changes": { topic: "user-interface", after: "v2.3.0 Bug Fixes" },
+    "Expanded Refit Costs": { topic: "shipyards", after: "Auto Refit Tasks" },
+    "Rename NPR": { topic: "alien-races", after: "Human NPRs" },
+
+    // ── v2.3.1 ──
+    "v2.3.1 Bug Fixes": { topic: "user-interface", after: "v2.3.0 Minor Changes", kind: "bugfix" },
+
+    // ── v2.4.0 ──
+    "v2.4.0 Bug Fixes": { topic: "user-interface", after: "v2.3.1 Bug Fixes", kind: "bugfix" },
+    "v2.4.0 Minor Changes": { topic: "user-interface", after: "v2.4.0 Bug Fixes" },
+    "Minor Races": { topic: "alien-races", after: "New Species Attributes" },
+    "New Naming Themes": { topic: "nomenclature", after: "Nomenclature" },
+    "New Commander Name Themes": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "New Rank Structures": { topic: "crew-and-commanders", after: "Change Scientist Research Field" },
+    "Reduced-Size Missile Launchers": { topic: "missiles-and-launchers", replaces: "Missile Launcher Changes" },
+    "Jump Drive Changes": { topic: "ship-components", after: "Researching Prototypes" },
+    "Known Stars Update": { topic: "new-game-setup", after: "Starting Financial Centres" },
+    "Customised NPRs": { topic: "alien-races", after: "New Species Attributes" },
+
+    // ── v2.5.0 ──
+    "v2.5.0 Bug Fixes": { topic: "user-interface", after: "v2.4.0 Minor Changes", kind: "bugfix" },
+    "v2.5.0 Minor Changes": { topic: "user-interface", after: "v2.5.0 Bug Fixes" },
+
+    // ── v2.5.1 ──
+    "v2.5.1 Bug Fixes": { topic: "user-interface", after: "v2.5.0 Minor Changes", kind: "bugfix" },
+    "v2.5.1 Minor Changes": { topic: "user-interface", after: "v2.5.1 Bug Fixes" },
+    "Highlighted Research Field": { topic: "user-interface", after: "Survey Site List" },
+    "Mineral Search Window Updates": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+    "New Waypoint Options": { topic: "fleet-movement", after: "Fleet Order Templates" },
   },
 
   versionTopics: {
+    "2.5.1": ["fleet-movement", "user-interface", "wealth-and-mining"],
+    "2.5.0": ["user-interface"],
+    "2.4.0": ["alien-races", "crew-and-commanders", "missiles-and-launchers", "new-game-setup", "nomenclature", "ship-components", "user-interface"],
+    "2.3.1": ["user-interface"],
+    "2.3.0": ["alien-races", "shipyards", "user-interface"],
+    "2.2.1": ["user-interface"],
+    "2.2.0": [
+      "aether-rifts", "alien-races", "colonies", "combat-mechanics",
+      "damage-control", "direct-fire-weapons", "fleet-movement",
+      "ground-combat", "ground-forces", "logistics",
+      "missiles-and-launchers", "sensors-and-contacts", "ship-components",
+      "shipyards", "star-system-design", "systems-and-bodies",
+      "user-interface", "wealth-and-mining",
+    ],
+    "2.1.1": ["civilians", "systems-and-bodies", "user-interface"],
+    "2.1.0": ["shipyards", "user-interface"],
+    "2.0.3": ["user-interface"],
+    "2.0.2": ["user-interface"],
     "2.0.0": [
       "aether-rifts", "alien-races", "civilians", "colonies",
       "combat-mechanics", "crew-and-commanders", "diplomacy",

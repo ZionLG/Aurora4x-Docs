@@ -56,9 +56,6 @@ C# has a more intelligent auto-assignment for weapons and fire controls. You can
     
 *   More powerful beam weapons are assigned first
     
-*   ECCM is assigned as available with the priority order of offensive launcher, PD launcher, offensive beam, PD beam
-    
-
 The assignment code will take account of damage to the ship and adjust accordingly. In most cases, the above will be sufficient (and will be used for NPR designs). For more bespoke and unusual player ships, some tweaking may be necessary.
 
 As a simple example, the escort cruiser below has six twin turrets and three fire controls. Clicking the button assigns two turrets to each fire control and sets the point defence to final fire.
@@ -92,6 +89,12 @@ An extreme example!
 ![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/800042eccda67ad2df8c18573291dd11e0ca5c98.jpeg)
 
   
+
+**ECCM Auto-Assignment**
+
+ECCM is assigned as available with the priority order of offensive launcher, PD launcher, offensive beam, PD beam.
+
+
 
 **Fire Delay**
 

@@ -145,11 +145,15 @@ This will affect troop transport in a different way and that will be covered in 
 
 **Resupply Changes**
 
-In C# Aurora, resupply is no longer instant and ships without cargo shuttles cannot exchange maintenance supplies in space. A ship can only resupply at a population with a spaceport, a cargo shuttle station or at least one maintenance facility, or from a ship with cargo shuttles.
+In C# Aurora, resupply is no longer instant and ships without cargo shuttles cannot exchange maintenance supplies in space.
 
 Maintenance supplies are transferred at the rate of 10 per hour, multiplied by the number of cargo shuttle bays and the racial shuttle technology. Spaceports, cargo shuttle stations and maintenance facilities can resupply an unlimited number of ships simultaneously. However, the ships being resupplied must be stationary.
 
 Resupply order types will be adjusted to deal with the new requirements. Maintenance supplies can be transferred by supply ships during each movement increment as time passes until the target ship has reached capacity (in the same way as underway replenishment of fuel).
+
+**Resupply Requirements**
+
+A ship can only resupply at a population with a spaceport, a cargo shuttle station or at least one maintenance facility, or from a ship with cargo shuttles.
 
   
 
