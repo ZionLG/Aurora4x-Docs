@@ -36,6 +36,7 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
+    { version: "2.6.0", label: "v2.6.0 — Major Update", date: "2025-09-06", file: "v2.6.0/01-patch-notes.md" },
     { version: "2.5.1", label: "v2.5.1 — Minor Update", date: "2024-01-25", file: "v2.5.1/01-patch-notes.md" },
     { version: "2.5.0", label: "v2.5.0 — Bug Fixes", date: "2023-12-24", file: "v2.5.0/01-patch-notes.md" },
     { version: "2.4.0", label: "v2.4.0 — Major Update", date: "2023-12-18", file: "v2.4.0/01-patch-notes.md" },
@@ -746,9 +747,160 @@ export const manifest: DocsManifest = {
     "Highlighted Research Field": { topic: "user-interface", after: "Survey Site List" },
     "Mineral Search Window Updates": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
     "New Waypoint Options": { topic: "fleet-movement", after: "Fleet Order Templates" },
+
+    // ═══════════════════════════════════════════
+    // v2.6.0 sections
+    // ═══════════════════════════════════════════
+
+    // ── v2.6.0 Generic Patches ──
+    "v2.6.0 Bug Fixes": { topic: "user-interface", after: "v2.5.1 Minor Changes", kind: "bugfix" },
+    "v2.6.0 Minor Changes": { topic: "user-interface", after: "v2.6.0 Bug Fixes" },
+
+    // ── v2.6.0 User Interface ──
+    "Galactic Map Right-click Menu Update": { topic: "user-interface", after: "Tactical Map Popup Menu" },
+    "Galactic Map Search": { topic: "user-interface", after: "Survey Site List" },
+    "Galactic Map Sidebar Update": { topic: "user-interface", after: "Survey Site List" },
+    "Research Project Display Update": { topic: "user-interface", after: "Survey Site List" },
+    "Scrap All Components": { topic: "user-interface", after: "Survey Site List" },
+    "Galactic Map Screenshot": { topic: "user-interface", after: "Survey Site List" },
+    "Alien Race Territory Display": { topic: "user-interface", after: "Survey Site List" },
+    "Galactic Map Current Contacts": { topic: "user-interface", after: "Survey Site List" },
+    "Galactic Map Class/Admin Display": { topic: "user-interface", after: "Survey Site List" },
+    "Galactic Map Zoom": { topic: "user-interface", after: "Survey Site List" },
+
+    // ── v2.6.0 Missiles & Launchers ──
+    "Updated Missile Salvo Display": { topic: "missiles-and-launchers", after: "Ship Ordnance Templates" },
+    "Variable-Range Laser Torpedoes": { topic: "missiles-and-launchers", after: "Missile Updates" },
+    "Missile To-Hit Summary": { topic: "missiles-and-launchers", after: "Ship Ordnance Templates" },
+    "Researching Alien Missiles": { topic: "missiles-and-launchers", after: "Missile Updates" },
+
+    // ── v2.6.0 Fleet Movement ──
+    "Join Fleet and Begin Overhaul": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Auto Route Update": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Maximum Geological Survey Radius": { topic: "fleet-movement", after: "Survey Speed" },
+    "Fleet Treeview Suffixes": { topic: "fleet-movement", after: "Fleet Distance and Time" },
+    "Transfer Fuel and Return": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Minimum Refuel Orders": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Changes to Standing and Conditional Orders": { topic: "fleet-movement", after: "Standing Orders" },
+    "Standing & Conditional Order Templates": { topic: "fleet-movement", after: "Standing Orders" },
+    "Fleet Waypoints": { topic: "fleet-movement", after: "Fleet Order Templates" },
+    "Replenish At Colony Standing Orders": { topic: "fleet-movement", after: "Standing Orders" },
+    "Replenish from Ship Standing Order": { topic: "fleet-movement", after: "Standing Orders" },
+    "Standing Orders for Detachments": { topic: "fleet-movement", after: "Standing Orders" },
+    "Ignore Standing and Conditional Orders": { topic: "fleet-movement", after: "Standing Orders" },
+
+    // ── v2.6.0 Maintenance ──
+    "Maintenance Failure Event": { topic: "maintenance", after: "New Maintenance Rules" },
+
+    // ── v2.6.0 Direct Fire Weapons ──
+    "More Granular Beam Fire Controls": { topic: "direct-fire-weapons", after: "Turret Update" },
+    "Spinal Particle Beam": { topic: "direct-fire-weapons", after: "Gauss Cannon Research Changes" },
+
+    // ── v2.6.0 Sensors & Contacts ──
+    "Contact Updates in Alien-Controlled Space": { topic: "sensors-and-contacts", after: "Transponders" },
+    "Change to ECM": { topic: "sensors-and-contacts", after: "Transponders" },
+    "Change to Sensor Jammers": { topic: "sensors-and-contacts", after: "Transponders" },
+
+    // ── v2.6.0 Boarding Combat ──
+    "Boarding Swarm No Longer Possible": { topic: "boarding-combat" },
+    "Captured Ship Penalties": { topic: "boarding-combat" },
+    "Updated POW Mechanics": { topic: "boarding-combat" },
+
+    // ── v2.6.0 Ship Components ──
+    "Boat Bay Update": { topic: "ship-components", after: "Fuel Storage Costs" },
+    "Larger Parasites": { topic: "ship-components", after: "Fuel Storage Costs" },
+    "Converting Alien Components": { topic: "ship-components", after: "Researching Prototypes" },
+    "Researching Alien Components": { topic: "ship-components", after: "Researching Prototypes" },
+    "Crew Quarter Design Efficiency": { topic: "ship-components", after: "Researching Prototypes" },
+    "Class Component Summary": { topic: "ship-components", after: "Researching Prototypes" },
+    "Class Design UI Update": { topic: "ship-components", after: "Researching Prototypes" },
+    "Hull Categories": { topic: "ship-components", after: "Researching Prototypes" },
+
+    // ── v2.6.0 Logistics ──
+    "Scrap Components in Cargo Hold": { topic: "logistics", after: "Logistics Reports" },
+    "Refuelling Changes": { topic: "logistics", after: "Logistics Reports" },
+
+    // ── v2.6.0 Nomenclature ──
+    "Chat GPT Naming Themes": { topic: "nomenclature", after: "Nomenclature" },
+
+    // ── v2.6.0 Colonies ──
+    "Removal of Low Gravity Infrastructure": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Population Fuel and Maintenance Warnings": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Population Transfer": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+
+    // ── v2.6.0 Systems & Bodies ──
+    "Random Wrecks": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+
+    // ── v2.6.0 Alien Races ──
+    "Alien Race Portraits": { topic: "alien-races", after: "New Species Attributes" },
+    "Alien Sensor Update": { topic: "alien-races", after: "Human NPRs" },
+    "Multi-System Starting NPRs": { topic: "alien-races", after: "New Species Attributes" },
+    "Post-Start Multi-System NPRs": { topic: "alien-races", after: "New Species Attributes" },
+    "Empire Radius for Customised NPRs": { topic: "alien-races", after: "New Species Attributes" },
+    "NPR Fighters and Carriers": { topic: "alien-races", after: "Human NPRs" },
+    "Carriers for Customised NPRs": { topic: "alien-races", after: "New Species Attributes" },
+    "Invader Arrival Chance": { topic: "alien-races", after: "New Species Attributes" },
+    "Enhanced Invaders": { topic: "alien-races", after: "New Species Attributes" },
+    "Enhanced Precursors": { topic: "alien-races", after: "New Species Attributes" },
+    "Enhanced Star Swarm": { topic: "alien-races", after: "New Species Attributes" },
+    "Change to Raider vs NPR Encounters": { topic: "alien-races", after: "New Species Attributes" },
+    "Pre-Industrial Races": { topic: "alien-races", after: "New Species Attributes" },
+    "Industrial Age NPRs": { topic: "alien-races", after: "New Species Attributes" },
+
+    // ── v2.6.0 Crew & Commanders ──
+    "Officer Graduation Age": { topic: "crew-and-commanders", after: "Academy Commandants" },
+    "Penalties for Undermanned Ships": { topic: "crew-and-commanders", after: "Command & Control Rules" },
+
+    // ── v2.6.0 New Game Setup ──
+    "New Conventional Systems": { topic: "new-game-setup", after: "Starting Financial Centres" },
+    "Starting Research Points for Spoiler Races": { topic: "new-game-setup", after: "Starting Financial Centres" },
+
+    // ── v2.6.0 Civilians ──
+    "Ex-Civilian Mining Complex": { topic: "civilians", after: "Shipping Lines" },
+    "Shipping Line and Colony Changes": { topic: "civilians", after: "Shipping Lines" },
+    "New Shipping Line Income": { topic: "civilians", after: "Shipping Lines" },
+    "Shipping Line Tax": { topic: "civilians", after: "Shipping Lines" },
+    "Trade Good Changes": { topic: "civilians", after: "Shipping Lines" },
+    "Colonization Pressure": { topic: "civilians", after: "Civilian Destinations" },
+    "New Colonists": { topic: "civilians", after: "Civilian Destinations" },
+    "Shipping Line Restrictions": { topic: "civilians", after: "Shipping Lines" },
+    "Government-owned Colony Ships.": { topic: "civilians", after: "Civilian Destinations" },
+    "Why Change?": { topic: "civilians", after: "Shipping Lines" },
+    "Shipping Line New Ship Selection": { topic: "civilians", after: "Shipping Lines" },
+
+    // ── v2.6.0 Shipyards ──
+    "Ship Construction into Admin Commands": { topic: "shipyards", after: "Shipbuilding Changes" },
+    "Instant Build into Admin Commands": { topic: "shipyards", after: "Shipbuilding Changes" },
+
+    // ── v2.6.0 Star System Design ──
+    "Limited Planet Distance": { topic: "star-system-design", after: "Star System Design Part 5: Adding Planets, Comets and Asteroid Belts" },
+
+    // ── v2.6.0 Combat Mechanics ──
+    "Ramming Update": { topic: "combat-mechanics", after: "Fire Delay" },
+
+    // ── v2.6.0 Ground Forces ──
+    "Ground Unit Training Costs by Population": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+
+    // ── v2.6.0 Naval Organization ──
+    "Flag Bridges and Naval Admin Commands": { topic: "naval-organization", after: "Assignment of Ships to Populations" },
+
+    // ── v2.6.0 Wealth & Mining ──
+    "Mineral Tracking": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+    "Inflow": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+    "Outflow": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+    "In Transit": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
   },
 
   versionTopics: {
+    "2.6.0": [
+      "alien-races", "boarding-combat", "civilians", "colonies",
+      "combat-mechanics", "crew-and-commanders", "direct-fire-weapons",
+      "fleet-movement", "ground-forces", "logistics", "maintenance",
+      "missiles-and-launchers", "naval-organization", "new-game-setup",
+      "nomenclature", "sensors-and-contacts", "ship-components",
+      "shipyards", "star-system-design", "systems-and-bodies",
+      "user-interface", "wealth-and-mining",
+    ],
     "2.5.1": ["fleet-movement", "user-interface", "wealth-and-mining"],
     "2.5.0": ["user-interface"],
     "2.4.0": ["alien-races", "crew-and-commanders", "missiles-and-launchers", "new-game-setup", "nomenclature", "ship-components", "user-interface"],
