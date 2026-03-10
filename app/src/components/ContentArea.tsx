@@ -246,15 +246,19 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
                         </div>
                       )}
                       <MergedSectionBlock section={sec} manifest={manifest} onSectionClick={handleSectionClick} />
-                      {sectionNotes.map(note => (
-                        <CommunityNoteCard key={note.id} note={note} latestVersion={latestVersion} />
-                      ))}
-                      <AddNoteForm
-                        topicId={selection!.topic.id}
-                        sectionTitle={sec.title}
-                        versions={manifest.versions}
-                        onSubmit={submitNote}
-                      />
+                      {!sec.isPatch && !sec.deprecatedBy && (
+                        <>
+                          {sectionNotes.map(note => (
+                            <CommunityNoteCard key={note.id} note={note} latestVersion={latestVersion} />
+                          ))}
+                          <AddNoteForm
+                            topicId={selection!.topic.id}
+                            sectionTitle={sec.title}
+                            versions={manifest.versions}
+                            onSubmit={submitNote}
+                          />
+                        </>
+                      )}
                     </div>
                   )
                 })}
