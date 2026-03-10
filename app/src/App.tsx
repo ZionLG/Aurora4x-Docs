@@ -3,6 +3,7 @@ import { manifest, type Topic } from './manifest'
 import { parseSections, type MarkdownSection } from './utils/extractSections'
 import Sidebar from './components/Sidebar'
 import ContentArea from './components/ContentArea'
+import AdminPanel from './components/AdminPanel'
 
 export type ViewMode = 'current' | 'changelog'
 
@@ -24,6 +25,10 @@ function toHash(view: ViewMode, sel: ActiveSelection | null): string {
     return `#changelog/${sel.topic.id}/${sel.version}`
   }
   return `#current/${sel.topic.id}`
+}
+
+function isAdminHash(): boolean {
+  return window.location.hash.replace(/^#/, '') === 'admin'
 }
 
 /** Parse URL hash into state */
@@ -52,6 +57,7 @@ export default function App() {
   const [view, setView] = useState<ViewMode>(initial.view)
   const [selection, setSelection] = useState<ActiveSelection | null>(initial.selection)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [admin, setAdmin] = useState(isAdminHash)
 
   const [changelogCache, setChangelogCache] = useState<ChangelogCache>({})
   const [baseDocsCache, setBaseDocsCache] = useState<BaseDocsCache>({})
@@ -100,8 +106,6 @@ export default function App() {
   useEffect(() => {
     const newHash = toHash(view, selection)
     const currentHash = window.location.hash
-    // Don't overwrite if the current hash is the same base with a section anchor
-    // e.g. don't replace #current/engines/engine-tech with #current/engines
     if (currentHash.startsWith(newHash + '/') || currentHash === newHash) return
     window.history.pushState(null, '', newHash)
   }, [view, selection])
@@ -109,6 +113,11 @@ export default function App() {
   // Handle browser back/forward
   useEffect(() => {
     const onPop = () => {
+      if (isAdminHash()) {
+        setAdmin(true)
+        return
+      }
+      setAdmin(false)
       const { view: v, selection: s } = fromHash()
       setView(v)
       setSelection(s)
@@ -127,6 +136,18 @@ export default function App() {
     setView(v => v === 'current' ? 'changelog' : 'current')
     setSelection(null)
   }, [])
+
+  if (admin) {
+    return (
+      <>
+        <div className="scanline-overlay" />
+        <div className="grid-bg" />
+        <div className="flex h-screen relative z-1">
+          <AdminPanel />
+        </div>
+      </>
+    )
+  }
 
   return (
     <>

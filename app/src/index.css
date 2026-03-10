@@ -85,10 +85,13 @@ body {
 .article-body pre { background: var(--color-bg-raised); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px; overflow-x: auto; margin: 1em 0; }
 .article-body pre code { background: none; border: none; padding: 0; }
 
-/* Compact spacing inside patch/update cards and collapsed sections */
+/* Compact spacing inside patch/update cards, community notes, and collapsed sections */
 .article-body .patch-card strong { margin-top: 0; margin-bottom: 0.2em; font-size: 1.05em; }
 .article-body .patch-card p:first-child { margin-top: 0; }
 .article-body .patch-card p + p { margin-top: 0.4em; }
+.article-body .community-note strong { margin-top: 0; margin-bottom: 0.2em; font-size: 1.05em; }
+.article-body .community-note p:first-child { margin-top: 0; }
+.article-body .community-note p + p { margin-top: 0.4em; }
 .article-body .collapsed-content strong { margin-top: 0.5em; margin-bottom: 0.2em; font-size: 1.05em; }
 .article-body .collapsed-content p:first-child { margin-top: 0; }
 .article-body .collapsed-content p:first-child strong { margin-top: 0; }

@@ -4,6 +4,9 @@ import { type DocsManifest, type Topic } from '../manifest'
 import type { ViewMode, ActiveSelection } from '../App'
 import { parseSections, type MarkdownSection } from '../utils/extractSections'
 import { mergeTopicContent, type MergedSection } from '../utils/mergeContent'
+import { useNotes } from '../hooks/useNotes'
+import CommunityNoteCard from './CommunityNoteCard'
+import AddNoteForm from './AddNoteForm'
 
 function slugify(text: string): string {
   return text
@@ -34,6 +37,8 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
   const [changelogSections, setChangelogSections] = useState<MarkdownSection[]>([])
   const [loading, setLoading] = useState(false)
   const scrollRef = useRef<HTMLElement>(null)
+  const { notesBySection, submitNote } = useNotes(selection?.topic.id ?? null)
+  const latestVersion = manifest.versions.find(v => !v.unreleased)?.version ?? manifest.versions[0].version
 
   // Load and merge content
   useEffect(() => {
@@ -227,20 +232,32 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
                 scrollRef={scrollRef}
               />
               <div className="article-body text-[0.95rem] leading-[1.75] text-text">
-                {mergedSections.map((sec, i) => (
-                  <div key={`${sec.title}-${i}`}>
-                    {hasMisc && i === firstMiscIdx && (
-                      <div className="flex items-center gap-3 mt-12 mb-4">
-                        <div className="flex-1 h-px bg-border" />
-                        <span className="font-mono text-[0.65rem] text-text-muted uppercase tracking-[0.1em]">
-                          Additional Notes
-                        </span>
-                        <div className="flex-1 h-px bg-border" />
-                      </div>
-                    )}
-                    <MergedSectionBlock section={sec} manifest={manifest} onSectionClick={handleSectionClick} />
-                  </div>
-                ))}
+                {mergedSections.map((sec, i) => {
+                  const sectionNotes = notesBySection.get(sec.title) || []
+                  return (
+                    <div key={`${sec.title}-${i}`}>
+                      {hasMisc && i === firstMiscIdx && (
+                        <div className="flex items-center gap-3 mt-12 mb-4">
+                          <div className="flex-1 h-px bg-border" />
+                          <span className="font-mono text-[0.65rem] text-text-muted uppercase tracking-[0.1em]">
+                            Additional Notes
+                          </span>
+                          <div className="flex-1 h-px bg-border" />
+                        </div>
+                      )}
+                      <MergedSectionBlock section={sec} manifest={manifest} onSectionClick={handleSectionClick} />
+                      {sectionNotes.map(note => (
+                        <CommunityNoteCard key={note.id} note={note} latestVersion={latestVersion} />
+                      ))}
+                      <AddNoteForm
+                        topicId={selection!.topic.id}
+                        sectionTitle={sec.title}
+                        versions={manifest.versions}
+                        onSubmit={submitNote}
+                      />
+                    </div>
+                  )
+                })}
               </div>
             </>
           )
