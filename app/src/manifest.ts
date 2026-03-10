@@ -36,6 +36,7 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
+    { version: "2.7.0", label: "v2.7.0 — Major Update", date: "2025-10-30", file: "v2.7.0/01-patch-notes.md" },
     { version: "2.6.0", label: "v2.6.0 — Major Update", date: "2025-09-06", file: "v2.6.0/01-patch-notes.md" },
     { version: "2.5.1", label: "v2.5.1 — Minor Update", date: "2024-01-25", file: "v2.5.1/01-patch-notes.md" },
     { version: "2.5.0", label: "v2.5.0 — Bug Fixes", date: "2023-12-24", file: "v2.5.0/01-patch-notes.md" },
@@ -74,7 +75,7 @@ export const manifest: DocsManifest = {
     { id: "planetary-installations", title: "Planetary Installations", category: "economy", base: "v1.0.0/02-planetary-installations.md" },
     { id: "shipyards", title: "Shipyards", category: "economy", base: "v1.0.0/03-shipyards.md" },
     { id: "colonies", title: "Colonies", category: "economy", base: "v1.0.0/06-colonies.md" },
-    { id: "civilians", title: "Civilians", category: "economy", base: "v1.0.0/07-civilians.md" },
+    { id: "civilians", title: "Civilians", category: "economy", base: "v1.0.0/07-civilians.md", deprecated: { "Shipping Line Earnings and Tax": "2.6.0" } },
     { id: "wealth-and-mining", title: "Wealth & Mining", category: "economy", base: "v1.0.0/34-wealth-and-mining.md" },
 
     // Ships & Design
@@ -889,9 +890,61 @@ export const manifest: DocsManifest = {
     "Inflow": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
     "Outflow": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
     "In Transit": { topic: "wealth-and-mining", after: "Mineral Search Flag" },
+
+    // ═══════════════════════════════════════════
+    // v2.7.0 sections
+    // ═══════════════════════════════════════════
+
+    // ── v2.7.0 Generic Patches ──
+    "v2.7.0 Bug Fixes": { topic: "user-interface", after: "v2.6.0 Minor Changes", kind: "bugfix" },
+    "v2.7.0 Minor Changes": { topic: "user-interface", after: "v2.7.0 Bug Fixes" },
+
+    // ── v2.7.0 User Interface ──
+    "Decimal Separator Fix": { topic: "user-interface", after: "Survey Site List" },
+
+    // ── v2.7.0 Nomenclature ──
+    "Random Class from Race Theme": { topic: "nomenclature", after: "Nomenclature" },
+
+    // ── v2.7.0 Civilians ──
+    "Civilian Ship Retirements": { topic: "civilians", after: "Shipping Lines" },
+    "Updates to Shipping Lines": { topic: "civilians", replaces: "New Shipping Line Income" },
+
+    // ── v2.7.0 Sensors & Contacts ──
+    "Max Active Sensor Resolution": { topic: "sensors-and-contacts", after: "Transponders" },
+
+    // ── v2.7.0 Crew & Commanders ──
+    "Experience Events": { topic: "crew-and-commanders", after: "Academy Commandants" },
+    "Academy Name Themes": { topic: "crew-and-commanders", after: "Academy Commandants" },
+
+    // ── v2.7.0 Systems & Bodies ──
+    "Rogue Planets": { topic: "systems-and-bodies", after: "Player Race Banned Bodies" },
+
+    // ── v2.7.0 Fleet Movement ──
+    "Auto-include Lagrange Points": { topic: "fleet-movement", after: "Fleet Order Templates" },
+
+    // ── v2.7.0 Direct Fire Weapons ──
+    "Direct-Fire Weapons": { topic: "direct-fire-weapons", after: "Gauss Cannon Research Changes" },
+    "Meson Update": { topic: "direct-fire-weapons", replaces: "Meson Update" },
+
+    // ── v2.7.0 Missiles & Launchers ──
+    "Missile Self-Targeting": { topic: "missiles-and-launchers", after: "Missile Updates" },
+
+    // ── v2.7.0 New Game Setup ──
+    "Solar System Destruction Scenario": { topic: "new-game-setup", after: "Starting Financial Centres" },
+
+    // ── v2.7.0 Ground Forces ──
+    "Automated Ground Force Replacements": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
+
+    // ── v2.7.0 Alien Races ──
+    "The Ancients": { topic: "alien-races", after: "New Species Attributes" },
   },
 
   versionTopics: {
+    "2.7.0": [
+      "alien-races", "civilians", "crew-and-commanders", "direct-fire-weapons",
+      "fleet-movement", "ground-forces", "missiles-and-launchers", "new-game-setup",
+      "nomenclature", "sensors-and-contacts", "systems-and-bodies", "user-interface",
+    ],
     "2.6.0": [
       "alien-races", "boarding-combat", "civilians", "colonies",
       "combat-mechanics", "crew-and-commanders", "direct-fire-weapons",

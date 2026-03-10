@@ -10,7 +10,8 @@
       "Bash(npm create:*)",
       "Bash(rm:*)",
       "Bash(npx tsc:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npx:*)"
     ]
   }
 }
