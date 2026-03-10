@@ -74,7 +74,7 @@ export const manifest: DocsManifest = {
 
   topics: [
     // Economy & Colonies
-    { id: "planetary-installations", title: "Planetary Installations", category: "economy", base: "v1.0.0/02-planetary-installations.md" },
+    { id: "planetary-installations", title: "Planetary Installations", category: "economy", base: "v1.0.0/02-planetary-installations.md", deprecated: { "Low Gravity Infrastructure": "2.6.0" } },
     { id: "shipyards", title: "Shipyards", category: "economy", base: "v1.0.0/03-shipyards.md" },
     { id: "colonies", title: "Colonies", category: "economy", base: "v1.0.0/06-colonies.md" },
     { id: "civilians", title: "Civilians", category: "economy", base: "v1.0.0/07-civilians.md", deprecated: { "Shipping Line Earnings and Tax": "2.6.0" } },
@@ -827,7 +827,7 @@ export const manifest: DocsManifest = {
     "Chat GPT Naming Themes": { topic: "nomenclature", after: "Nomenclature" },
 
     // ── v2.6.0 Colonies ──
-    "Removal of Low Gravity Infrastructure": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
+    "Removal of Low Gravity Infrastructure": { topic: "planetary-installations", replaces: "Low Gravity Infrastructure" },
     "Population Fuel and Maintenance Warnings": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
     "Population Transfer": { topic: "colonies", after: "Automatic Pop Selection from Galactic Map" },
 
@@ -1014,7 +1014,7 @@ export const manifest: DocsManifest = {
       "combat-mechanics", "crew-and-commanders", "direct-fire-weapons",
       "fleet-movement", "ground-forces", "logistics", "maintenance",
       "missiles-and-launchers", "naval-organization", "new-game-setup",
-      "nomenclature", "sensors-and-contacts", "ship-components",
+      "nomenclature", "planetary-installations", "sensors-and-contacts", "ship-components",
       "shipyards", "star-system-design", "systems-and-bodies",
       "user-interface", "wealth-and-mining",
     ],
