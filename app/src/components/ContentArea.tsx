@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef, useCallback, type MouseEvent as ReactMouseEvent } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { type DocsManifest, type Topic } from '../manifest'
@@ -211,6 +211,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
                   v{v}
                 </span>
               ))}
+              <CopyMdButton topicId={topic.id} />
             </div>
           )}
         </div>
@@ -674,5 +675,36 @@ function Stat({ value, label }: { value: number; label: string }) {
         {label}
       </span>
     </div>
+  )
+}
+
+/* ── Copy as Markdown Button ────────────────────────────────── */
+
+function CopyMdButton({ topicId }: { topicId: string }) {
+  const [state, setState] = useState<'idle' | 'copied'>('idle')
+
+  const handleClick = async (e: ReactMouseEvent) => {
+    e.preventDefault()
+    try {
+      const res = await fetch(`/current/${topicId}.md`)
+      if (!res.ok) throw new Error()
+      const md = await res.text()
+      await navigator.clipboard.writeText(md)
+      setState('copied')
+      setTimeout(() => setState('idle'), 2000)
+    } catch {
+      // silent fail
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className="ml-auto font-mono text-[0.62rem] px-2.5 py-1 rounded border cursor-pointer
+        transition-colors border-border text-text-muted bg-bg-raised
+        hover:border-accent-dim hover:text-accent"
+    >
+      {state === 'copied' ? 'Copied!' : 'Copy MD'}
+    </button>
   )
 }
