@@ -10,6 +10,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Redirect #current/topic.md or #current/topic/section.md to /current/topic.md
+      function _mdCheck(){var h=location.hash.replace(/^#/,'');var m=h.match(/^current\/([a-z0-9-]+)(?:\/[^]*)?\.md$/);if(m)location.replace('/current/'+m[1]+'.md')}
+      _mdCheck();window.addEventListener('hashchange',_mdCheck);
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

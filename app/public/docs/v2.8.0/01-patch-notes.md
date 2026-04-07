@@ -441,7 +441,9 @@ Once Aether Gate Prevention has been researched, Aether Gates will be unable to 
 
 In v2.7.1, obsolete components are highlighted in orange on the class component treeview, while alien components are highlighted in red.
 
-For v2.8, those highlights will also apply to the component summary section, such as Propulsion, or Combat - Beam, so you can see the affected sections without having to open every summary node.
+For v2.8. those highlights will also apply to the component summary section, such as Propulsion, or Combat - Beam, so you can see the affected sections without having to open every summary node.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9449e75e0153fbf8886706fa3dbb62034d277e40.png)
 
 **Class Summary to Clipboard**
 
@@ -449,4 +451,220 @@ A new button on the Class window called Summary Image has been added. Clicking t
 
 There are two checkbox options, which allow you to remove the classification text at the bottom (missile to hit and class designations) and to change the screenshot to the same colours as the default forum colours.
 
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/93c4da1dad434ebad91cde8e574f080bb95c27fe.png)
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/bcf3e883376ab1742effbf1817ff8efdde3512f7.png)
+
 In addition to the screenshot generation, a small 4 pixel margin has been added to the left side of the summary display, to make it clearer in both normal usage of the class window and for summary images.
+
+**New Hull Numbers**
+
+Any ship moving to a new race, through capture, surrender or transfer, will be assigned a new hull number appropriate to that hull type for the receiving race.
+
+**Communications Update**
+
+For Race A to attempt communication with Race B, at least one of the following must be true
+
+1.  Both sides have a status of "Attempting Communication" and both sides are able to detect each other in the same system. See Diplomacy for details.
+
+2.  Race A has prisoners of Race B.
+
+Each construction phase, if either of the above is true, a check is made to determine the 'Contact Rating'.
+
+*   If you have a mutual contact involving a diplomacy ship, with a commander who has a communication bonus, the Contact Rating is 1 + Bonus. So 30% Bonus results in a 1.3 Contact Rating.
+*   If you have a mutual contact involving a diplomacy ship, but the commander does not have a communication bonus, the Contact Rating is 1.
+*   If you have a mutual contact without a diplomacy ship, the Contact Rating is 0.5.
+*   If there is no mutual contact, the Contact Rating is 0.
+*   If there are any processed prisoners and the contact rating is less than 1, the Contact Rating is increased by processed prisoners / 200, to a maximum of 1.
+
+A Communication Attempt Roll (CAR) is made from 1-100. This is modified by the average translation skill of the two races involved and the Communications Modifier (CM). The CM starts at 0 when an alien race is first detected.
+
+If the CAR is 100 or greater, full communication is established. Otherwise, a varying amount is add to, or subtracted from, the Communications Modifier, depending on the results of the CAR. This updated CM will be used for future communication attempts. The results are as follows:
+
+| Comm Roll | CM Addition |
+|---|---|
+| 91 - 99 | 10 x Contact Rating |
+| 81 - 90 | 5 x Contact Rating |
+| 71 - 80 | 3 x Contact Rating |
+| 51 - 70 | 2 x Contact Rating |
+| 26 - 50 | 1 x Contact Rating |
+| 1 - 25 | -1 x Contact Rating |
+| -24 to 0 | -2 x Contact Rating |
+| -49 to -25 | -3 x Contact Rating |
+| <= -50 | -500 |
+
+The result of the communication attempt is reported to the player based on the update to the Communication Modifier
+
+| CM Change | Event Text |
+|---|---|
+| >= 10 | Significant progress |
+| >= 5 | Moderate progress |
+| >= 3 | Minor progress |
+| >= 2 | Limited progress |
+| >= 1 | Minimal progress |
+| >= 0 | Glacial progress |
+| >= -1 | No progress. The contact team is struggling to make a breakthrough. |
+| >= -2 | No progress. The contact team has begun to consider that communication may prove impossible. |
+| >= -3 | No progress. The contact team is advising that communication may prove impossible. |
+| < -3 | Communication impossible. The contact team believe the race is too alien for communication to ever be established. |
+
+In v2.7.1, prisoners would not be processed unless communications had been established.
+
+In v2.8, populations will process prisoners without comms being established, if less than 200 have already been processed.
+
+*Note: The basic principles of communication remain unchanged from v1.00. v2.8 introduces the use of prisoners to establish communication and more informative reporting of progress.*
+
+**Senior Ship Commanders**
+
+V2.7.1 has a Senior CO checkbox on the Class Design window. Checking that box allows you to set a class design to require a commander one rank higher than would normally be the case. That required class rank then determines the required ranks of any junior officers.
+
+For v2.8, a Ship Senior CO checkbox has been added that applies only to a single ship. That ship will be assigned a commander one rank higher than normal for the class, allowing you to designate a flagship for a fleet or sub-fleet. This is in addition to any senior CO flag for the class. You can do this for as many ships as desired, although having multiple Ship Senior COs in the same fleet would make it more difficult to ensure a particular ship is the flagship.
+
+The junior officers will still be assigned using the required rank for the class. For example, if you have a ship class with a Captain as the CO, the executive officer will be a Commander. If that ship is selected for a Senior CO, the exec will still be a Commander, even if the CO is now a Commodore. This is to maintain consistency of rank and prevent a lot of changes every time a different ship is assigned as the flagship.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/932030f538c77c5a619dc8b9d819a93545c74578.png)
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/16ffab430d3f38615fb08d5c38de503bc098158d.png)
+
+Automated assignment will treat the ship accordingly, as will manual commander assignment.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/31a59b9a287a01c5f2129ef57434ddfa95eab9db.png)
+
+A Promote CO button has been added to the Miscellaneous tab, so you can keep the same CO if required.
+
+A Replace CO button has also been added, which will unassign the current CO then carry out automated assignment for the ship. It is possible this might result in the previous CO being promoted and reassigned.
+
+**Civilian Mining Summary**
+
+The Economics window has a new tab called CMC. This lists all systems with the necessary bodies and mineral deposits to support at least one civilian mining colony.
+
+The data includes:
+
+*   System: Name of the system
+*   Alien: The name of any alien race flagged as controlling the system
+*   Max Pop: The largest population (as 10m is required for CMC to be created)
+*   Active: Number of bodies with a current CMC
+*   Available: Number of bodies without a CMC that could support one
+*   Blocked: Number of bodies that would support a CMC but cannot (banned, existing pop, etc.)
+*   Income: Wealth earned from CMC taxation
+*   Expenditure: Wealth paid for minerals from CMC
+
+The table can be sorted by Name, Active, Available, Income and Expenditure.
+
+As well as providing a summary of current civilian mining operations, the tab also provides the necessary data to determine the best systems to place colonies to trigger CMC creation.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/5d4e48a5bbdd590c426aa9e35cae8d12c2de7c13.png)
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/79389c0d0826a0aa4fef1e5142a5d24b4ecf1efb.png)
+
+**Ordnance Series**
+
+Ordnance Series is similar in concept to Unit Series. You specify a connected group of missiles, or other ordnance, along with the priority of each one. When a ship tries to load its normal ordnance loadout and cannot, it will look instead for lower priority ordnance in the same series.
+
+Ordnance Series are created on a new tab in the Class Design window by clicking the Create Series button. They can be renamed or deleted. The top item of ordnance in the series is the highest priority, with the others shown in descending priority.
+
+Three sections are shown on the new tab. The left-hand section contains a treeview of existing ordnance series. The centre section contains a list of ordnance available to the viewing race that has not been assigned to a series. This can be filtered by removing obsolete ordnance, or by showing all ordnance, regardless of series assignment. Clicking on an item of ordnance in the centre section will display the details of that item in the right-hand section.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/c21cb16bcbee250b0d2c4d44c2a1f4d70b02297b.png)
+
+To assign ordnance to a series, drag and drop any ordnance item to that series.
+
+*   Dragging an item to the name of the series will place the item at the top of the priority list.
+*   Dragging an item to an existing item in the list will place the new item just below the existing item.
+*   You can drag an item from the centre section, or from another series.
+*   You can drag items within a series to change priority.
+*   An item can only be in one series at once, so dragging an item from an existing series to a new one will remove it from the old one.
+
+Clicking an item of ordnance in a series and clicking the Replace Lower button will check every class loadout for any lower item in the same series and replace it with the selected item. For example, if you clicked Theseus II-E and clicked Replace Lower, any class that currently has Theseus or Theseus II missiles in its standard loadout will replace those missiles in the standard loadout with the Theseus II-E, consolidating any duplicates. Note this is only changing class templates, not missiles loaded into magazines.
+
+When a ship tries to load ordnance, through movement orders, loading from a mothership or loading from a collier in the fleet, it will cycle through the ordnance in the class default (or the ship default if an override is in place). For each item, it will try to load the specified item first. If that is unavailable, it will work through the other items in the same ordnance series that have a lower priority, in descending order of priority, to see if they can be loaded instead.
+
+A ship will not load a higher priority item, even if it is in the same series as a standard loadout item that is not available. This allows you to control which ships will have access to each item in an ordnance series.
+
+**Manual Jump Point Connections**
+
+v2.8 adds the option to modify jump point connections while in Spacemaster mode.
+
+Two new buttons, Break Link and Connect JP, have been added to the System View window when in SM mode.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/4ca5e430b398bce841f4115f98caf369bf8135f9.png)
+
+Break Link will disconnect both ends of a jump point.
+
+Connect JP will launch a small popup box to select from a list of destination jump points. Once selected, the two jump points are linked.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/2fa1ff5ec610b089cfb2e9eebdae282800b2e201.png)
+
+Only jump points without an existing link can be connected, although you can break the link first and then connect it. You cannot connect a jump point if there are no other unlinked jump points.
+
+Once the connection is made, the viewing race will see both ends as explored.
+
+**Empire Logistics Summary**
+
+v2.8 introduces a new tab on the Economics window that summarises the maintenance and fuel situation for all colonies. For each colony, the following information is displayed:
+
+*   M-CAP: Maintenance capacity (surface only)
+*   M-CIO: Maintenance capacity including orbital
+*   M-TONS: Total maintained tonnage in orbit
+*   M-YEAR: The amount of MSP required per year by the maintained tonnage
+*   M-MSP: The current population stockpile of MSP
+*   M-PROD: Amount of MSP produced per year
+*   F-MLT: Fuel stockpile in millions of litres
+*   F-PRDM: Annual fuel production in millions of litres
+*   REF: You can refuel at the colony, or transfer fuel to the colony
+*   RES: You can resupply at the colony, or transfer MSP to the colony
+*   ORD: You can reload at the colony, or transfer ordnance to the colony
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/9436d99f820b46828b5ae8c90c2e22be6163d039.png)
+
+If the M-TONS value is orange, there is more tonnage in orbit than can be maintained by the current M-CIO value.
+
+If the M-PROD or F-PRDM values are red, the population has maintenance or fuel production (respectively) turned off.
+
+If the M-PROD value is orange, the M-YEAR value exceeds the M-PROD.
+
+There are eight radio buttons at the bottom that allow you to sort by each of the quantity columns.
+
+**Ship Selection Summary**
+
+On the Ship List tab, within the Fleet tab, on the Naval Organization window, a summary line has been added at the bottom for the ships currently selected. This is to make it easier to select the correct number of ships within large groups.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/1X/7f97d650c8f14302fa6630eadb7fa5ca188ac31d.png)
+
+**Lagrange Point Update**
+
+Lagrange Points are now permanent locations, like system bodies.
+
+This means that any fleet, wreck, missile salvo, waypoint or deep space population located at a Lagrange Point will remain at that Lagrange Point as it moves along its orbital path.
+
+**Configurable Interrupts**
+
+There are two new buttons and a checkbox on the Events window.
+
+### Toggle Interrupt Button
+
+This works in a similar way to Hide Event. You click on an event and click the 'Toggle Interrupt' button. The selected type of event will change its interrupt status from on to off or vice versa.
+
+So if you no longer want 'Research Completed' or 'Ship Combat - Energy' to stop automated turns, you can turn off that interrupt. If you want 'Commander Promoted' or 'Maintenance Problem' to stop automated turns, you can turn that event into an interrupt event.
+
+### Default Interrupts Button
+
+This button will change the interrupt status of all event types to their default setting.
+
+### Show Interrupts Checkbox
+
+When this checkbox is checked, any type of event that generates an interrupt will show (I) before the event name.
+
+### Save Behaviour
+
+When you change the interrupt status of an event, or restore events to their default state, that change will immediately be reflected in the database. Changes will apply to all player races and all games in the same database.
+
+**No Short Increments for NPR vs NPR Interceptions**
+
+In a previous version of Aurora, a check was added at the start of each increment. If a fleet is following a hostile contact, the increment will be shortened so that the following fleet doesn't immediately move to point-blank range, but instead moves most of the distance.
+
+This also applies to ships moving to jump points or waypoints, where a check is made for hostile ships at that location.
+
+However, this can lead to mysterious ever-shortening increments where an NPR is trying to attack another NPR, but has really short-ranged weapons and can never quite get into range.
+
+Therefore, for v2.8, this logic will only be used when either the moving fleet, or the hostile fleet at the target, belongs to a player race. NPR vs NPR interactions of this type will no longer cause shortened increments.

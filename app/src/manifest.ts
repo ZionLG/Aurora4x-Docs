@@ -973,6 +973,8 @@ export const manifest: DocsManifest = {
 
     // ── v2.8.0 Crew & Commanders ──
     "Light Tactical Bonus": { topic: "crew-and-commanders", after: "Academy Commandants" },
+    "New Hull Numbers": { topic: "crew-and-commanders", after: "Academy Commandants" },
+    "Senior Ship Commanders": { topic: "crew-and-commanders", after: "Academy Commandants" },
 
     // ── v2.8.0 Ruins ──
     "Alien Artifact Changes": { topic: "ruins" },
@@ -995,14 +997,38 @@ export const manifest: DocsManifest = {
 
     // ── v2.8.0 Aether Rifts ──
     "Aether Gate Detection and Prevention": { topic: "aether-rifts" },
+
+    // ── v2.8.0 Diplomacy ──
+    "Communications Update": { topic: "diplomacy" },
+
+    // ── v2.8.0 Civilians ──
+    "Civilian Mining Summary": { topic: "civilians" },
+
+    // ── v2.8.0 Missiles & Ordnance ──
+    "Ordnance Series": { topic: "missiles-and-launchers", after: "Ship Ordnance Templates" },
+
+    // ── v2.8.0 Systems & Bodies ──
+    "Manual Jump Point Connections": { topic: "systems-and-bodies" },
+    "Lagrange Point Update": { topic: "systems-and-bodies" },
+
+    // ── v2.8.0 Logistics ──
+    "Empire Logistics Summary": { topic: "logistics" },
+
+    // ── v2.8.0 Naval Organization ──
+    "Ship Selection Summary": { topic: "naval-organization" },
+
+    // ── v2.8.0 User Interface ──
+    "Configurable Interrupts": { topic: "user-interface", after: "v2.8.0 Minor Changes" },
+    "No Short Increments for NPR vs NPR Interceptions": { topic: "fleet-movement", after: "Standing Orders" },
   },
 
   versionTopics: {
     "2.8.0": [
-      "aether-rifts", "crew-and-commanders", "fleet-movement", "ground-combat",
-      "ground-forces", "ground-support-fighters", "new-game-setup", "ruins",
-      "sensors-and-contacts", "ship-components", "shipyards", "surface-to-orbit",
-      "terraforming", "user-interface",
+      "aether-rifts", "civilians", "crew-and-commanders", "diplomacy",
+      "fleet-movement", "ground-combat", "ground-forces", "ground-support-fighters",
+      "logistics", "missiles-and-launchers", "naval-organization", "new-game-setup",
+      "ruins", "sensors-and-contacts", "ship-components", "shipyards",
+      "surface-to-orbit", "systems-and-bodies", "terraforming", "user-interface",
     ],
     "2.7.0": [
       "alien-races", "civilians", "crew-and-commanders", "direct-fire-weapons",

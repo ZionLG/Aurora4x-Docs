@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { type DocsManifest, type Topic } from '../manifest'
 import type { ViewMode, ActiveSelection } from '../App'
 import { parseSections, type MarkdownSection } from '../utils/extractSections'
@@ -276,7 +277,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
             />
             <div className="article-body text-[0.95rem] leading-[1.75] text-text">
               {changelogSections.map((sec, si) => (
-                <ReactMarkdown key={si}>{sec.content}</ReactMarkdown>
+                <ReactMarkdown key={si} remarkPlugins={[remarkGfm]}>{sec.content}</ReactMarkdown>
               ))}
             </div>
           </>
@@ -384,7 +385,7 @@ function MergedSectionBlock({
           <div className="flex-1 h-px bg-border" />
         </summary>
         <div className="collapsed-content mt-3 pl-5 border-l-2 border-border opacity-50">
-          <ReactMarkdown>{section.content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
         </div>
       </details>
     )
@@ -408,7 +409,7 @@ function MergedSectionBlock({
             <SectionAnchor title={section.title} slug={slug} onClick={onSectionClick} inline />
           </summary>
           <div className="patch-card mt-1 px-4 py-2 ml-2 border-l-2 border-warning/20">
-            <ReactMarkdown>{section.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
           </div>
         </details>
       )
@@ -425,7 +426,7 @@ function MergedSectionBlock({
             </span>
           </div>
           <div className="px-4 py-2">
-            <ReactMarkdown>{section.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
           </div>
         </div>
       )
@@ -441,7 +442,7 @@ function MergedSectionBlock({
           </span>
         </div>
         <div className="px-4 py-2">
-          <ReactMarkdown>{section.content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
         </div>
       </div>
     )
@@ -482,7 +483,7 @@ function MergedSectionBlock({
             </span>
           </div>
           <div className="px-4 py-2">
-            <ReactMarkdown>{section.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
           </div>
         </div>
 
@@ -499,7 +500,7 @@ function MergedSectionBlock({
                 <div className="flex-1 h-px bg-border" />
               </summary>
               <div className="collapsed-content mt-2 pl-5 border-l-2 border-border opacity-50">
-                <ReactMarkdown>{prev.content}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{prev.content}</ReactMarkdown>
               </div>
             </details>
           )
@@ -512,6 +513,7 @@ function MergedSectionBlock({
   return (
     <div id={anchorId} className="my-1 scroll-mt-6">
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
           strong: ({ children }) => (
             <SectionAnchor title={String(children)} slug={slugify(String(children))} onClick={onSectionClick} heading />
