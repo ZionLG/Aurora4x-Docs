@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { type DocsManifest, type Topic } from '../manifest'
 import type { ViewMode, ActiveSelection, ChangelogCache, BaseDocsCache } from '../App'
+import { ModeToggle } from './mode-toggle'
 
 function slugify(text: string): string {
   return text
@@ -212,7 +213,7 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
               <ellipse cx="20" cy="20" rx="18" ry="7" stroke="var(--color-accent)" strokeWidth="0.75" opacity="0.3" transform="rotate(-35 20 20)"/>
             </svg>
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             <span className="font-display text-[1.35rem] font-bold tracking-[0.2em] text-accent block leading-none">
               AURORA
             </span>
@@ -220,6 +221,7 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
               Documentation Archive
             </span>
           </div>
+          <ModeToggle />
         </div>
       </div>
 

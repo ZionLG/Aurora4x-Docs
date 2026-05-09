@@ -72,6 +72,11 @@ function mdExportPlugin(): Plugin {
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), mdExportPlugin()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   server: {
     port: 5180,
     fs: {

@@ -1,23 +1,141 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@theme {
-  --color-bg-deep: #06080d;
-  --color-bg-base: #0a0e17;
-  --color-bg-raised: #0f1420;
-  --color-bg-surface: #141a28;
-  --color-bg-hover: #1a2236;
-  --color-border: #1c2540;
-  --color-border-bright: #2a3555;
-  --color-text: #c8cdd8;
-  --color-text-dim: #6b7394;
-  --color-text-muted: #3d4668;
-  --color-accent: #4fc3f7;
-  --color-accent-dim: #1a3a52;
-  --color-accent-glow: rgba(79, 195, 247, 0.15);
-  --color-accent-glow-strong: rgba(79, 195, 247, 0.3);
-  --color-warning: #ffb74d;
-  --color-danger: #ef5350;
-  --color-success: #66bb6a;
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Theme tokens
+   - :root holds the LIGHT theme values.
+   - .dark overrides them for dark theme (default for the app).
+   - @theme inline exposes the tokens to Tailwind so utilities
+     like bg-bg-base, text-accent, bg-background remain available.
+   ============================================================ */
+
+:root {
+  /* shadcn radius scale base */
+  --radius: 0.5rem;
+
+  /* Aurora project tokens — LIGHT */
+  --bg-deep: #eef1f6;
+  --bg-base: #ffffff;
+  --bg-raised: #f4f6fa;
+  --bg-surface: #e8ecf3;
+  --bg-hover: #dde3ec;
+  --border: #d4dae4;
+  --border-bright: #b5bdc9;
+  --text: #14192a;
+  --text-dim: #525c75;
+  --text-muted: #8a93a8;
+  --aurora-accent: #0288d1;
+  --aurora-accent-dim: #b3e5fc;
+  --aurora-accent-glow: rgba(2, 136, 209, 0.10);
+  --aurora-accent-glow-strong: rgba(2, 136, 209, 0.22);
+  --warning: #ed6c02;
+  --danger: #c62828;
+  --success: #2e7d32;
+
+  /* Background-effect intensity (scanlines / grid) per theme */
+  --grid-opacity: 0.07;
+  --scanline-color: rgba(0, 0, 0, 0.025);
+
+  /* shadcn semantic tokens — LIGHT */
+  --background: var(--bg-base);
+  --foreground: var(--text);
+  --card: var(--bg-raised);
+  --card-foreground: var(--text);
+  --popover: var(--bg-base);
+  --popover-foreground: var(--text);
+  --primary: var(--aurora-accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg-raised);
+  --secondary-foreground: var(--text);
+  --muted: var(--bg-raised);
+  --muted-foreground: var(--text-dim);
+  --shadcn-accent: var(--bg-hover);
+  --shadcn-accent-foreground: var(--text);
+  --destructive: var(--danger);
+  --input: var(--border);
+  --ring: var(--aurora-accent);
+}
+
+.dark {
+  /* Aurora project tokens — DARK (the original palette) */
+  --bg-deep: #06080d;
+  --bg-base: #0a0e17;
+  --bg-raised: #0f1420;
+  --bg-surface: #141a28;
+  --bg-hover: #1a2236;
+  --border: #1c2540;
+  --border-bright: #2a3555;
+  --text: #c8cdd8;
+  --text-dim: #6b7394;
+  --text-muted: #3d4668;
+  --aurora-accent: #4fc3f7;
+  --aurora-accent-dim: #1a3a52;
+  --aurora-accent-glow: rgba(79, 195, 247, 0.15);
+  --aurora-accent-glow-strong: rgba(79, 195, 247, 0.3);
+  --warning: #ffb74d;
+  --danger: #ef5350;
+  --success: #66bb6a;
+
+  /* Background-effect intensity per theme */
+  --grid-opacity: 0.03;
+  --scanline-color: rgba(0, 0, 0, 0.03);
+
+  /* shadcn semantic tokens — DARK */
+  --shadcn-accent: var(--bg-hover);
+  --shadcn-accent-foreground: var(--text);
+  --primary-foreground: #06080d;
+}
+
+@theme inline {
+  /* Aurora project tokens (existing Tailwind class names preserved) */
+  --color-bg-deep: var(--bg-deep);
+  --color-bg-base: var(--bg-base);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-hover: var(--bg-hover);
+  --color-border: var(--border);
+  --color-border-bright: var(--border-bright);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--aurora-accent);
+  --color-accent-dim: var(--aurora-accent-dim);
+  --color-accent-glow: var(--aurora-accent-glow);
+  --color-accent-glow-strong: var(--aurora-accent-glow-strong);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  /* shadcn semantic tokens
+     NB: Aurora's `accent` is a brand cyan (text-accent everywhere in
+     the app). shadcn's "accent" surface token is exposed under
+     bg-shadcn-accent / text-shadcn-accent-foreground so the two
+     semantics don't collide. */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-shadcn-accent: var(--shadcn-accent);
+  --color-shadcn-accent-foreground: var(--shadcn-accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+
   --font-display: 'Chakra Petch', sans-serif;
   --font-body: 'Exo 2', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -26,63 +144,69 @@
 html {
   font-size: 15px;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-border-bright) var(--color-bg-base);
+  scrollbar-color: var(--border-bright) var(--bg-base);
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--color-bg-deep);
-  color: var(--color-text);
+  background: var(--bg-deep);
+  color: var(--text);
   overflow: hidden;
   height: 100vh;
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--color-bg-base); }
-::-webkit-scrollbar-thumb { background: var(--color-border-bright); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-accent-dim); }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--aurora-accent-dim); }
 
-::selection { background: var(--color-accent-glow-strong); color: var(--color-accent); }
+::selection { background: var(--aurora-accent-glow-strong); color: var(--aurora-accent); }
 
 /* ===== Background effects ===== */
 .scanline-overlay {
   position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline-color) 2px, var(--scanline-color) 4px);
 }
 .grid-bg {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.03;
-  background-image: linear-gradient(var(--color-accent) 1px, transparent 1px), linear-gradient(90deg, var(--color-accent) 1px, transparent 1px);
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  opacity: var(--grid-opacity);
+  background-image: linear-gradient(var(--aurora-accent) 1px, transparent 1px), linear-gradient(90deg, var(--aurora-accent) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 /* ===== Sidebar edge glow ===== */
 .sidebar-edge::after {
   content: ''; position: absolute; top: 0; right: -1px; width: 1px; height: 100%;
-  background: linear-gradient(180deg, var(--color-accent) 0%, transparent 15%, transparent 85%, var(--color-accent) 100%);
+  background: linear-gradient(180deg, var(--aurora-accent) 0%, transparent 15%, transparent 85%, var(--aurora-accent) 100%);
   opacity: 0.2;
 }
 
 /* ===== Markdown rendered content ===== */
 .article-body strong:not(.section-heading) {
-  font-family: var(--font-display); font-weight: 600; color: var(--color-accent);
+  font-family: var(--font-display); font-weight: 600; color: var(--aurora-accent);
   font-size: 1.15em; display: block; margin-top: 2em; margin-bottom: 0.5em;
 }
 .article-body p + p { margin-top: 1em; }
-.article-body a { color: var(--color-accent); text-decoration: none; border-bottom: 1px solid var(--color-accent-dim); transition: border-color 0.2s; }
-.article-body a:hover { border-bottom-color: var(--color-accent); }
-.article-body img { max-width: 100%; border-radius: 6px; border: 1px solid var(--color-border); margin: 1em 0; }
+.article-body a { color: var(--aurora-accent); text-decoration: none; border-bottom: 1px solid var(--aurora-accent-dim); transition: border-color 0.2s; }
+.article-body a:hover { border-bottom-color: var(--aurora-accent); }
+.article-body img { max-width: 100%; border-radius: 6px; border: 1px solid var(--border); margin: 1em 0; }
 .article-body ul { padding-left: 1.5em; margin: 0.8em 0; list-style-type: disc; }
 .article-body ol { padding-left: 1.5em; margin: 0.8em 0; list-style-type: decimal; }
 .article-body li { margin: 0.3em 0; }
-.article-body li::marker { color: var(--color-accent-dim); }
-.article-body blockquote { border-left: 3px solid var(--color-accent-dim); padding: 8px 16px; margin: 1em 0; background: var(--color-bg-raised); border-radius: 0 6px 6px 0; color: var(--color-text-dim); }
+.article-body li::marker { color: var(--aurora-accent-dim); }
+.article-body blockquote { border-left: 3px solid var(--aurora-accent-dim); padding: 8px 16px; margin: 1em 0; background: var(--bg-raised); border-radius: 0 6px 6px 0; color: var(--text-dim); }
 .article-body table { width: 100%; border-collapse: collapse; margin: 1.2em 0; font-size: 0.88rem; }
-.article-body th { font-family: var(--font-display); font-weight: 600; text-align: left; padding: 10px 14px; background: var(--color-bg-raised); border: 1px solid var(--color-border); color: var(--color-accent); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
-.article-body td { padding: 8px 14px; border: 1px solid var(--color-border); }
-.article-body tr:hover td { background: var(--color-bg-hover); }
-.article-body hr { border: none; height: 1px; background: var(--color-border); margin: 2em 0; }
-.article-body code { font-family: var(--font-mono); font-size: 0.88em; background: var(--color-bg-raised); border: 1px solid var(--color-border); border-radius: 4px; padding: 2px 6px; color: var(--color-accent); }
-.article-body pre { background: var(--color-bg-raised); border: 1px solid var(--color-border); border-radius: 6px; padding: 16px; overflow-x: auto; margin: 1em 0; }
+.article-body th { font-family: var(--font-display); font-weight: 600; text-align: left; padding: 10px 14px; background: var(--bg-raised); border: 1px solid var(--border); color: var(--aurora-accent); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.article-body td { padding: 8px 14px; border: 1px solid var(--border); }
+.article-body tr:hover td { background: var(--bg-hover); }
+.article-body hr { border: none; height: 1px; background: var(--border); margin: 2em 0; }
+.article-body code { font-family: var(--font-mono); font-size: 0.88em; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; color: var(--aurora-accent); }
+.article-body pre { background: var(--bg-raised); border: 1px solid var(--border); border-radius: 6px; padding: 16px; overflow-x: auto; margin: 1em 0; }
 .article-body pre code { background: none; border: none; padding: 0; }
 
 /* Compact spacing inside patch/update cards, community notes, and collapsed sections */

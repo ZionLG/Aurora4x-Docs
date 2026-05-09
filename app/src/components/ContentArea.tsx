@@ -312,7 +312,7 @@ function TableOfContents({ items, scrollRef }: {
   }
 
   return (
-    <div className="mb-8 border border-border rounded-lg overflow-hidden sticky top-0 z-10 bg-[#0c0e14] shadow-lg shadow-black/40">
+    <div className="mb-8 border border-border rounded-lg overflow-hidden sticky top-0 z-10 bg-bg-base shadow-lg shadow-black/40">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left cursor-pointer bg-bg-raised/50 hover:bg-bg-hover transition-colors"
@@ -331,7 +331,7 @@ function TableOfContents({ items, scrollRef }: {
         </span>
       </button>
       {open && (
-        <div className="px-4 pb-3 pt-1 columns-1 md:columns-2 gap-x-6 border-t border-border bg-[#0c0e14]">
+        <div className="px-4 pb-3 pt-1 columns-1 md:columns-2 gap-x-6 border-t border-border bg-bg-base">
           {items.map((item, i) => (
             <button
               key={i}
