@@ -83,7 +83,8 @@ test('descriptions remove Markdown decoration and explicit spoilers before trunc
   for (const hidden of ['secret formula', 'hidden discovery', 'image.png', 'https://', '**']) {
     assert.ok(!description.includes(hidden), hidden)
   }
-  assert.ok(previewDescription('word '.repeat(100)).length <= 220)
+  assert.ok(Buffer.byteLength(previewDescription('word '.repeat(100))) <= 350)
+  assert.ok(previewDescription('C# Aurora').includes('C#'))
 })
 
 test('topic and section pages redirect to their matching app routes', () => {

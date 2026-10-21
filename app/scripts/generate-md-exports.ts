@@ -13,10 +13,12 @@ import { parseSections, type MarkdownSection } from '../src/utils/extractSection
 import { mergeTopicContent } from '../src/utils/mergeContent'
 import { buildTopicMarkdown } from '../src/utils/exportMarkdown'
 import { buildSharePages, type SharePage } from './share-preview'
+import { shareSiteOrigin } from './discord-embed'
 
 const DIST = path.resolve(import.meta.dirname, '..', 'dist')
 const DOCS = path.resolve(import.meta.dirname, '..', 'public', 'docs')
 const OUT = path.join(DIST, 'current')
+const SITE_ORIGIN = shareSiteOrigin(process.env)
 
 function readFile(relPath: string): string {
   const full = path.join(DOCS, relPath)
@@ -78,7 +80,10 @@ for (const topic of manifest.topics) {
   fs.writeFileSync(outFile, md, 'utf-8')
   count++
 
-  writeSharePages(buildSharePages('current', topic, merged))
+  writeSharePages(buildSharePages('current', topic, merged.map(section => ({
+    ...section,
+    unreleased: unreleasedVersions.has(section.version),
+  })), undefined, false, SITE_ORIGIN))
 
   for (const version of manifest.versions) {
     const sections = version.version === '1.0.0'
@@ -88,7 +93,7 @@ for (const topic of manifest.topics) {
         const routes = Array.isArray(entry) ? entry : entry ? [entry] : []
         return routes.some(route => route.topic === topic.id)
       })
-    writeSharePages(buildSharePages('changelog', topic, sections, version.version, version.unreleased))
+    writeSharePages(buildSharePages('changelog', topic, sections, version.version, version.unreleased, SITE_ORIGIN))
   }
 }
 
