@@ -26,7 +26,7 @@ Follow [CONTENT_UPDATES.md](CONTENT_UPDATES.md). The v3.0.0 source is the forum 
 - Spoilers keep their original paragraph, table, link, and code layout. Click, tap, Enter, or Space unscrambles the entire protected section in place; reduced-motion skips the animation. Explicit inline or block spoilers outside a protected section reveal their own marked group. Always show spoilers instantly reveals everything and persists across navigation and reloads. Turning it off restores masks except for sections and marked groups already revealed by the reader, which remain revealed while that section is displayed. Concealed text stays in the DOM to reserve its exact dimensions, with inert content hidden from assistive technology; public share previews still redact spoilers.
 - Write inline spoilers as `||text with **Markdown**||` or `[spoiler]text[/spoiler]`. Put `[spoiler]` and `[/spoiler]` on separate lines for a multi-paragraph block. The section classifier in `src/utils/spoilers.ts` also protects named special races and discoveries in existing official documents.
 - Copy MD includes all content, including spoilers. Search excerpts and public link previews redact marked spoilers.
-- Use Copy link for Discord for a topic or Copy section link beneath a section. See [sharing.md](docs/sharing.md).
+- Use Copy link for Discord for a topic, a clickable section title, or Copy section link beneath a section. Discord previews retain paragraphs and lists, include relevant images, and show short sections in full within Discord's payload limit. See [sharing.md](docs/sharing.md).
 
 ## Code ownership and data flow
 
@@ -36,4 +36,4 @@ The build exporter reuses the parser and merger to produce Markdown and share me
 
 ## Verification notes
 
-The October 2026 update was checked with a production build, 48 regression tests, a complete official-post/routing audit, and browser checks for navigation and spoiler animation. Full-repository lint still reports existing errors in the theme/button exports and Vite middleware typing, plus an AdminPanel hook warning. The changed frontend components and helpers pass focused lint checks.
+Validation includes a production build, regression tests, a complete official-post/routing audit, and browser checks for navigation and spoiler animation. Full-repository lint still reports existing errors in the theme/button exports and Vite middleware typing, plus an AdminPanel hook warning. The changed frontend components and helpers pass focused lint checks.

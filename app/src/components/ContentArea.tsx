@@ -1,4 +1,5 @@
 import { useMemo, useState, useRef, useCallback, type MouseEvent as ReactMouseEvent } from 'react'
+import type { Components } from 'react-markdown'
 import DocsMarkdown from './DocsMarkdown'
 import Spoiler from './Spoiler'
 import SpoilerText from './SpoilerText'
@@ -205,7 +206,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
               {changelogSections.map((sec, si) => (
                 <div key={si} id={`s-${anchors[si]}`} className="scroll-mt-6">
                   <ProtectedSection title={sec.title} content={sec.content}>
-                    <DocsMarkdown>{sec.content}</DocsMarkdown>
+                    <SectionMarkdown content={sec.content} title={sec.title} slug={anchors[si]} onSectionClick={handleSectionClick} />
                     <CopyLinkButton view={view} selection={selection} sectionSlug={anchors[si]} />
                   </ProtectedSection>
                 </div>
@@ -324,7 +325,7 @@ function MergedSectionBlock({
           <div className="flex-1 h-px bg-border" />
         </summary>
         <div className="collapsed-content mt-3 pl-5 border-l-2 border-border opacity-50">
-          <DocsMarkdown>{section.content}</DocsMarkdown>
+          <SectionMarkdown content={section.content} title={section.title} slug={slug} onSectionClick={onSectionClick} />
         </div>
       </details>
     )
@@ -348,7 +349,7 @@ function MergedSectionBlock({
             <SectionAnchor title={section.title} slug={slug} onClick={onSectionClick} inline />
           </summary>
           <div className="patch-card mt-1 px-4 py-2 ml-2 border-l-2 border-warning/20">
-            <DocsMarkdown>{section.content}</DocsMarkdown>
+            <SectionMarkdown content={section.content} title={section.title} slug={slug} onSectionClick={onSectionClick} />
           </div>
         </details>
       )
@@ -365,7 +366,7 @@ function MergedSectionBlock({
             </span>
           </div>
           <div className="px-4 py-2">
-            <DocsMarkdown>{section.content}</DocsMarkdown>
+            <SectionMarkdown content={section.content} title={section.title} slug={slug} onSectionClick={onSectionClick} />
           </div>
         </div>
       )
@@ -381,7 +382,7 @@ function MergedSectionBlock({
           </span>
         </div>
         <div className="px-4 py-2">
-          <DocsMarkdown>{section.content}</DocsMarkdown>
+          <SectionMarkdown content={section.content} title={section.title} slug={slug} onSectionClick={onSectionClick} />
         </div>
       </div>
     )
@@ -422,7 +423,7 @@ function MergedSectionBlock({
             </span>
           </div>
           <div className="px-4 py-2">
-            <DocsMarkdown>{section.content}</DocsMarkdown>
+            <SectionMarkdown content={section.content} title={section.title} slug={slug} onSectionClick={onSectionClick} />
           </div>
         </div>
 
@@ -439,7 +440,7 @@ function MergedSectionBlock({
                 <div className="flex-1 h-px bg-border" />
               </summary>
               <div className="collapsed-content mt-2 pl-5 border-l-2 border-border opacity-50">
-                <DocsMarkdown>{prev.content}</DocsMarkdown>
+                <SectionMarkdown content={prev.content} title={parseSections(prev.content)[0]?.title ?? section.title} slug={slug} onSectionClick={onSectionClick} />
               </div>
             </details>
           )
@@ -451,16 +452,25 @@ function MergedSectionBlock({
   // ── Normal base section (unchanged across versions) ──
   return (
     <div className="my-1 scroll-mt-6">
-      <DocsMarkdown
-        components={{
-          strong: ({ node, children }) => markdownText(node ?? {}) === section.title
-            ? <SectionAnchor title={section.title} slug={slug} onClick={onSectionClick} heading />
-            : <strong>{children}</strong>,
-        }}
-      >
-        {section.content}
-      </DocsMarkdown>
+      <SectionMarkdown content={section.content} title={section.title} slug={slug} onSectionClick={onSectionClick} />
     </div>
+  )
+}
+
+function SectionMarkdown({ content, title, slug, onSectionClick }: {
+  content: string
+  title: string
+  slug: string
+  onSectionClick: (slug: string) => void
+}) {
+  const components = useMemo<Components>(() => ({
+    strong: ({ node, children }) => node?.position?.start.line === 1
+      && node.position.start.column === 1 && markdownText(node) === title
+      ? <SectionAnchor title={title} slug={slug} onClick={onSectionClick} heading />
+      : <strong>{children}</strong>,
+  }), [title, slug, onSectionClick])
+  return (
+    <DocsMarkdown components={components}>{content}</DocsMarkdown>
   )
 }
 
@@ -500,38 +510,48 @@ function SectionAnchor({
 
   if (inline) {
     return (
-      <span
-        className="font-body text-[0.82rem] text-text-dim cursor-pointer hover:text-text transition-colors group/anchor"
+      <button
+        type="button"
+        title="Copy link to this section"
+        className="font-body text-left text-[0.82rem] text-text-dim cursor-pointer hover:text-text transition-colors group/anchor rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         onClick={handleClick}
       >
         {label}
-        <span className="text-text-muted opacity-0 group-hover/anchor:opacity-100 transition-opacity ml-1">#</span>
-      </span>
+        <span aria-hidden="true" className="text-text-muted opacity-0 group-hover/anchor:opacity-100 group-focus-visible/anchor:opacity-100 transition-opacity ml-1">#</span>
+      </button>
     )
   }
 
   if (heading) {
     return (
       <strong
-        className="section-heading font-display font-semibold text-accent text-[1.15em] block mt-[2em] mb-[0.5em] cursor-pointer hover:text-accent/80 transition-colors group/anchor"
-        onClick={handleClick}
+        className="section-heading font-display font-semibold text-accent text-[1.15em] block mt-[2em] mb-[0.5em]"
       >
-        {label}
-        <span className="text-accent-dim opacity-0 group-hover/anchor:opacity-100 transition-opacity ml-2 text-[0.75em]">#</span>
+        <button
+          type="button"
+          title="Copy link to this section"
+          className="text-left cursor-pointer hover:text-accent/80 transition-colors group/anchor rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          onClick={handleClick}
+        >
+          {label}
+          <span aria-hidden="true" className="text-accent-dim opacity-0 group-hover/anchor:opacity-100 group-focus-visible/anchor:opacity-100 transition-opacity ml-2 text-[0.75em]">#</span>
+        </button>
       </strong>
     )
   }
 
   return (
-    <span
-      className={`font-body font-semibold text-[0.95rem] cursor-pointer transition-colors group/anchor ${
+    <button
+      type="button"
+      title="Copy link to this section"
+      className={`font-body text-left font-semibold text-[0.95rem] cursor-pointer transition-colors group/anchor rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
         dim ? 'text-text-muted hover:text-text-dim' : 'text-text hover:text-accent'
       }`}
       onClick={handleClick}
     >
       {label}
-      <span className={`opacity-0 group-hover/anchor:opacity-100 transition-opacity ml-1 ${dim ? 'text-text-muted' : 'text-accent-dim'}`}>#</span>
-    </span>
+      <span aria-hidden="true" className={`opacity-0 group-hover/anchor:opacity-100 group-focus-visible/anchor:opacity-100 transition-opacity ml-1 ${dim ? 'text-text-muted' : 'text-accent-dim'}`}>#</span>
+    </button>
   )
 }
 
