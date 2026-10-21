@@ -1,0 +1,298 @@
+{
+  "source": "https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49",
+  "title": "Aurora v3.0.0 Patch Notes - Unreleased",
+  "version": "3.0.0",
+  "unreleased": true,
+  "retrievedAt": "2026-10-21T15:50:49.144Z",
+  "latestSourceUpdate": "2026-10-20T14:56:43.319Z",
+  "postCount": 56,
+  "sectionCount": 60,
+  "skippedSystemPostNumbers": [
+    17,
+    38,
+    39
+  ],
+  "markdownSha256": "9f1f5ecf2288a9eec115fc36f177ef950941f479a72ea6514aafde6b4cc88c53",
+  "posts": [
+    {
+      "id": 268,
+      "number": 1,
+      "updatedAt": "2026-10-20T14:56:43.319Z"
+    },
+    {
+      "id": 30,
+      "number": 2,
+      "updatedAt": "2026-03-02T18:48:36.162Z"
+    },
+    {
+      "id": 31,
+      "number": 3,
+      "updatedAt": "2026-05-06T16:44:55.807Z"
+    },
+    {
+      "id": 32,
+      "number": 4,
+      "updatedAt": "2026-05-06T16:45:07.525Z"
+    },
+    {
+      "id": 33,
+      "number": 5,
+      "updatedAt": "2026-05-06T16:46:41.145Z"
+    },
+    {
+      "id": 34,
+      "number": 6,
+      "updatedAt": "2026-03-02T18:48:36.169Z"
+    },
+    {
+      "id": 35,
+      "number": 7,
+      "updatedAt": "2026-03-02T18:48:36.170Z"
+    },
+    {
+      "id": 36,
+      "number": 8,
+      "updatedAt": "2026-05-06T16:46:53.743Z"
+    },
+    {
+      "id": 37,
+      "number": 9,
+      "updatedAt": "2026-05-06T16:47:03.318Z"
+    },
+    {
+      "id": 38,
+      "number": 10,
+      "updatedAt": "2026-05-06T16:47:28.058Z"
+    },
+    {
+      "id": 39,
+      "number": 11,
+      "updatedAt": "2026-03-02T18:48:36.177Z"
+    },
+    {
+      "id": 40,
+      "number": 12,
+      "updatedAt": "2026-05-06T16:47:50.459Z"
+    },
+    {
+      "id": 43,
+      "number": 13,
+      "updatedAt": "2026-03-02T18:48:36.180Z"
+    },
+    {
+      "id": 44,
+      "number": 14,
+      "updatedAt": "2026-05-06T16:48:01.857Z"
+    },
+    {
+      "id": 49,
+      "number": 15,
+      "updatedAt": "2026-05-06T16:48:14.756Z"
+    },
+    {
+      "id": 128,
+      "number": 16,
+      "updatedAt": "2026-03-17T10:15:19.069Z"
+    },
+    {
+      "id": 303,
+      "number": 18,
+      "updatedAt": "2026-03-06T17:29:23.445Z"
+    },
+    {
+      "id": 334,
+      "number": 19,
+      "updatedAt": "2026-05-06T16:48:33.322Z"
+    },
+    {
+      "id": 375,
+      "number": 20,
+      "updatedAt": "2026-05-06T16:48:42.320Z"
+    },
+    {
+      "id": 381,
+      "number": 21,
+      "updatedAt": "2026-05-06T16:51:11.878Z"
+    },
+    {
+      "id": 519,
+      "number": 22,
+      "updatedAt": "2026-03-11T22:52:51.365Z"
+    },
+    {
+      "id": 520,
+      "number": 23,
+      "updatedAt": "2026-05-06T16:51:40.948Z"
+    },
+    {
+      "id": 548,
+      "number": 24,
+      "updatedAt": "2026-05-06T16:49:16.245Z"
+    },
+    {
+      "id": 559,
+      "number": 25,
+      "updatedAt": "2026-03-12T15:33:58.579Z"
+    },
+    {
+      "id": 661,
+      "number": 26,
+      "updatedAt": "2026-03-14T15:21:11.693Z"
+    },
+    {
+      "id": 680,
+      "number": 27,
+      "updatedAt": "2026-05-06T16:49:33.050Z"
+    },
+    {
+      "id": 748,
+      "number": 28,
+      "updatedAt": "2026-05-06T16:49:42.049Z"
+    },
+    {
+      "id": 800,
+      "number": 29,
+      "updatedAt": "2026-03-19T10:57:37.652Z"
+    },
+    {
+      "id": 1104,
+      "number": 30,
+      "updatedAt": "2026-03-30T14:07:54.620Z"
+    },
+    {
+      "id": 1105,
+      "number": 31,
+      "updatedAt": "2026-03-30T14:26:26.662Z"
+    },
+    {
+      "id": 1217,
+      "number": 32,
+      "updatedAt": "2026-09-04T14:22:16.040Z"
+    },
+    {
+      "id": 1321,
+      "number": 33,
+      "updatedAt": "2026-04-11T14:11:59.527Z"
+    },
+    {
+      "id": 1348,
+      "number": 34,
+      "updatedAt": "2026-04-11T13:41:44.843Z"
+    },
+    {
+      "id": 1350,
+      "number": 35,
+      "updatedAt": "2026-04-11T14:57:14.633Z"
+    },
+    {
+      "id": 1673,
+      "number": 36,
+      "updatedAt": "2026-05-06T16:50:07.505Z"
+    },
+    {
+      "id": 1679,
+      "number": 37,
+      "updatedAt": "2026-04-24T13:39:07.770Z"
+    },
+    {
+      "id": 1861,
+      "number": 40,
+      "updatedAt": "2026-05-06T16:50:23.913Z"
+    },
+    {
+      "id": 1862,
+      "number": 41,
+      "updatedAt": "2026-05-06T16:50:37.135Z"
+    },
+    {
+      "id": 1869,
+      "number": 42,
+      "updatedAt": "2026-08-16T14:36:11.386Z"
+    },
+    {
+      "id": 1977,
+      "number": 43,
+      "updatedAt": "2026-09-14T15:00:21.865Z"
+    },
+    {
+      "id": 2207,
+      "number": 44,
+      "updatedAt": "2026-05-10T09:21:51.142Z"
+    },
+    {
+      "id": 2227,
+      "number": 45,
+      "updatedAt": "2026-05-10T10:18:05.919Z"
+    },
+    {
+      "id": 2267,
+      "number": 46,
+      "updatedAt": "2026-05-11T11:33:38.817Z"
+    },
+    {
+      "id": 2354,
+      "number": 47,
+      "updatedAt": "2026-05-13T14:42:17.176Z"
+    },
+    {
+      "id": 2366,
+      "number": 48,
+      "updatedAt": "2026-05-13T19:00:13.830Z"
+    },
+    {
+      "id": 2472,
+      "number": 49,
+      "updatedAt": "2026-08-16T14:27:13.821Z"
+    },
+    {
+      "id": 2547,
+      "number": 50,
+      "updatedAt": "2026-05-17T11:12:40.320Z"
+    },
+    {
+      "id": 2578,
+      "number": 51,
+      "updatedAt": "2026-05-18T11:03:26.717Z"
+    },
+    {
+      "id": 2583,
+      "number": 52,
+      "updatedAt": "2026-05-18T16:21:52.337Z"
+    },
+    {
+      "id": 2586,
+      "number": 53,
+      "updatedAt": "2026-05-18T17:07:47.400Z"
+    },
+    {
+      "id": 4378,
+      "number": 54,
+      "updatedAt": "2026-07-11T11:11:53.935Z"
+    },
+    {
+      "id": 4495,
+      "number": 55,
+      "updatedAt": "2026-07-12T10:54:51.636Z"
+    },
+    {
+      "id": 4965,
+      "number": 56,
+      "updatedAt": "2026-07-28T09:41:47.748Z"
+    },
+    {
+      "id": 5429,
+      "number": 57,
+      "updatedAt": "2026-08-19T09:43:00.843Z"
+    },
+    {
+      "id": 6811,
+      "number": 58,
+      "updatedAt": "2026-09-30T16:07:58.606Z"
+    },
+    {
+      "id": 7192,
+      "number": 59,
+      "updatedAt": "2026-10-09T21:36:41.430Z"
+    }
+  ]
+}

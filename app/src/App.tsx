@@ -4,6 +4,7 @@ import { parseSections, type MarkdownSection } from './utils/extractSections'
 import Sidebar from './components/Sidebar'
 import ContentArea from './components/ContentArea'
 import AdminPanel from './components/AdminPanel'
+import { normalizeDocsHash } from './utils/shareLinks'
 
 export type ViewMode = 'current' | 'changelog'
 
@@ -33,7 +34,7 @@ function isAdminHash(): boolean {
 
 /** Parse URL hash into state */
 function fromHash(): { view: ViewMode; selection: ActiveSelection | null } {
-  const hash = window.location.hash.replace(/^#/, '')
+  const hash = normalizeDocsHash(window.location.hash).replace(/^#/, '')
   const parts = hash.split('/')
 
   const view: ViewMode = parts[0] === 'changelog' ? 'changelog' : 'current'
@@ -69,7 +70,7 @@ export default function App() {
     const changelogPromise = Promise.all(
       versionsWithFiles.map(v =>
         fetch(`/docs/${v.file!}`)
-          .then(r => r.text())
+          .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
           .then(raw => ({ version: v.version, sections: parseSections(raw) }))
           .catch(() => ({ version: v.version, sections: [] as MarkdownSection[] }))
       )
@@ -79,7 +80,7 @@ export default function App() {
     const baseDocsPromise = Promise.all(
       topicsWithBase.map(t =>
         fetch(`/docs/${t.base!}`)
-          .then(r => r.text())
+          .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
           .then(raw => ({ id: t.id, content: raw }))
           .catch(() => ({ id: t.id, content: '' }))
       )
@@ -105,7 +106,10 @@ export default function App() {
   // Update URL hash when state changes (preserve section slug if same topic)
   useEffect(() => {
     const newHash = toHash(view, selection)
-    const currentHash = window.location.hash
+    const currentHash = normalizeDocsHash(window.location.hash)
+    if (currentHash !== window.location.hash) {
+      window.history.replaceState(null, '', currentHash)
+    }
     if (currentHash.startsWith(newHash + '/') || currentHash === newHash) return
     window.history.pushState(null, '', newHash)
   }, [view, selection])
@@ -123,14 +127,21 @@ export default function App() {
       setSelection(s)
     }
     window.addEventListener('popstate', onPop)
-    return () => window.removeEventListener('popstate', onPop)
+    window.addEventListener('hashchange', onPop)
+    return () => {
+      window.removeEventListener('popstate', onPop)
+      window.removeEventListener('hashchange', onPop)
+    }
   }, [])
 
-  const handleSelect = useCallback((topic: Topic, version?: string) => {
+  const handleSelect = useCallback((topic: Topic, version?: string, sectionSlug?: string) => {
     const v = version ?? manifest.versions[0].version
-    setSelection({ topic, version: v })
+    const nextSelection = { topic, version: v }
+    const hash = toHash(view, nextSelection) + (sectionSlug ? `/${sectionSlug}` : '')
+    if (window.location.hash !== hash) window.history.pushState(null, '', hash)
+    setSelection(nextSelection)
     setSidebarOpen(false)
-  }, [])
+  }, [view])
 
   const toggleView = useCallback(() => {
     setView(v => v === 'current' ? 'changelog' : 'current')
@@ -177,8 +188,8 @@ export default function App() {
           view={view}
           selection={selection}
           changelogCache={changelogCache}
+          baseDocsCache={baseDocsCache}
           cacheReady={cacheReady}
-          onSelectEntry={handleSelect}
           onOpenSidebar={() => setSidebarOpen(true)}
         />
       </div>

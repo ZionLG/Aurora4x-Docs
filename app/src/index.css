@@ -230,3 +230,90 @@ body {
 @keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slow-rotate { to { transform: rotate(360deg); } }
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* Scrambled letters occupy the same word boxes as the original formatted text. */
+.spoiler-region { position: relative; }
+.spoiler-passage { display: block; }
+.article-body p > .spoiler-region,
+.article-body pre > .spoiler-region,
+.article-body :is(td, th, h1, h2, h3, h4, h5, h6) > .spoiler-region { display: block; }
+.spoiler-region:not([data-state="revealed"]) { cursor: pointer; }
+.spoiler-region:focus-visible {
+  outline: 2px solid var(--aurora-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.spoiler-word { display: inline-block; white-space: nowrap; }
+.spoiler-char { position: relative; display: inline-block; color: transparent; }
+.spoiler-char::after {
+  content: attr(data-glyph);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--aurora-accent);
+  font-family: var(--font-mono);
+  font-size: 1em;
+  font-weight: 400;
+  pointer-events: none;
+}
+.spoiler-region[data-state="revealing"] .spoiler-char[data-resolved="true"],
+.spoiler-region[data-state="revealed"] .spoiler-char { color: inherit; }
+.spoiler-region[data-state="revealing"] .spoiler-char[data-resolved="true"]::after,
+.spoiler-region[data-state="revealed"] .spoiler-char::after { content: none; }
+.spoiler-content[inert] { user-select: none; pointer-events: none; }
+.spoiler-content[inert] img { visibility: hidden; }
+
+/* Keep native checkbox semantics while matching the archive's outlined controls. */
+.spoiler-preference {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 28px;
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+.spoiler-preference-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.spoiler-preference-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--aurora-accent);
+  border-radius: 5px;
+  background: var(--bg-base);
+}
+.spoiler-preference-box svg { width: 16px; height: 16px; opacity: 0; }
+.spoiler-preference:hover .spoiler-preference-box { background: var(--aurora-accent-glow); }
+.spoiler-preference-input:checked + .spoiler-preference-box {
+  background: var(--aurora-accent);
+  color: var(--primary-foreground);
+}
+.spoiler-preference-input:checked + .spoiler-preference-box svg { opacity: 1; }
+.spoiler-preference-input:focus-visible + .spoiler-preference-box {
+  outline: 2px solid var(--aurora-accent);
+  outline-offset: 3px;
+}
+@media (forced-colors: active) {
+  .spoiler-preference-box {
+    forced-color-adjust: none;
+    border-color: ButtonText;
+    background: Canvas;
+  }
+  .spoiler-preference:hover .spoiler-preference-box { background: Canvas; }
+  .spoiler-preference-input:checked + .spoiler-preference-box { background: Highlight; color: HighlightText; }
+  .spoiler-preference-input:focus-visible + .spoiler-preference-box { outline-color: Highlight; }
+}
