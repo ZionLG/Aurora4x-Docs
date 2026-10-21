@@ -115,13 +115,15 @@ test('topic descriptions exclude sensitive sections and sensitive pages use gene
   assert.ok(spoiler.html.includes('/#current/alien-races/rakhas'))
 })
 
-test('explicit spoiler labels do not leak in metadata titles', () => {
+test('explicit spoiler labels do not leak in titles, image metadata, or component payloads', () => {
   const pages = buildSharePages('current', { id: 'test', title: 'Ships' }, [
-    { title: 'Discovery ||classified name||', content: 'Public text ||classified content||' },
+    { title: 'Discovery ||classified name||', content: '**Discovery ||classified name||**\n\nPublic text ||classified content||\n\n![image](https://images.example/map.png)' },
   ])
   const metadata = pages[1].html.split('</head>')[0]
   assert.ok(!metadata.includes('classified name'))
   assert.ok(!metadata.includes('classified content'))
+  assert.ok(metadata.includes('property="og:image:alt"'))
+  assert.ok(metadata.includes('id="discord:component-embed"'))
 })
 
 test('duplicate and untitled sections receive distinct share pages with matching contents', () => {

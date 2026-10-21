@@ -103,7 +103,7 @@ export function buildSharePages(
       ? `Spoiler section${versionSuffix}`
       : `${section ? `${previewDescription(section.title)} — ` : ''}${topicTitle}${versionSuffix}`
     const content = section?.content ?? publicSections.map(item => item.content).join('\n\n')
-    const prepared = preparePreviewContent(spoiler ? SPOILER_DESCRIPTION : spoilerSafeText(content), section?.title)
+    const prepared = preparePreviewContent(spoiler ? SPOILER_DESCRIPTION : spoilerSafeText(content), section ? spoilerSafeText(section.title) : undefined)
     const description = spoiler
       ? SPOILER_DESCRIPTION
       : previewDescription(prepared.markdown) || `Read ${topicTitle} in the Aurora 4x documentation archive.`
