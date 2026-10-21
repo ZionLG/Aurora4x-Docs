@@ -18,4 +18,4 @@ The generated `public/docs/v3.0.0/source.json` records source post IDs/numbers, 
 
 After importing, review every new section and add its route to `src/manifest.ts` `sectionMap`, then add the affected topic to `versionTopics`. The validator catches missing routes, duplicate titles, lost subheadings/tables, and incomplete source provenance. Review the content diff as well: source edits can change or remove existing details.
 
-The October 2026 refresh includes all 56 content posts (60 sections), including 25 sections missing from the old snapshot. Stream entries 17, 38, and 39 are empty Discourse system posts, not missing documentation. The historical `public/docs/v2.8.0/01-patch-notes.md` remains available for existing raw-document links, but is no longer merged as a separate release. Old in-app v2.8.0 links resolve to v3.0.0.
+The October 2026 refresh includes all 56 content posts (60 sections), including 25 sections missing from the old snapshot. Stream entries 17, 38, and 39 are empty Discourse system posts, not missing documentation. The superseded v2.8.0 snapshot is retained only in Git history. Old in-app v2.8.0 links resolve to v3.0.0.
