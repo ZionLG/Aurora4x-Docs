@@ -1,6 +1,6 @@
 /**
- * Post-build script: generates static .md files for each topic.
- * Output: dist/current/{topic-id}.md
+ * Post-build script: generates topic Markdown and shareable HTML metadata pages.
+ * Output: dist/current/{topic-id}.md and dist/share/{view}/{topic-id}/...
  *
  * These are served as real URLs, e.g.:
  *   https://aurora4x-docs.vercel.app/current/aether-rifts.md
@@ -12,6 +12,7 @@ import { manifest } from '../src/manifest'
 import { parseSections, type MarkdownSection } from '../src/utils/extractSections'
 import { mergeTopicContent } from '../src/utils/mergeContent'
 import { buildTopicMarkdown } from '../src/utils/exportMarkdown'
+import { buildSharePages, type SharePage } from './share-preview'
 
 const DIST = path.resolve(import.meta.dirname, '..', 'dist')
 const DOCS = path.resolve(import.meta.dirname, '..', 'public', 'docs')
@@ -46,6 +47,16 @@ const unreleasedVersions = new Set(
 fs.mkdirSync(OUT, { recursive: true })
 
 let count = 0
+let shareCount = 0
+function writeSharePages(pages: SharePage[]) {
+  for (const page of pages) {
+    const outFile = path.join(DIST, page.path.slice(1))
+    fs.mkdirSync(path.dirname(outFile), { recursive: true })
+    fs.writeFileSync(outFile, page.html, 'utf-8')
+    shareCount++
+  }
+}
+
 for (const topic of manifest.topics) {
   const baseSections = topic.base
     ? parseSections(readFile(topic.base))
@@ -66,6 +77,20 @@ for (const topic of manifest.topics) {
   const outFile = path.join(OUT, `${topic.id}.md`)
   fs.writeFileSync(outFile, md, 'utf-8')
   count++
+
+  writeSharePages(buildSharePages('current', topic, merged))
+
+  for (const version of manifest.versions) {
+    const sections = version.version === '1.0.0'
+      ? baseSections
+      : (changelogCache[version.version] || []).filter(section => {
+        const entry = manifest.sectionMap[section.title]
+        const routes = Array.isArray(entry) ? entry : entry ? [entry] : []
+        return routes.some(route => route.topic === topic.id)
+      })
+    writeSharePages(buildSharePages('changelog', topic, sections, version.version, version.unreleased))
+  }
 }
 
 console.log(`Generated ${count} .md exports in dist/current/`)
+console.log(`Generated ${shareCount} share preview pages in dist/share/`)

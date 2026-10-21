@@ -37,7 +37,7 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
-    { version: "2.8.0", label: "v2.8.0 — Unreleased", date: "", file: "v2.8.0/01-patch-notes.md", unreleased: true },
+    { version: "3.0.0", label: "v3.0.0 — Unreleased", date: "", file: "v3.0.0/01-patch-notes.md", unreleased: true },
     { version: "2.7.0", label: "v2.7.0 — Major Update", date: "2025-10-30", file: "v2.7.0/01-patch-notes.md" },
     { version: "2.6.0", label: "v2.6.0 — Major Update", date: "2025-09-06", file: "v2.6.0/01-patch-notes.md" },
     { version: "2.5.1", label: "v2.5.1 — Minor Update", date: "2024-01-25", file: "v2.5.1/01-patch-notes.md" },
@@ -941,92 +941,132 @@ export const manifest: DocsManifest = {
     "The Ancients": { topic: "alien-races", after: "New Species Attributes" },
 
     // ═══════════════════════════════════════════
-    // v2.8.0 sections (unreleased)
+    // v3.0.0 sections (unreleased)
     // ═══════════════════════════════════════════
 
-    // ── v2.8.0 Generic Patches ──
-    "v2.8.0 Bug Fixes": { topic: "user-interface", after: "v2.7.0 Minor Changes", kind: "bugfix" },
-    "v2.8.0 Minor Changes": { topic: "user-interface", after: "v2.8.0 Bug Fixes" },
+    // ── v3.0.0 Generic Patches ──
+    "v3.0.0 Bug Fixes": { topic: "user-interface", after: "v2.7.0 Minor Changes", kind: "bugfix" },
+    "v3.0.0 Minor Changes": { topic: "user-interface", after: "v3.0.0 Bug Fixes" },
 
-    // ── v2.8.0 Fleet Movement ──
+    // ── v3.0.0 Fleet Movement ──
     "Dynamic Lagrange Point Orders": { topic: "fleet-movement", replaces: "Auto-include Lagrange Points" },
     "Civilian Contract Standing Order": { topic: "fleet-movement", after: "Standing Orders" },
     "Load All Ship Components": { topic: "fleet-movement", after: "Fleet Order Templates" },
 
-    // ── v2.8.0 Sensors & Contacts ──
+    // ── v3.0.0 Sensors & Contacts ──
     "Using Buoys in Alien-Controlled Space": { topic: "sensors-and-contacts", after: "Transponders" },
 
-    // ── v2.8.0 New Game Setup ──
+    // ── v3.0.0 New Game Setup ──
     "Lost Colonies": { topic: "new-game-setup", after: "Starting Financial Centres" },
     "No Research Projects": { topic: "new-game-setup", after: "Starting Financial Centres" },
 
-    // ── v2.8.0 Shipyards ──
+    // ── v3.0.0 Shipyards ──
     "Repeat Shipyard Tasks": { topic: "shipyards", after: "Shipbuilding Changes" },
     "Light Naval Shipyards": { topic: "shipyards", after: "Shipbuilding Changes" },
 
-    // ── v2.8.0 Ship Components ──
+    // ── v3.0.0 Ship Components ──
     "Fighter and FAC Updates": { topic: "ship-components", after: "Fuel Storage Costs" },
     "Engineering Projects": { topic: "ship-components", after: "Researching Prototypes" },
     "'Narrow Text' Class Summary": { topic: "ship-components", after: "Researching Prototypes" },
     "Summary Highlighting for Obsolete Components": { topic: "ship-components", after: "Researching Prototypes" },
     "Class Summary to Clipboard": { topic: "ship-components", after: "Researching Prototypes" },
 
-    // ── v2.8.0 Crew & Commanders ──
+    // ── v3.0.0 Crew & Commanders ──
     "Light Tactical Bonus": { topic: "crew-and-commanders", after: "Academy Commandants" },
     "New Hull Numbers": { topic: "crew-and-commanders", after: "Academy Commandants" },
     "Senior Ship Commanders": { topic: "crew-and-commanders", after: "Academy Commandants" },
 
-    // ── v2.8.0 Ruins ──
+    // ── v3.0.0 Ruins ──
     "Alien Artifact Changes": { topic: "ruins" },
     "Xenoarchaeology Update": { topic: "ruins" },
 
-    // ── v2.8.0 Ground Support Fighters ──
+    // ── v3.0.0 Ground Support Fighters ──
     "Ground Support Fighters Removed": { topic: "ground-support-fighters" },
 
-    // ── v2.8.0 Surface to Orbit ──
+    // ── v3.0.0 Surface to Orbit ──
     "Mass STO Target Type Reassignment": { topic: "surface-to-orbit" },
 
-    // ── v2.8.0 Ground Combat ──
+    // ── v3.0.0 Ground Combat ──
     "Orbital Bombardment Support Update": { topic: "ground-combat" },
 
-    // ── v2.8.0 Terraforming ──
+    // ── v3.0.0 Terraforming ──
     "Estimated Future Temperature": { topic: "terraforming" },
 
-    // ── v2.8.0 Ground Forces ──
+    // ── v3.0.0 Ground Forces ──
     "Ground Forces Window Update": { topic: "ground-forces", after: "Ground Forces: Part 2 - Formation Templates" },
 
-    // ── v2.8.0 Aether Rifts ──
+    // ── v3.0.0 Aether Rifts ──
     "Aether Gate Detection and Prevention": { topic: "aether-rifts" },
 
-    // ── v2.8.0 Diplomacy ──
+    // ── v3.0.0 Diplomacy ──
     "Communications Update": { topic: "diplomacy" },
 
-    // ── v2.8.0 Civilians ──
+    // ── v3.0.0 Civilians ──
     "Civilian Mining Summary": { topic: "civilians" },
 
-    // ── v2.8.0 Missiles & Ordnance ──
+    // ── v3.0.0 Missiles & Ordnance ──
     "Ordnance Series": { topic: "missiles-and-launchers", after: "Ship Ordnance Templates" },
 
-    // ── v2.8.0 Systems & Bodies ──
+    // ── v3.0.0 Systems & Bodies ──
     "Manual Jump Point Connections": { topic: "systems-and-bodies" },
     "Lagrange Point Update": { topic: "systems-and-bodies" },
 
-    // ── v2.8.0 Logistics ──
+    // ── v3.0.0 Logistics ──
     "Empire Logistics Summary": { topic: "logistics" },
 
-    // ── v2.8.0 Naval Organization ──
+    // ── v3.0.0 Naval Organization ──
     "Ship Selection Summary": { topic: "naval-organization" },
 
-    // ── v2.8.0 User Interface ──
-    "Configurable Interrupts": { topic: "user-interface", after: "v2.8.0 Minor Changes" },
+    // ── v3.0.0 User Interface ──
+    "Configurable Interrupts": { topic: "user-interface", after: "v3.0.0 Minor Changes" },
     "No Short Increments for NPR vs NPR Interceptions": { topic: "fleet-movement", after: "Standing Orders" },
+
+    // ── v3.0.0 additions since the former v2.8.0 documentation ──
+    "Display Improvement for Tactical and Galactic Maps": { topic: "user-interface" },
+    "Background Colour and Map Fonts": { topic: "user-interface" },
+    "Galactic Map Search Update": { topic: "user-interface" },
+    "Class Main Function": { topic: "ship-components" },
+    "Removing Unused Hull Types": { topic: "nomenclature" },
+    "Non-Oxygen Species": [
+      { topic: "alien-races" },
+      { topic: "colonies" },
+      { topic: "terraforming" },
+    ],
+    "New Terrain Types": [
+      { topic: "systems-and-bodies" },
+      { topic: "ground-combat" },
+    ],
+    "Ruin and Ancient Construct Changes": { topic: "ruins" },
+    "Orbital Movement Update": { topic: "systems-and-bodies" },
+    "Aurora Colour Configuration": { topic: "user-interface" },
+    "Graphics Overhaul": { topic: "user-interface" },
+    "Map Body Colony Cost Colour": { topic: "user-interface" },
+    "Expanded Context Menu": { topic: "user-interface" },
+    "Ground Formation Template Naming Themes": [
+      { topic: "ground-forces" },
+      { topic: "nomenclature" },
+    ],
+    "Orbital Temperature Dampening": [
+      { topic: "systems-and-bodies" },
+      { topic: "terraforming" },
+    ],
+    "Jump Point Buoy Icons": { topic: "sensors-and-contacts" },
+    "Disable Hostile Interrupts at the NPR/System Level": { topic: "user-interface" },
+    "Stabilisation Time for Lagrange Points in Fleet Orders": { topic: "fleet-movement" },
+    "No Shield Technology Game": { topic: "new-game-setup" },
+    "Missile Lurker Mode": { topic: "missiles-and-launchers" },
+    "Short Increments and Active Fire Controls": { topic: "combat-mechanics" },
+    "Copy Naval Admin": { topic: "naval-organization" },
+    "Alien Class Type": { topic: "intelligence-gathering" },
+    "Low Gravity with Atmosphere Retention": { topic: "colonies" },
+    "Automated Turns for Shortened Increments Only": { topic: "user-interface" },
   },
 
   versionTopics: {
-    "2.8.0": [
-      "aether-rifts", "civilians", "crew-and-commanders", "diplomacy",
+    "3.0.0": [
+      "aether-rifts", "alien-races", "civilians", "colonies", "combat-mechanics", "crew-and-commanders", "diplomacy",
       "fleet-movement", "ground-combat", "ground-forces", "ground-support-fighters",
-      "logistics", "missiles-and-launchers", "naval-organization", "new-game-setup",
+      "intelligence-gathering", "logistics", "missiles-and-launchers", "naval-organization", "new-game-setup", "nomenclature",
       "ruins", "sensors-and-contacts", "ship-components", "shipyards",
       "surface-to-orbit", "systems-and-bodies", "terraforming", "user-interface",
     ],

@@ -2,19 +2,16 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { type DocsManifest, type Topic } from '../manifest'
 import type { ViewMode, ActiveSelection, ChangelogCache, BaseDocsCache } from '../App'
 import { ModeToggle } from './mode-toggle'
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-}
+import AlwaysShowSpoilers from './AlwaysShowSpoilers'
+import { useSpoilers } from '../hooks/useSpoilers'
+import { isSpoilerSection, spoilerSafeText } from '../utils/spoilers'
+import { buildSearchIndex } from '../utils/searchIndex'
 
 interface Props {
   manifest: DocsManifest
   view: ViewMode
   selection: ActiveSelection | null
-  onSelect: (topic: Topic, version?: string) => void
+  onSelect: (topic: Topic, version?: string, sectionSlug?: string) => void
   onToggleView: () => void
   changelogCache: ChangelogCache
   baseDocsCache: BaseDocsCache
@@ -24,6 +21,7 @@ interface Props {
 
 interface SearchResult {
   title: string
+  slug: string
   topic: Topic
   version: string
   snippet?: string
@@ -37,7 +35,7 @@ function extractSnippet(text: string, query: string): string {
   if (idx === -1) return ''
 
   // Strip markdown formatting for cleaner snippets
-  const clean = text.replace(/[*_#>`\[\]]/g, '').replace(/\n+/g, ' ').replace(/\s+/g, ' ')
+  const clean = text.replace(/[*_#>`[\]]/g, '').replace(/\n+/g, ' ').replace(/\s+/g, ' ')
   const cleanLower = clean.toLowerCase()
   const cleanIdx = cleanLower.indexOf(query)
   if (cleanIdx === -1) return ''
@@ -53,6 +51,9 @@ function extractSnippet(text: string, query: string): string {
 
 export default function Sidebar({ manifest, view, selection, onSelect, onToggleView, changelogCache, baseDocsCache, isOpen, onClose }: Props) {
   const [search, setSearch] = useState('')
+  const { alwaysShowSpoilers } = useSpoilers()
+  const visibleTitle = (title: string) => alwaysShowSpoilers ? title
+    : isSpoilerSection(title) ? '[Spoiler section]' : spoilerSafeText(title)
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -61,43 +62,11 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
   const toggle = (id: string) =>
     setCollapsed(prev => ({ ...prev, [id]: !prev[id] }))
 
-  // Build search index: section title + content + topic mapping
-  const sectionIndex = useMemo(() => {
-    const index: Array<{ title: string; content: string; topic: Topic; version: string }> = []
-    const seen = new Set<string>()
-
-    // Index changelog sections
-    for (const [version, sections] of Object.entries(changelogCache)) {
-      for (const section of sections) {
-        const entry = manifest.sectionMap[section.title]
-        if (!entry) continue
-        const routes = Array.isArray(entry) ? entry : [entry]
-        for (const route of routes) {
-          const topic = manifest.topics.find(t => t.id === route.topic)
-          if (topic) {
-            const key = `${section.title}::${topic.id}`
-            if (!seen.has(key)) {
-              seen.add(key)
-              index.push({ title: section.title, content: section.content, topic, version })
-            }
-          }
-        }
-      }
-    }
-
-    // Index base documents (v1.0.0 topic files)
-    for (const topic of manifest.topics) {
-      if (!topic.base || !baseDocsCache[topic.id]) continue
-      const key = `__base__::${topic.id}`
-      if (!seen.has(key)) {
-        seen.add(key)
-        index.push({ title: topic.title, content: baseDocsCache[topic.id], topic, version: '1.0.0' })
-      }
-    }
-
-    return index
-  }, [changelogCache, baseDocsCache, manifest])
-
+  // Current search follows merged sections; historical search retains each version.
+  const sectionIndex = useMemo(
+    () => buildSearchIndex(manifest, view, changelogCache, baseDocsCache),
+    [manifest, view, changelogCache, baseDocsCache],
+  )
   // Search results: title matches first, then content matches
   const searchResults = useMemo((): SearchResult[] => {
     if (q.length < 2) return []
@@ -107,28 +76,31 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
     // Title matches first
     for (const s of sectionIndex) {
       if (s.title.toLowerCase().includes(q)) {
-        const key = `${s.title}::${s.topic.id}`
+        const key = `${s.slug}::${s.topic.id}::${view === 'changelog' ? s.version : ''}`
         if (!titleSeen.has(key)) {
           titleSeen.add(key)
-          results.push({ title: s.title, topic: s.topic, version: s.version, matchType: 'title' })
+          results.push({ title: s.title, slug: s.slug, topic: s.topic, version: s.version, matchType: 'title' })
         }
       }
     }
 
     // Content matches (skip if already matched by title)
     for (const s of sectionIndex) {
-      const key = `${s.title}::${s.topic.id}`
+      const key = `${s.slug}::${s.topic.id}::${view === 'changelog' ? s.version : ''}`
       if (titleSeen.has(key)) continue
       if (s.content.toLowerCase().includes(q)) {
-        const snippet = extractSnippet(s.content, q)
+        const protectedSection = !alwaysShowSpoilers && isSpoilerSection(s.title)
+        const safeContent = alwaysShowSpoilers ? s.content : spoilerSafeText(s.content)
+        const snippet = protectedSection ? 'Open to reveal this spoiler'
+          : extractSnippet(safeContent, q) || 'Match in hidden spoiler content'
         if (snippet) {
-          results.push({ title: s.title, topic: s.topic, version: s.version, snippet, matchType: 'content' })
+          results.push({ title: s.title, slug: s.slug, topic: s.topic, version: s.version, snippet, matchType: 'content' })
         }
       }
     }
 
     return results.slice(0, 30)
-  }, [q, sectionIndex])
+  }, [q, sectionIndex, alwaysShowSpoilers, view])
 
   // Keyboard shortcut: / to focus search, Esc to clear
   useEffect(() => {
@@ -147,10 +119,8 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
   }, [])
 
   const handleResultClick = (hit: SearchResult) => {
-    const slug = slugify(hit.title)
-    onSelect(hit.topic)
-    window.location.hash = `#current/${hit.topic.id}/${slug}`
-    setSearch('')
+    const version = view === 'changelog' ? hit.version : undefined
+    onSelect(hit.topic, version, hit.slug)
   }
 
   // Group data based on view mode
@@ -223,6 +193,9 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
           </div>
           <ModeToggle />
         </div>
+        <div className="mt-4">
+          <AlwaysShowSpoilers />
+        </div>
       </div>
 
       {/* Search */}
@@ -238,11 +211,13 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search topics & content..."
+            aria-label="Search topics and content"
             className="w-full py-2.5 pl-9 pr-10 font-mono text-[0.8rem] text-text bg-bg-raised border border-border rounded-md outline-none transition-all focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-glow),inset_0_0_12px_var(--color-accent-glow)] placeholder:text-text-muted"
           />
           {q ? (
             <button
               onClick={() => setSearch('')}
+              aria-label="Clear search"
               className="absolute right-2.5 font-mono text-[0.8rem] text-text-muted hover:text-text cursor-pointer px-1"
             >
               &times;
@@ -286,19 +261,20 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
                   <div className="flex-1 h-px bg-border" />
                 </div>
                 {titleResults.map((hit, i) => (
-                  <div
+                  <button
+                    type="button"
                     key={`t-${i}`}
                     onClick={() => handleResultClick(hit)}
-                    className="px-5 pl-7 py-1.5 cursor-pointer transition-colors hover:bg-bg-hover border-l-2 border-l-transparent hover:border-l-accent"
+                    className="block w-full text-left px-5 pl-7 py-1.5 cursor-pointer transition-colors hover:bg-bg-hover border-l-2 border-l-transparent hover:border-l-accent focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-[-2px]"
                   >
-                    <div className="text-[0.8rem] text-text truncate">
-                      <HighlightMatch text={hit.title} query={q} />
-                    </div>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="font-mono text-[0.6rem] text-text-muted truncate">{hit.topic.title}</span>
+                    <span className="block text-[0.8rem] text-text truncate">
+                      <HighlightMatch text={visibleTitle(hit.title)} query={q} />
+                    </span>
+                    <span className="flex items-center gap-2 mt-0.5">
+                      <span className="font-mono text-[0.6rem] text-text-muted truncate">{visibleTitle(hit.topic.title)}</span>
                       <span className="font-mono text-[0.55rem] text-text-muted/50 shrink-0">v{hit.version}</span>
-                    </div>
-                  </div>
+                    </span>
+                  </button>
                 ))}
               </div>
             )}
@@ -314,22 +290,23 @@ export default function Sidebar({ manifest, view, selection, onSelect, onToggleV
                   <div className="flex-1 h-px bg-border" />
                 </div>
                 {contentResults.map((hit, i) => (
-                  <div
+                  <button
+                    type="button"
                     key={`c-${i}`}
                     onClick={() => handleResultClick(hit)}
-                    className="px-5 pl-7 py-1.5 cursor-pointer transition-colors hover:bg-bg-hover border-l-2 border-l-transparent hover:border-l-accent"
+                    className="block w-full text-left px-5 pl-7 py-1.5 cursor-pointer transition-colors hover:bg-bg-hover border-l-2 border-l-transparent hover:border-l-accent focus-visible:outline focus-visible:outline-accent focus-visible:outline-offset-[-2px]"
                   >
-                    <div className="text-[0.75rem] text-text-dim truncate">{hit.title}</div>
+                    <span className="block text-[0.75rem] text-text-dim truncate">{visibleTitle(hit.title)}</span>
                     {hit.snippet && (
-                      <div className="text-[0.72rem] text-text-muted mt-0.5 line-clamp-2 leading-snug italic">
+                      <span className="block text-[0.72rem] text-text-muted mt-0.5 line-clamp-2 leading-snug italic">
                         &ldquo;<HighlightMatch text={hit.snippet} query={q} />&rdquo;
-                      </div>
+                      </span>
                     )}
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="font-mono text-[0.6rem] text-text-muted truncate">{hit.topic.title}</span>
+                    <span className="flex items-center gap-2 mt-0.5">
+                      <span className="font-mono text-[0.6rem] text-text-muted truncate">{visibleTitle(hit.topic.title)}</span>
                       <span className="font-mono text-[0.55rem] text-text-muted/50 shrink-0">v{hit.version}</span>
-                    </div>
-                  </div>
+                    </span>
+                  </button>
                 ))}
               </div>
             )}

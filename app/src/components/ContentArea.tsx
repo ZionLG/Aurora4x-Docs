@@ -1,159 +1,76 @@
-import { useEffect, useState, useRef, useCallback, type MouseEvent as ReactMouseEvent } from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { type DocsManifest, type Topic } from '../manifest'
-import type { ViewMode, ActiveSelection } from '../App'
+import { useMemo, useState, useRef, useCallback, type MouseEvent as ReactMouseEvent } from 'react'
+import DocsMarkdown from './DocsMarkdown'
+import Spoiler from './Spoiler'
+import SpoilerText from './SpoilerText'
+import { useSpoilerRegion } from '../hooks/useSpoilerRegion'
+import { useSpoilers } from '../hooks/useSpoilers'
+import { isSpoilerSection, spoilerSafeText } from '../utils/spoilers'
+import { sharePath, shareUrlFromHash, sectionAnchors } from '../utils/shareLinks'
+import { type DocsManifest } from '../manifest'
+import type { ViewMode, ActiveSelection, BaseDocsCache } from '../App'
 import { parseSections, type MarkdownSection } from '../utils/extractSections'
 import { mergeTopicContent, type MergedSection } from '../utils/mergeContent'
 import { useNotes } from '../hooks/useNotes'
 import CommunityNoteCard from './CommunityNoteCard'
 import AddNoteForm from './AddNoteForm'
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-}
-
-/** Get the section slug from the current URL hash (3rd segment) */
-function getSectionFromHash(): string | null {
-  const hash = window.location.hash.replace(/^#/, '')
-  const parts = hash.split('/')
-  return parts[2] && parts[0] === 'current' ? parts[2] : parts[3] || null
-}
+import { useSectionNavigation } from '../hooks/useSectionNavigation'
 
 interface Props {
   manifest: DocsManifest
   view: ViewMode
   selection: ActiveSelection | null
   changelogCache: Record<string, MarkdownSection[]>
+  baseDocsCache: BaseDocsCache
   cacheReady: boolean
-  onSelectEntry: (topic: Topic, version?: string) => void
   onOpenSidebar: () => void
 }
 
-export default function ContentArea({ manifest, view, selection, changelogCache, cacheReady, onOpenSidebar }: Props) {
-  const [mergedSections, setMergedSections] = useState<MergedSection[] | null>(null)
-  const [changelogSections, setChangelogSections] = useState<MarkdownSection[]>([])
-  const [loading, setLoading] = useState(false)
+export default function ContentArea({ manifest, view, selection, changelogCache, baseDocsCache, cacheReady, onOpenSidebar }: Props) {
   const scrollRef = useRef<HTMLElement>(null)
+  const articleRef = useRef<HTMLDivElement>(null)
   const { notesBySection, submitNote } = useNotes(selection?.topic.id ?? null)
   const latestVersion = manifest.versions.find(v => !v.unreleased)?.version ?? manifest.versions[0].version
+  const loading = !!selection && !cacheReady
 
-  // Load and merge content
-  useEffect(() => {
-    if (!selection) return
-    if (view === 'current' && !cacheReady) return // wait for changelog cache
+  // Render from the same loaded documents as search so anchors never target the previous topic.
+  const { mergedSections, changelogSections } = useMemo(() => {
+    const empty = { mergedSections: null, changelogSections: [] as MarkdownSection[] }
+    if (!selection || !cacheReady) return empty
     const { topic, version } = selection
-    let cancelled = false
-    setLoading(true)
-
+    const baseSections = parseSections(baseDocsCache[topic.id] || '')
     if (view === 'current') {
-      // Load base file (if any), then combine with cached changelogs
-      const loadBase = topic.base
-        ? fetch('/docs/' + topic.base)
-            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
-            .then(raw => parseSections(raw))
-            .catch(() => [] as MarkdownSection[])
-        : Promise.resolve([] as MarkdownSection[])
-
-      loadBase.then(baseSections => {
-        if (cancelled) return
-
-        // Filter cached changelog sections for this topic
-        const versionSections = manifest.versions
-          .filter(v => v.file && changelogCache[v.version])
-          .map(v => ({
-            version: v.version,
-            sections: changelogCache[v.version],
-          }))
-          .reverse() // oldest first for merge algorithm
-
-        const merged = mergeTopicContent(
-          topic.id,
-          baseSections,
-          '1.0.0',
-          versionSections,
-          manifest.sectionMap,
-          topic.deprecated,
-        )
-
-        // Mark sections from unreleased versions as 'planned'
-        const unreleasedVersions = new Set(
-          manifest.versions.filter(v => v.unreleased).map(v => v.version)
-        )
-        for (const s of merged) {
-          if (unreleasedVersions.has(s.version)) s.kind = 'planned'
-        }
-
-        setMergedSections(merged)
-        setChangelogSections([])
-        setLoading(false)
-      })
-    } else {
-      // Changelog view - show single version's sections for this topic
-      if (version === '1.0.0' && topic.base) {
-        fetch('/docs/' + topic.base)
-          .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
-          .then(raw => {
-            if (cancelled) return
-            setChangelogSections(parseSections(raw))
-            setMergedSections(null)
-            setLoading(false)
-          })
-          .catch(() => {
-            if (cancelled) return
-            setChangelogSections([])
-            setMergedSections(null)
-            setLoading(false)
-          })
-      } else {
-        // Filter cached sections by topic
-        const allSections = changelogCache[version] || []
-        const filtered = allSections.filter(s => {
-          const entry = manifest.sectionMap[s.title]
-          if (!entry) return false
-          if (Array.isArray(entry)) return entry.some(r => r.topic === topic.id)
-          return entry.topic === topic.id
-        })
-        setChangelogSections(filtered)
-        setMergedSections(null)
-        setLoading(false)
+      const versionSections = manifest.versions
+        .filter(v => v.file && changelogCache[v.version])
+        .map(v => ({ version: v.version, sections: changelogCache[v.version] }))
+        .reverse()
+      const merged = mergeTopicContent(topic.id, baseSections, '1.0.0', versionSections, manifest.sectionMap, topic.deprecated)
+      const unreleasedVersions = new Set(manifest.versions.filter(v => v.unreleased).map(v => v.version))
+      for (const section of merged) {
+        if (unreleasedVersions.has(section.version)) section.kind = 'planned'
       }
+      return { mergedSections: merged, changelogSections: [] as MarkdownSection[] }
     }
-
-    return () => { cancelled = true }
-  }, [selection, view, changelogCache, cacheReady])
-
-  // Scroll to section anchor after content loads, or to top
-  useEffect(() => {
-    if (loading || !scrollRef.current) return
-    const sectionSlug = getSectionFromHash()
-    if (sectionSlug) {
-      // Small delay to let DOM render
-      requestAnimationFrame(() => {
-        const el = scrollRef.current?.querySelector(`#s-${sectionSlug}`)
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          return
-        }
-        scrollRef.current?.scrollTo(0, 0)
-      })
-    } else {
-      scrollRef.current.scrollTo(0, 0)
+    if (version === '1.0.0' && topic.base) {
+      return { mergedSections: null, changelogSections: baseSections }
     }
-  }, [loading, mergedSections, changelogSections])
+    const filtered = (changelogCache[version] || []).filter(section => {
+      const entry = manifest.sectionMap[section.title]
+      return Array.isArray(entry) ? entry.some(route => route.topic === topic.id) : entry?.topic === topic.id
+    })
+    return { mergedSections: null, changelogSections: filtered }
+  }, [manifest, selection, view, changelogCache, baseDocsCache, cacheReady])
+  const renderedSections = mergedSections ?? changelogSections
+  const anchors = useMemo(() => sectionAnchors(renderedSections), [renderedSections])
+  const navigate = useSectionNavigation(scrollRef, articleRef, !!selection && cacheReady, renderedSections)
 
-  const handleSectionClick = useCallback((title: string) => {
-    const slug = slugify(title)
-    const hash = window.location.hash.replace(/^#/, '')
-    const parts = hash.split('/')
-    // Build new hash: view/topicId/sectionSlug
-    const base = parts.slice(0, 2).join('/')
-    const newHash = `#${base}/${slug}`
-    window.history.replaceState(null, '', newHash)
-  }, [])
+  const handleSectionClick = useCallback((slug: string) => {
+    if (!selection) return
+    const base = view === 'changelog'
+      ? `changelog/${selection.topic.id}/${selection.version}`
+      : `current/${selection.topic.id}`
+    window.history.replaceState(null, '', `#${base}/${slug}`)
+    navigate(slug)
+  }, [view, selection, navigate])
 
   if (!selection) {
     return <Welcome manifest={manifest} view={view} onOpenSidebar={onOpenSidebar} />
@@ -169,9 +86,9 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
     .map(v => v.version)
 
   return (
-    <main ref={scrollRef} className="flex-1 overflow-y-auto scroll-smooth">
+    <main ref={scrollRef} className="flex-1 overflow-y-auto">
       {/* Mobile header */}
-      <div className="md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-bg-base/95 backdrop-blur-sm border-b border-border">
+      <div data-scroll-sticky className="md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-bg-base/95 backdrop-blur-sm border-b border-border">
         <button
           onClick={onOpenSidebar}
           className="w-9 h-9 flex items-center justify-center text-text-dim hover:text-accent transition-colors cursor-pointer rounded-md border border-border hover:border-accent-dim"
@@ -185,7 +102,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
           {topic.title}
         </span>
       </div>
-      <div className="max-w-[860px] mx-auto px-4 pt-6 pb-20 md:px-12 md:pt-12 md:pb-30 animate-[fade-up_0.35s_ease_both]">
+      <div ref={articleRef} className="max-w-[860px] mx-auto px-4 pt-6 pb-20 md:px-12 md:pt-12 md:pb-30">
         {/* Topic header */}
         <div className="mb-10 pb-6 border-b border-border">
           {cat && (
@@ -214,6 +131,10 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
               <CopyMdButton topicId={topic.id} />
             </div>
           )}
+          <CopyLinkButton key={`${view}/${topic.id}/${selection.version}`} view={view} selection={selection} />
+          <p className="mt-3 text-[0.72rem] text-text-dim">
+            Click or press Enter on scrambled text to reveal its section. Copy MD includes all spoilers.
+          </p>
         </div>
 
         {loading && <p className="text-text-muted">Loading...</p>}
@@ -225,19 +146,20 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
           return (
             <>
               <TableOfContents
-                items={mergedSections.map(s => ({
+                items={mergedSections.map((s, i) => ({
                   title: s.title,
+                  slug: anchors[i],
                   kind: s.kind,
                   isPatch: s.isPatch,
                   deprecatedBy: s.deprecatedBy,
                 }))}
-                scrollRef={scrollRef}
+                onNavigate={handleSectionClick}
               />
               <div className="article-body text-[0.95rem] leading-[1.75] text-text">
                 {mergedSections.map((sec, i) => {
                   const sectionNotes = notesBySection.get(sec.title) || []
                   return (
-                    <div key={`${sec.title}-${i}`}>
+                    <div key={`${sec.title}-${i}`} id={`s-${anchors[i]}`} className="scroll-mt-6">
                       {hasMisc && i === firstMiscIdx && (
                         <div className="flex items-center gap-3 mt-12 mb-4">
                           <div className="flex-1 h-px bg-border" />
@@ -247,7 +169,9 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
                           <div className="flex-1 h-px bg-border" />
                         </div>
                       )}
-                      <MergedSectionBlock section={sec} manifest={manifest} onSectionClick={handleSectionClick} />
+                      <ProtectedSection title={sec.title} content={sec.content}>
+                        <MergedSectionBlock section={sec} slug={anchors[i]} manifest={manifest} onSectionClick={handleSectionClick} />
+                        <CopyLinkButton view={view} selection={selection} sectionSlug={anchors[i]} />
                       {!sec.isPatch && !sec.deprecatedBy && (
                         <>
                           {sectionNotes.map(note => (
@@ -261,6 +185,7 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
                           />
                         </>
                       )}
+                      </ProtectedSection>
                     </div>
                   )
                 })}
@@ -273,12 +198,17 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
         {!loading && view === 'changelog' && changelogSections.length > 0 && (
           <>
             <TableOfContents
-              items={changelogSections.map(s => ({ title: s.title }))}
-              scrollRef={scrollRef}
+              items={changelogSections.map((s, i) => ({ title: s.title, slug: anchors[i] }))}
+              onNavigate={handleSectionClick}
             />
             <div className="article-body text-[0.95rem] leading-[1.75] text-text">
               {changelogSections.map((sec, si) => (
-                <ReactMarkdown key={si} remarkPlugins={[remarkGfm]}>{sec.content}</ReactMarkdown>
+                <div key={si} id={`s-${anchors[si]}`} className="scroll-mt-6">
+                  <ProtectedSection title={sec.title} content={sec.content}>
+                    <DocsMarkdown>{sec.content}</DocsMarkdown>
+                    <CopyLinkButton view={view} selection={selection} sectionSlug={anchors[si]} />
+                  </ProtectedSection>
+                </div>
               ))}
             </div>
           </>
@@ -290,31 +220,39 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
 
 /* ── Table of Contents ───────────────────────────────────────── */
 
+function ProtectedSection({ title, content, children }: { title: string; content: string; children: React.ReactNode }) {
+  return isSpoilerSection(title)
+    ? <Spoiler key={content} text={content} block>{children}</Spoiler>
+    : children
+}
+
 interface TocItem {
   title: string
+  slug: string
   kind?: 'update' | 'bugfix' | 'planned'
   isPatch?: boolean
   deprecatedBy?: string
 }
 
-function TableOfContents({ items, scrollRef }: {
+function TableOfContents({ items, onNavigate }: {
   items: TocItem[]
-  scrollRef: React.RefObject<HTMLElement | null>
+  onNavigate: (slug: string) => void
 }) {
   const [open, setOpen] = useState(false)
+  const { alwaysShowSpoilers } = useSpoilers()
 
   if (items.length <= 2) return null
 
-  const handleScrollTo = (title: string) => {
-    const slug = slugify(title)
-    const el = scrollRef.current?.querySelector(`#s-${slug}`)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const handleScrollTo = (slug: string) => {
+    setOpen(false)
+    onNavigate(slug)
   }
 
   return (
-    <div className="mb-8 border border-border rounded-lg overflow-hidden sticky top-0 z-10 bg-bg-base shadow-lg shadow-black/40">
+    <div data-scroll-sticky className="mb-8 border border-border rounded-lg overflow-hidden sticky top-[calc(3.75rem+1px)] md:top-0 z-10 bg-bg-base shadow-lg shadow-black/40">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left cursor-pointer bg-bg-raised/50 hover:bg-bg-hover transition-colors"
       >
         <svg
@@ -335,7 +273,7 @@ function TableOfContents({ items, scrollRef }: {
           {items.map((item, i) => (
             <button
               key={i}
-              onClick={() => handleScrollTo(item.title)}
+              onClick={() => handleScrollTo(item.slug)}
               className={`block w-full text-left py-[3px] text-[0.78rem] truncate cursor-pointer transition-colors break-inside-avoid ${
                 item.deprecatedBy
                   ? 'text-text-muted line-through opacity-40 hover:opacity-70'
@@ -348,7 +286,7 @@ function TableOfContents({ items, scrollRef }: {
                         : 'text-text-dim hover:text-text'
               }`}
             >
-              {item.title}
+              {alwaysShowSpoilers ? item.title : isSpoilerSection(item.title) ? '[Spoiler section]' : spoilerSafeText(item.title)}
             </button>
           ))}
         </div>
@@ -361,21 +299,21 @@ function TableOfContents({ items, scrollRef }: {
 
 function MergedSectionBlock({
   section,
+  slug,
   manifest,
   onSectionClick,
 }: {
   section: MergedSection
+  slug: string
   manifest: DocsManifest
-  onSectionClick: (title: string) => void
+  onSectionClick: (slug: string) => void
 }) {
   const ver = manifest.versions.find(v => v.version === section.version)
-  const slug = slugify(section.title)
-  const anchorId = `s-${slug}`
 
   // ── Deprecated section (no replacement, collapsed by default) ──
   if (section.deprecatedBy) {
     return (
-      <details id={anchorId} className="my-6 group scroll-mt-6">
+      <details className="my-6 group scroll-mt-6">
         <summary className="flex items-center gap-3 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden">
           <span className="text-[0.7rem] text-text-muted transition-transform group-open:rotate-90">&#9654;</span>
           <SectionAnchor title={section.title} slug={slug} onClick={onSectionClick} dim />
@@ -386,7 +324,7 @@ function MergedSectionBlock({
           <div className="flex-1 h-px bg-border" />
         </summary>
         <div className="collapsed-content mt-3 pl-5 border-l-2 border-border opacity-50">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
+          <DocsMarkdown>{section.content}</DocsMarkdown>
         </div>
       </details>
     )
@@ -399,7 +337,7 @@ function MergedSectionBlock({
 
     if (isBugfix) {
       return (
-        <details id={anchorId} className="my-3 group scroll-mt-6">
+        <details className="my-3 group scroll-mt-6">
           <summary className="patch-card flex items-center gap-2.5 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden
             px-4 py-1.5 rounded-lg border border-warning/20 bg-warning/[0.04]">
             <span className="text-[0.6rem] text-text-muted transition-transform group-open:rotate-90">&#9654;</span>
@@ -410,7 +348,7 @@ function MergedSectionBlock({
             <SectionAnchor title={section.title} slug={slug} onClick={onSectionClick} inline />
           </summary>
           <div className="patch-card mt-1 px-4 py-2 ml-2 border-l-2 border-warning/20">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
+            <DocsMarkdown>{section.content}</DocsMarkdown>
           </div>
         </details>
       )
@@ -419,7 +357,7 @@ function MergedSectionBlock({
     // Planned: expanded, violet styling
     if (isPlanned) {
       return (
-        <div id={anchorId} className="patch-card my-4 rounded-lg border border-violet-500/30 bg-violet-500/[0.06] overflow-hidden scroll-mt-6">
+        <div className="patch-card my-4 rounded-lg border border-violet-500/30 bg-violet-500/[0.06] overflow-hidden scroll-mt-6">
           <div className="flex items-center gap-2.5 px-4 py-1.5 border-b border-violet-500/20 bg-violet-500/[0.08]">
             <VersionBadge version={section.version} date={ver?.date} dim />
             <span className="font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase text-violet-400">
@@ -427,7 +365,7 @@ function MergedSectionBlock({
             </span>
           </div>
           <div className="px-4 py-2">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
+            <DocsMarkdown>{section.content}</DocsMarkdown>
           </div>
         </div>
       )
@@ -435,7 +373,7 @@ function MergedSectionBlock({
 
     // Updates: expanded, accent styling
     return (
-      <div id={anchorId} className="patch-card my-4 rounded-lg border border-accent-dim/40 bg-accent-glow/30 overflow-hidden scroll-mt-6">
+      <div className="patch-card my-4 rounded-lg border border-accent-dim/40 bg-accent-glow/30 overflow-hidden scroll-mt-6">
         <div className="flex items-center gap-2.5 px-4 py-1.5 border-b border-accent-dim/30 bg-accent-glow/40">
           <VersionBadge version={section.version} date={ver?.date} accent />
           <span className="font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase text-accent/80">
@@ -443,7 +381,7 @@ function MergedSectionBlock({
           </span>
         </div>
         <div className="px-4 py-2">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
+          <DocsMarkdown>{section.content}</DocsMarkdown>
         </div>
       </div>
     )
@@ -454,7 +392,7 @@ function MergedSectionBlock({
     const isBugfix = section.kind === 'bugfix'
     const isPlanned = section.kind === 'planned'
     return (
-      <div id={anchorId} className="my-4 scroll-mt-6">
+      <div className="my-4 scroll-mt-6">
         <div className={`patch-card rounded-lg border overflow-hidden ${
           isPlanned
             ? 'border-violet-500/30 bg-violet-500/[0.06]'
@@ -484,7 +422,7 @@ function MergedSectionBlock({
             </span>
           </div>
           <div className="px-4 py-2">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{section.content}</ReactMarkdown>
+            <DocsMarkdown>{section.content}</DocsMarkdown>
           </div>
         </div>
 
@@ -501,7 +439,7 @@ function MergedSectionBlock({
                 <div className="flex-1 h-px bg-border" />
               </summary>
               <div className="collapsed-content mt-2 pl-5 border-l-2 border-border opacity-50">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{prev.content}</ReactMarkdown>
+                <DocsMarkdown>{prev.content}</DocsMarkdown>
               </div>
             </details>
           )
@@ -512,22 +450,27 @@ function MergedSectionBlock({
 
   // ── Normal base section (unchanged across versions) ──
   return (
-    <div id={anchorId} className="my-1 scroll-mt-6">
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+    <div className="my-1 scroll-mt-6">
+      <DocsMarkdown
         components={{
-          strong: ({ children }) => (
-            <SectionAnchor title={String(children)} slug={slugify(String(children))} onClick={onSectionClick} heading />
-          ),
+          strong: ({ node, children }) => markdownText(node ?? {}) === section.title
+            ? <SectionAnchor title={section.title} slug={slug} onClick={onSectionClick} heading />
+            : <strong>{children}</strong>,
         }}
       >
         {section.content}
-      </ReactMarkdown>
+      </DocsMarkdown>
     </div>
   )
 }
 
 /* ── Section Anchor (clickable title with # link) ────────────── */
+
+interface TextNode { value?: string; children?: TextNode[] }
+
+function markdownText(node: TextNode): string {
+  return node.value ?? (node.children ?? []).map(markdownText).join('')
+}
 
 function SectionAnchor({
   title,
@@ -539,19 +482,19 @@ function SectionAnchor({
 }: {
   title: string
   slug: string
-  onClick: (title: string) => void
+  onClick: (slug: string) => void
   heading?: boolean
   dim?: boolean
   inline?: boolean
 }) {
+  const protectedSection = useSpoilerRegion()
+  const label = protectedSection ? <SpoilerText>{title}</SpoilerText> : title
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    onClick(title)
-    const el = document.getElementById(`s-${slug}`)
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    onClick(slug)
     // Copy URL to clipboard
-    const url = window.location.origin + window.location.pathname + window.location.hash.split('/').slice(0, 2).join('/') + '/' + slug
+    const url = shareUrlFromHash(window.location.hash, window.location.origin)
     navigator.clipboard.writeText(url).catch(() => {})
   }
 
@@ -561,7 +504,7 @@ function SectionAnchor({
         className="font-body text-[0.82rem] text-text-dim cursor-pointer hover:text-text transition-colors group/anchor"
         onClick={handleClick}
       >
-        {title}
+        {label}
         <span className="text-text-muted opacity-0 group-hover/anchor:opacity-100 transition-opacity ml-1">#</span>
       </span>
     )
@@ -573,7 +516,7 @@ function SectionAnchor({
         className="section-heading font-display font-semibold text-accent text-[1.15em] block mt-[2em] mb-[0.5em] cursor-pointer hover:text-accent/80 transition-colors group/anchor"
         onClick={handleClick}
       >
-        {title}
+        {label}
         <span className="text-accent-dim opacity-0 group-hover/anchor:opacity-100 transition-opacity ml-2 text-[0.75em]">#</span>
       </strong>
     )
@@ -586,7 +529,7 @@ function SectionAnchor({
       }`}
       onClick={handleClick}
     >
-      {title}
+      {label}
       <span className={`opacity-0 group-hover/anchor:opacity-100 transition-opacity ml-1 ${dim ? 'text-text-muted' : 'text-accent-dim'}`}>#</span>
     </span>
   )
@@ -679,6 +622,24 @@ function Stat({ value, label }: { value: number; label: string }) {
 }
 
 /* ── Copy as Markdown Button ────────────────────────────────── */
+
+function CopyLinkButton({ view, selection, sectionSlug }: { view: ViewMode; selection: ActiveSelection; sectionSlug?: string }) {
+  const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle')
+  const copy = async () => {
+    const url = new URL(sharePath(view, selection.topic.id, selection.version, sectionSlug), window.location.origin).href
+    try {
+      await navigator.clipboard.writeText(url)
+      setState('copied')
+    } catch {
+      setState('failed')
+    }
+  }
+  return (
+    <button type="button" onClick={copy} className="mt-3 font-mono text-[0.65rem] px-2.5 py-1 rounded border border-border text-text-dim hover:text-accent cursor-pointer" title="Copy a link with a preview for Discord">
+      {state === 'copied' ? 'Link copied!' : state === 'failed' ? 'Copy failed — try again' : sectionSlug ? 'Copy section link' : 'Copy link for Discord'}
+    </button>
+  )
+}
 
 function CopyMdButton({ topicId }: { topicId: string }) {
   const [state, setState] = useState<'idle' | 'copied'>('idle')

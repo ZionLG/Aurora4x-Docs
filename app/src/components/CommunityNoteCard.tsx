@@ -1,4 +1,4 @@
-import ReactMarkdown from 'react-markdown'
+import DocsMarkdown from './DocsMarkdown'
 import type { CommunityNote } from '../types/notes'
 
 export default function CommunityNoteCard({
@@ -29,7 +29,7 @@ export default function CommunityNoteCard({
         )}
       </div>
       <div className="article-body px-4 py-2 text-[0.92rem] leading-[1.7] text-text">
-        <ReactMarkdown>{note.content}</ReactMarkdown>
+        <DocsMarkdown>{note.content}</DocsMarkdown>
       </div>
     </div>
   )
