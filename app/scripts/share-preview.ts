@@ -1,4 +1,4 @@
-import { sectionAnchors, sharePath, type ShareView } from '../src/utils/shareLinks'
+import { docsPath, sectionAnchors, sharePath, type ShareView } from '../src/utils/shareLinks'
 import { isSpoilerSection, spoilerSafeText } from '../src/utils/spoilers'
 import { buildDiscordEmbed, DEFAULT_SITE_ORIGIN, limitPreviewText, preparePreviewContent, type PreviewImage } from './discord-embed'
 
@@ -12,6 +12,8 @@ interface PreviewSection {
 export interface SharePage {
   path: string
   html: string
+  routePath: string
+  preview: SharePreview
 }
 
 export interface SharePreview {
@@ -47,15 +49,8 @@ export function previewDescription(markdown: string): string {
   return limitPreviewText(plain, 350)
 }
 
-export function renderSharePreview({ title, description, destination, canonicalUrl, image, componentEmbed }: SharePreview): string {
-  // JSON strings alone do not escape </script>; keep source text out of the HTML parser.
-  const redirect = JSON.stringify(destination).replace(/</g, '\\u003c')
-  return `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${escapeHtml(title)} — ${SITE_NAME}</title>
+function renderMetadata({ title, description, canonicalUrl, image, componentEmbed }: SharePreview): string {
+  return `<title>${escapeHtml(title)} — ${SITE_NAME}</title>
     <meta name="description" content="${escapeHtml(description)}" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="${SITE_NAME}" />
@@ -67,7 +62,27 @@ export function renderSharePreview({ title, description, destination, canonicalU
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     ${image ? `<meta property="og:image" content="${escapeHtml(image.url)}" />\n    <meta property="og:image:alt" content="${escapeHtml(image.alt)}" />\n    <meta name="twitter:image" content="${escapeHtml(image.url)}" />\n    <meta name="twitter:image:alt" content="${escapeHtml(image.alt)}" />` : ''}
-    ${componentEmbed ? `<script id="discord:component-embed" type="application/json">${componentEmbed}</script>` : ''}
+    ${componentEmbed ? `<script id="discord:component-embed" type="application/json">${componentEmbed}</script>` : ''}`
+}
+
+/** The ordinary reader URL serves its preview and the app in the same response. */
+export function renderReaderPage(appHtml: string, preview: SharePreview): string {
+  return appHtml
+    .replace(/<title>[\s\S]*?<\/title>/gi, '')
+    .replace(/<meta\b[^>]*(?:name|property)="(?:description|theme-color|og:[^"]*|twitter:[^"]*)"[^>]*>/gi, '')
+    .replace('</head>', () => `${renderMetadata(preview)}\n  </head>`)
+}
+
+export function renderSharePreview(preview: SharePreview): string {
+  const { title, description, destination } = preview
+  // JSON strings alone do not escape </script>; keep source text out of the HTML parser.
+  const redirect = JSON.stringify(destination).replace(/</g, '\\u003c')
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    ${renderMetadata(preview)}
   </head>
   <body>
     <h1>${escapeHtml(title)}</h1>
@@ -108,10 +123,7 @@ export function buildSharePages(
       ? SPOILER_DESCRIPTION
       : previewDescription(prepared.markdown) || `Read ${topicTitle} in the Aurora 4x documentation archive.`
     const pagePath = sharePath(view, topic.id, version, sectionSlug)
-    const route = view === 'changelog'
-      ? `${view}/${topic.id}/${version === '2.8.0' ? '3.0.0' : version}`
-      : `${view}/${topic.id}`
-    const destination = `/#${route}${sectionSlug ? `/${sectionSlug}` : ''}`
+    const destination = docsPath(view, topic.id, version, sectionSlug)
     const sourceVersion = version ?? section?.version
     const sourceLabel = sourceVersion ? ` · v${sourceVersion}${unreleased || section?.unreleased ? ' — unreleased' : ''}` : ''
     const componentEmbed = buildDiscordEmbed({
@@ -121,9 +133,12 @@ export function buildSharePages(
       destination: new URL(destination, siteOrigin).href,
       image: prepared.image,
     })
+    const preview = { title, description, destination, canonicalUrl: new URL(destination, siteOrigin).href, image: prepared.image, componentEmbed }
     pages.push({
       path: pagePath,
-      html: renderSharePreview({ title, description, destination, canonicalUrl: new URL(pagePath, siteOrigin).href, image: prepared.image, componentEmbed }),
+      html: renderSharePreview(preview),
+      routePath: destination,
+      preview,
     })
   }
 

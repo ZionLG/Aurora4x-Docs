@@ -67,7 +67,7 @@ test('actual repeated documentation headings retain content and distinct matchin
     for (const entry of repeated) {
       const page = pages.find(page => page.path.endsWith(`/${entry.slug}.html`))
       assert.ok(page, entry.slug)
-      assert.ok(page.html.includes(`/#current/${topicId}/${entry.slug}`))
+      assert.ok(page.html.includes(`/current/${topicId}/${entry.slug}`))
     }
   }
   const maintenance = current.filter(entry => entry.title === 'Maintenance Storage Bays')

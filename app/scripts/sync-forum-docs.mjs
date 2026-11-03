@@ -3,8 +3,15 @@ import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
 import TurndownService from 'turndown'
 
-const topicUrl = 'https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49'
-const version = '3.0.0'
+const versionIndex = process.argv.indexOf('--version')
+const version = versionIndex === -1 ? '3.0.0' : process.argv[versionIndex + 1]
+const releases = {
+  '3.0.0': { id: 49, slug: 'aurora-v3-0-0-patch-notes-november-1st-2026', releasedOn: '2026-11-01' },
+  '3.1.0': { id: 1268, slug: 'aurora-v3-1-0-3rd-november-2026', releasedOn: '2026-11-03' },
+}
+const release = releases[version]
+if (!release) throw new Error(`Unsupported version: ${version}`)
+const topicUrl = `https://aurora4x.com/t/${release.slug}/${release.id}`
 const outputDirectory = new URL(`../public/docs/v${version}/`, import.meta.url)
 const converter = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' })
 
@@ -99,7 +106,8 @@ const sourceIndex = process.argv.indexOf('--source-json')
 const source = sourceIndex === -1
   ? await fetchTopic()
   : JSON.parse(await readFile(process.argv[sourceIndex + 1], 'utf8'))
-if (source.topic.id !== 49 || !source.topic.title.includes('v3.0.0')) {
+if (source.topic.id !== release.id || !source.topic.title.includes(`v${version}`)
+  || /unreleased/i.test(source.topic.title) !== !release.releasedOn) {
   throw new Error('The forum title/version has changed; review the release metadata before importing')
 }
 const receivedIds = new Set(source.posts.map(post => post.id))
@@ -117,6 +125,7 @@ const provenance = {
   title: source.topic.title,
   version,
   unreleased: /unreleased/i.test(source.topic.title),
+  releasedOn: release.releasedOn,
   retrievedAt: new Date().toISOString(),
   latestSourceUpdate: posts.map(post => post.updated_at).sort().at(-1),
   postCount: posts.length,

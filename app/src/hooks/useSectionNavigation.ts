@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, type RefObject } from 'react'
-import { normalizeDocsHash } from '../utils/shareLinks'
+import { docsPathFromLocation } from '../utils/shareLinks'
 import { trackSectionAnchor } from '../utils/sectionScroll'
 
 export function useSectionNavigation(
@@ -24,16 +24,16 @@ export function useSectionNavigation(
 
   useEffect(() => {
     if (!ready) return
-    const followHash = () => {
-      const parts = normalizeDocsHash(window.location.hash).replace(/^#/, '').split('/')
+    const followLocation = () => {
+      const parts = docsPathFromLocation(window.location).slice(1).split('/')
       navigate(parts[0] === 'changelog' ? parts[3] || null : parts[2] || null)
     }
-    followHash()
-    window.addEventListener('hashchange', followHash)
-    window.addEventListener('popstate', followHash)
+    followLocation()
+    window.addEventListener('hashchange', followLocation)
+    window.addEventListener('popstate', followLocation)
     return () => {
-      window.removeEventListener('hashchange', followHash)
-      window.removeEventListener('popstate', followHash)
+      window.removeEventListener('hashchange', followLocation)
+      window.removeEventListener('popstate', followLocation)
       stopTracking.current?.()
     }
   }, [ready, renderedSections, navigate])

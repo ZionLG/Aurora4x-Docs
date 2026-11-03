@@ -1,6 +1,6 @@
 **v3.0.0 Bug Fixes**
 
-[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/1)
+[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/1)
 
 *   Missile ECM requires electronic warfare as a pre-requisite.
 
@@ -84,9 +84,55 @@
 
 *   Population growth rate fixed for ark modules.
 
+*   Fixed a bug that causes newly created deep space populations to vanish on reload, if you opened the system view before saving the game.
+
+*   Prevented species growth rate modifier being set to negative.
+
+*   Added some extra code checking that the design windows for missiles, turrets, ground units and research projects do not interfere with each other when open at the same time.
+
+*   Fixed problem with standing orders sending a survey ship back and forth between two surveyed systems.
+
+*   Fixed a bug where unchecking Current System under the Military tab of the tactical window prevented the selection of other systems.
+
+*   Fixed an overcapacity problem for magazines when multiple ordnance types were loaded during a long increment.
+
+*   Fixed various bugs that resulted from fighters not being tracked properly after their mothership changed fleets.
+
+*   Purchasing civilian minerals at a colony with a reserve will fill that reserve before sending anything via mass driver packet.
+
+*   Fixed an error with the location of PD energy impacts.
+
+*   Fixed an error with the orbital path of Earth becoming eccentric during disaster scenarios.
+
+*   Fixed a display error that was slightly overestimating the maintenance lifetime of ships on class summaries.
+
+*   Fixed a bug that caused ships with disabled engines to consume fuel if they had orders.
+
+*   Fixed a bug that caused a fleet with a set speed to increase to maximum speed after detaching or gaining a ship.
+
+*   Ships within a hangar bay can no longer provide jump capability for the mothership.
+
+*   Escort fleets won’t try to follow their anchor fleet if they are in overhaul or in a shipyard.
+
+*   Fixed inconsistent application of the 20% class size refit limitation.
+
+*   Fixed errors caused by minimal crew on stabilisation ships.
+
+*   Fixed a situation where a ship could not be captured by boarding combat if the crew was all dead but defending combat units remained on board.
+
+*   Show Next Tech now shows the next shield generator size tech.
+
+*   The Cargo Shuttle Multiple in the class summary now includes the bonus from racial tech.
+
+*   Fixed a problem where a population has a tiny negative MSP amount, resulting in warnings about the stockpile being below the default warning level of 0
+
+*   Changing a game now closes all windows except the tactical map.
+
+*   CIWS is working correctly, but wasn’t reporting correctly. The shot counter was only incrementing on a hit. Fixed now.
+
 **v3.0.0 Minor Changes**
 
-[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/1)
+[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/1)
 
 *   For Trade, Contracts and Standing Orders, fleets are checked from newest to oldest.
 
@@ -138,9 +184,15 @@
 
 *   Minor Races will generally be higher tech than in the past.
 
+*   Species growth rate modifiers will only modify positive population growth.
+
+*   Life pods will remain in orbit of planets and at Lagrange points.
+
+*   When a ship is captured or surrenders, its shield strength drops to zero
+
 **Ground Support Fighters Removed**
 
-[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/1)
+[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/1)
 
 The concept of ground support by fighters or other small craft has been entirely removed from the game.
 
@@ -152,7 +204,7 @@ New options will be added in future versions for ‘ground units’ to provide c
 
 **Civilian Contract Standing Order**
 
-[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/1)
+[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/1)
 
 A new ‘Civilian Contract’ standing order has been added for v3.0.
 
@@ -166,7 +218,7 @@ A fleet with this standing order will seek out civilian contracts to fulfil. The
 
 **Load All Ship Components**
 
-[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/1)
+[Source: Aurora forum, post 1](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/1)
 
 Load All Ship Components is a new fleet order.
 
@@ -174,7 +226,7 @@ This order will load as many ship components as possible from a destination popu
 
 **Dynamic Lagrange Point Orders**
 
-[Source: Aurora forum, post 2](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/2)
+[Source: Aurora forum, post 2](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/2)
 
 The ‘Auto-Include Lagrange Points’ checkbox on the Fleet movement orders tab of the Naval Organization window has been replaced by the following radio buttons:
 
@@ -191,7 +243,7 @@ The dynamic option means that the fleet will be taking into account the position
 
 **Using Buoys in Alien-Controlled Space**
 
-[Source: Aurora forum, post 3](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/3)
+[Source: Aurora forum, post 3](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/3)
 
 In v2.7.1 and earlier, the AI will tolerate the presence of sensor buoys from neutral races. That changes in v3.0
 
@@ -203,7 +255,7 @@ As an alien race cannot directly contact a sensor buoy, if there are no other pl
 
 **Lost Colonies**
 
-[Source: Aurora forum, post 4](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/4)
+[Source: Aurora forum, post 4](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/4)
 
 v3.0 adds a new starting option called Lost Colonies.
 
@@ -231,7 +283,7 @@ If both the Human NPRs and Lost Colonies options are active in the same game, th
 
 **Repeat Shipyard Tasks**
 
-[Source: Aurora forum, post 5](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/5)
+[Source: Aurora forum, post 5](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/5)
 
 For v3.0, any sort of shipyard task, except auto-refit, can be set to repeat a fixed number of times.
 
@@ -253,7 +305,7 @@ On the SY Tasks tab, any repeating tasks (with a repeat number greater than 1), 
 
 **Light Naval Shipyards**
 
-[Source: Aurora forum, post 6](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/6)
+[Source: Aurora forum, post 6](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/6)
 
 The Light Naval Shipyard is a fourth type of shipyard (after Naval, Commercial and Repair). It is displayed with an L designation.
 
@@ -269,7 +321,7 @@ The Light Naval Shipyard can be built in the same way (and for the same cost) as
 
 **Fighter and FAC Updates**
 
-[Source: Aurora forum, post 7](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/7)
+[Source: Aurora forum, post 7](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/7)
 
 The differences between fighters and FACs are being removed from the game in terms of mechanics, although they will likely persist in terminology.
 
@@ -285,7 +337,7 @@ Ship commanders of light naval units (a combined designation for FACs and Fighte
 
 **Light Tactical Bonus**
 
-[Source: Aurora forum, post 8](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/8)
+[Source: Aurora forum, post 8](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/8)
 
 v3.0 has a new commander bonus called ‘Light Tactical’.
 
@@ -299,7 +351,7 @@ The chance of a newly generated commander having a Light Tactical bonus is doubl
 
 **Alien Artifact Changes**
 
-[Source: Aurora forum, post 9](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/9)
+[Source: Aurora forum, post 9](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/9)
 
 ### Artifact Stockpile
 Alien Artifacts are no longer a trade good and will no longer be traded by civilians. Instead, any alien artifacts recovered from ruins, or the artifact reserve, will be held directly at the population.
@@ -319,7 +371,7 @@ Construction units will be more effective working on unexploited ruins, but this
 
 **Xenoarchaeology Update**
 
-[Source: Aurora forum, post 10](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/10)
+[Source: Aurora forum, post 10](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/10)
 
 Xenoarchaeology units gain some new abilities in v3.0. They are able to generate research points from ancient constructs and ancient artifacts.
 
@@ -391,7 +443,7 @@ Ultimately, the new XEN abilities will be useful for all Empires in certain situ
 
 **Engineering Projects**
 
-[Source: Aurora forum, post 11](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/11)
+[Source: Aurora forum, post 11](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/11)
 
 Engineering Projects are an alternative way to develop race-designed components, rather than using research facilities.
 
@@ -415,7 +467,7 @@ Engineering Projects simulate an engineering-led, trial-and-error process to dev
 
 **No Research Projects**
 
-[Source: Aurora forum, post 12](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/12)
+[Source: Aurora forum, post 12](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/12)
 
 v3.0 adds a new option during Race Creation called ‘No Research Projects’
 
@@ -467,7 +519,7 @@ This option is not suitable for a ‘turtle’ approach, as a race without an in
 
 **Mass STO Target Type Reassignment**
 
-[Source: Aurora forum, post 13](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/13)
+[Source: Aurora forum, post 13](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/13)
 
 There are six new buttons on the STO Targeting tab of the Ground Forces window. If you select an STO element and click a button, they will copy the ‘_target type_’ and ‘_weapon selected per target_’ parameters of the selected element to other STO elements, based on the following criteria:
 
@@ -480,7 +532,7 @@ There are six new buttons on the STO Targeting tab of the Ground Forces window. 
 
 **Orbital Bombardment Support Update**
 
-[Source: Aurora forum, post 14](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/14)
+[Source: Aurora forum, post 14](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/14)
 
 In v2.7.1, during ground combat, ships in orbit may provide fire support to friendly forces on the surface. This requires the friendly formation to have one Forward Fire Direction component for each ship providing support. The supporting ships fire once per ground combat phase.
 
@@ -492,7 +544,7 @@ in v3.0, the mechanics are identical, except for the following two changes:
 
 **'Narrow Text' Class Summary**
 
-[Source: Aurora forum, post 15](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/15)
+[Source: Aurora forum, post 15](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/15)
 
 v3.0 adds a new ‘Narrow Text’ option on the Class Design window that allows you to view (or copy) a more compact class summary, where the text width is narrower than the standard summary. This is primarily intended for copy and paste into campaign reports or forums posts where text width is a constraint.
 
@@ -506,7 +558,7 @@ Below is a comparison between the normal view and the ‘narrow text’ view.
 
 **Estimated Future Temperature**
 
-[Source: Aurora forum, post 16](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/16)
+[Source: Aurora forum, post 16](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/16)
 
 I’ve added two new lines to the atmosphere data on the Environment tab of the Economics window.
 
@@ -519,7 +571,7 @@ I’ve also added the Dominant Terrain above the colony cost on the Environment 
 
 **Ground Forces Window Update**
 
-[Source: Aurora forum, post 18](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/18)
+[Source: Aurora forum, post 18](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/18)
 
 I’ve added Delete Hierarchy and Scrap Hierarchy buttons to the Ground Forces window.
 
@@ -533,7 +585,7 @@ I’ve also replaced the element sort buttons with radio buttons.
 
 **Aether Gate Detection and Prevention**
 
-[Source: Aurora forum, post 19](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/19)
+[Source: Aurora forum, post 19](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/19)
 
 Two new technologies are available in v3.0
 
@@ -557,7 +609,7 @@ Once Aether Gate Prevention has been researched, Aether Gates will be unable to 
 
 **Summary Highlighting for Obsolete Components**
 
-[Source: Aurora forum, post 20](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/20)
+[Source: Aurora forum, post 20](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/20)
 
 In v2.7.1, obsolete components are highlighted in orange on the class component treeview, while alien components are highlighted in red.
 
@@ -567,7 +619,7 @@ For v3.0. those highlights will also apply to the component summary section, suc
 
 **Class Summary to Clipboard**
 
-[Source: Aurora forum, post 21](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/21)
+[Source: Aurora forum, post 21](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/21)
 
 With the move to the new Discourse forums, everyone is re-learning how to post content. One of the initial challenges for me was finding the best way to post class summaries. Simply selecting with a mouse and pasting into the topic text will result in Discourse converting each line into a paragraph. That can be overcome by using Shift-Enter to format the lines, but that is a very messy option.
 
@@ -587,13 +639,13 @@ In addition to the screenshot generation, I have added a small 4 pixel margin to
 
 **New Hull Numbers**
 
-[Source: Aurora forum, post 22](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/22)
+[Source: Aurora forum, post 22](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/22)
 
 Any ship moving to a new race, through capture, surrender or transfer, will be assigned a new hull number appropriate to that hull type for the receiving race.
 
 **Communications Update**
 
-[Source: Aurora forum, post 23](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/23)
+[Source: Aurora forum, post 23](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/23)
 
 For Race A to attempt communication with Race B, at least one of the following must be true
 
@@ -648,7 +700,7 @@ _Note: The basic principles of communication remain unchanged from v1.00. v3.0 i
 
 **Senior Ship Commanders**
 
-[Source: Aurora forum, post 24](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/24)
+[Source: Aurora forum, post 24](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/24)
 
 V2.7.1 has a Senior CO checkbox on the Class Design window. Checking that box allows you to set a class design to require a commander one rank higher than would normally be the case. That required class rank then determines the required ranks of any junior officers.
 
@@ -674,7 +726,7 @@ I’ve also added a Replace CO button, which will unassign the current CO then c
 
 **Civilian Mining Summary**
 
-[Source: Aurora forum, post 25](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/25)
+[Source: Aurora forum, post 25](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/25)
 
 The Economics window has a new tab called CMC. This lists all systems with the necessary bodies and mineral deposits to support at least one civilian mining colony.
 
@@ -699,7 +751,7 @@ As well as providing a summary of current civilian mining operations, the tab al
 
 **Ordnance Series**
 
-[Source: Aurora forum, post 26](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/26)
+[Source: Aurora forum, post 26](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/26)
 
 Ordnance Series is similar in concept to Unit Series. You specify a connected group of missiles, or other ordnance, along with the priority of each one. When a ship tries to load its normal ordnance loadout and cannot, it will look instead for lower priority ordnance in the same series.
 
@@ -725,7 +777,7 @@ A ship will not load a higher priority item, even if it is in the same series as
 
 **Manual Jump Point Connections**
 
-[Source: Aurora forum, post 27](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/27)
+[Source: Aurora forum, post 27](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/27)
 
 v3.0 adds the option to modify jump point connections while in Spacemaster mode.
 
@@ -745,7 +797,7 @@ Once the connection is made, the viewing race will see both ends as explored.
 
 **Empire Logistics Summary**
 
-[Source: Aurora forum, post 28](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/28)
+[Source: Aurora forum, post 28](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/28)
 
 v3.0 introduces a new tab on the Economics window that summarises the maintenance and fuel situation for all colonies. For each colony, the following information is displayed
 
@@ -773,7 +825,7 @@ There are eight radio buttons at the bottom that allow you to sort by each of th
 
 **Ship Selection Summary**
 
-[Source: Aurora forum, post 29](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/29)
+[Source: Aurora forum, post 29](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/29)
 
 On the Ship List tab, within the Fleet tab, on the Naval Organization window, I’ve added a summary line at the bottom for the ships currently selected. This is to make it easier to select the correct number of ship within large groups.
 
@@ -781,7 +833,7 @@ On the Ship List tab, within the Fleet tab, on the Naval Organization window, I�
 
 **Lagrange Point Update**
 
-[Source: Aurora forum, post 30](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/30)
+[Source: Aurora forum, post 30](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/30)
 
 Lagrange Points are now permanent locations, like system bodies.
 
@@ -789,7 +841,7 @@ This means that any fleet, wreck, missile salvo, waypoint or deep space populati
 
 **Configurable Interrupts**
 
-[Source: Aurora forum, post 31](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/31)
+[Source: Aurora forum, post 31](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/31)
 
 There are two new buttons and a checkbox on the Events window.
 
@@ -813,7 +865,7 @@ _I have been considering this change for a while, but was prompted into action b
 
 **No Short Increments for NPR vs NPR Interceptions**
 
-[Source: Aurora forum, post 32](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/32)
+[Source: Aurora forum, post 32](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/32)
 
 In a previous version of Aurora, I added a check at the start of each increment. If a fleet is following a hostile contact, the increment will be shortened so that the following fleet doesn’t immediately move to point-blank range, but instead moves most of the distance.
 
@@ -827,37 +879,15 @@ _This might mean occasionally odd AI behaviour when you are directly observing b
 
 **Display Improvement for Tactical and Galactic Maps**
 
-[Source: Aurora forum, post 33](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/33)
+[Source: Aurora forum, post 33](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/33)
 
 I’ve added some code that should make the Tactical and Galactic maps display in a much smoother way, without any jagged elements to circles for example. I’ve added a checkbox to turn off anti-aliasing if required for performance reasons.
 
 ![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/d/dc146d36f9ef10b859f20b17b2af23f2806cc6da.png)
 
-**Background Colour and Map Fonts**
-
-[Source: Aurora forum, post 34](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/34)
-
-I’ve added a Display Settings option that pops up from a button on the Tactical Map.
-
-You can set the background colour for the whole of Aurora and set a font for the Tactical and Galactic Maps.
-
-Any colour can be selected for the background. The fonts are restricted (for now) to five options: Microsoft Sans Serif (default), Segoe UI, Arial, Calibri and Verdana.
-
-The fonts only apply to the maps because different fonts have different text lengths for the same word, so they can cause controls to misalign.
-
-Here is the Tactical map with a black background and Segoe UI font.
-
-![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/5/5b94094b2300b4f46812cd594a0ae5f323e2b328.png)
-
-The same options on the Galactic Map.
-
-![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/b/b818c3ec8ddafe51c8494dcb0710d71afa923775.png)
-
-This is something of an experiment, so I will see how it works post-release before adding anything else on the same lines.
-
 **Galactic Map Search Update**
 
-[Source: Aurora forum, post 35](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/35)
+[Source: Aurora forum, post 35](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/35)
 
 The Galactic Map System Search can be accessed via ctrl-F as well as the existing button.
 
@@ -865,7 +895,7 @@ Partial searches are now possible (typing only part of a system name) and it is 
 
 **Class Main Function**
 
-[Source: Aurora forum, post 36](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/36)
+[Source: Aurora forum, post 36](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/36)
 
 The game already automatically assigns each ship class a ‘main function’, such as warship, terraformer or troop transport. This ‘main function’ is used for auto-assignment purposes and is shown at the bottom of the class summary.
 
@@ -875,7 +905,7 @@ Once this is set by a user, it will no longer update automatically with class de
 
 **Removing Unused Hull Types**
 
-[Source: Aurora forum, post 37](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/37)
+[Source: Aurora forum, post 37](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/37)
 
 I’ve added a button to the Miscellaneous tab of the Tactical Map called ‘Remove Unused Hull Types’
 
@@ -887,7 +917,7 @@ if a class is loaded on game start and the previous hull type is not available, 
 
 **Non-Oxygen Species**
 
-[Source: Aurora forum, post 40](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/40)
+[Source: Aurora forum, post 40](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/40)
 
 v3.0 introduces new species types that breathe methane, ammonia and sulphur dioxide. There is an option on the game window to enable/disable these new species types from appearing.
 
@@ -935,7 +965,7 @@ This means that overall, there may be three times more races generated during ex
 
 **New Terrain Types**
 
-[Source: Aurora forum, post 41](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/41)
+[Source: Aurora forum, post 41](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/41)
 
 As v3.0 introduces new species types that can exist at much lower temperatures than oxygen breathers, I have added twenty-five new dominant terrain types.
 
@@ -951,7 +981,7 @@ The total number of terrain types is now sixty-seven.
 
 **Ruin and Ancient Construct Changes**
 
-[Source: Aurora forum, post 42](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/42)
+[Source: Aurora forum, post 42](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/42)
 
 With the introduction of new species types, the system bodies that could theoretically support ruins has changed.
 
@@ -983,7 +1013,7 @@ As an aside, the Raiders can now be of any species type. The other spoilers are 
 
 **Orbital Movement Update**
 
-[Source: Aurora forum, post 43](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/43)
+[Source: Aurora forum, post 43](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/43)
 
 For v3.0, orbital movement has been moved from the construction phase to the normal sequence of play.
 
@@ -995,7 +1025,7 @@ For example, my current game has 650 systems, 42,000 bodies and 1400 fleets. Orb
 
 **Aurora Colour Configuration**
 
-[Source: Aurora forum, post 44](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/44)
+[Source: Aurora forum, post 44](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/44)
 
 As part of an effort to make themes an integral part of Aurora, all colours displayed on maps and in forms are now loaded from an XML file when Aurora starts.
 
@@ -1115,7 +1145,7 @@ Below is an example of the new AuroraConfig.xml, although the colours will chang
 
 **Graphics Overhaul**
 
-[Source: Aurora forum, post 45](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/45)
+[Source: Aurora forum, post 45](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/45)
 
 For v3.0, Aurora is going to look different. I believe there is general consensus that the yellow/blue combination is quite jarring for some players, which is why I introduced the custom colours above. I will be moving to a light grey / soft black combination but that can be changed at user discretion. There are likely to be alternative colour config files shared by players.
 
@@ -1131,7 +1161,7 @@ NOTE: The screenshot looks a little darker than the game itself unless you click
 
 **Map Body Colony Cost Colour**
 
-[Source: Aurora forum, post 46](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/46)
+[Source: Aurora forum, post 46](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/46)
 
 Bodies can now be shown by their colony cost, similar to the System View and using the same colours. The species used for the colony cost is selected on the Miscellaneous tab, although with the growing number of options I might re-arrange that.
 
@@ -1151,7 +1181,7 @@ All these colours are in the XML file and can be modified by the player
 
 **Expanded Context Menu**
 
-[Source: Aurora forum, post 47](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/47)
+[Source: Aurora forum, post 47](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/47)
 
 In v2.7.1, you can right-click on a population, fleet or jump point and a menu will pop up with those items. Clicking the fleet takes you to the Naval Org window with the fleet selected, clicking the population opens the economic window and clicking the jump point changes the tactical map to the selected system.
 
@@ -1169,7 +1199,7 @@ The population, fleet and alien icons are the same as used on the toolbar button
 
 **Ground Formation Template Naming Themes**
 
-[Source: Aurora forum, post 48](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/48)
+[Source: Aurora forum, post 48](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/48)
 
 Ground Forces Templates can now be assigned naming themes, in the same way as Ship Classes. To choose the theme, select the template on the ground forces window and choose from the naming theme dropdown. You can choose to have the names selected in a random order.
 
@@ -1185,7 +1215,7 @@ If you want the traditional format of 1st Infantry, 2nd Infantry, etc. you can c
 
 **Orbital Temperature Dampening**
 
-[Source: Aurora forum, post 49](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/49)
+[Source: Aurora forum, post 49](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/49)
 
 In v2.7.1 Aurora calculates temperature based on star luminosity, distance of the body from the star, albedo (how much heat is reflected into space), greenhouse and anti-greenhouse factors and any dust in the atmosphere.
 
@@ -1224,7 +1254,7 @@ _There are some minor edge cases where the atmospheric pressure might change as 
 
 **Jump Point Buoy Icons**
 
-[Source: Aurora forum, post 50](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/50)
+[Source: Aurora forum, post 50](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/50)
 
 The Galactic Map now includes an option to show the presence of jump point buoys.
 
@@ -1236,7 +1266,7 @@ If you have a buoy located within 1000 km of the jump point (to account for pote
 
 **Disable Hostile Interrupts at the NPR/System Level**
 
-[Source: Aurora forum, post 51](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/51)
+[Source: Aurora forum, post 51](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/51)
 
 For v3.0, you can already disable interrupts for specific events (see the earlier post in this thread).
 
@@ -1246,7 +1276,7 @@ This is intended for situations where you are monitoring hostile traffic in a sy
 
 **Stabilisation Time for Lagrange Points in Fleet Orders**
 
-[Source: Aurora forum, post 52](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/52)
+[Source: Aurora forum, post 52](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/52)
 
 When a fleet with a stabilisation ship is selected in the Naval Organization window, the list of possible population and system body destinations will include the time in years required to stabilise a Lagrange point for that planet or moon.
 
@@ -1256,7 +1286,7 @@ Note that it must have a mass of at least 0.25.
 
 **No Shield Technology Game**
 
-[Source: Aurora forum, post 53](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/53)
+[Source: Aurora forum, post 53](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/53)
 
 For v3.0, a game can be set to exclude shield generators as a technology. This has the following effects:
 
@@ -1272,7 +1302,7 @@ Player ships will be more likely to be damaged or destroyed and there will be a 
 
 **Missile Lurker Mode**
 
-[Source: Aurora forum, post 54](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/54)
+[Source: Aurora forum, post 54](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/54)
 
 For v3.0, Missiles can include a new Lurker Mode component in their design. This is intended for use on missiles that have both engines and onboard sensors. It is selected via a checkbox in the same way as Retargeting.
 
@@ -1286,7 +1316,7 @@ Once a Lurker Mode missile engages engines, it can no longer return to lurker mo
 
 **Short Increments and Active Fire Controls**
 
-[Source: Aurora forum, post 55](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/55)
+[Source: Aurora forum, post 55](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/55)
 
 Currently, if an increment is shortened because a ship is due to fire weapons, you receive the event text…
 
@@ -1298,7 +1328,7 @@ _“Increment length adjusted due to active fire controls on XX Ship Name”_
 
 **Copy Naval Admin**
 
-[Source: Aurora forum, post 56](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/56)
+[Source: Aurora forum, post 56](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/56)
 
 I’ve added a Copy Admin button to the Naval Organisation window.
 
@@ -1310,7 +1340,7 @@ For example, I have copied the hierarchy for Legio Astrorum I, then renamed the 
 
 **Alien Class Type**
 
-[Source: Aurora forum, post 57](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/57)
+[Source: Aurora forum, post 57](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/57)
 
 On the Intelligence window, alien classes on the treeview are now split into four separate tree branches, based on a new ‘Type’ designation. Every alien class starts as ‘Unknown’ until it passes one of the following checks.:
 
@@ -1328,7 +1358,7 @@ If a ship currently designated as Light Naval is destroyed and the resulting wre
 
 **Low Gravity with Atmosphere Retention**
 
-[Source: Aurora forum, post 58](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/58)
+[Source: Aurora forum, post 58](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/58)
 
 In v2.7.1, bodies with a lower gravity than the viewing species minimum have an “LG” suffix appended to their colony cost.
 
@@ -1342,10 +1372,118 @@ I have used different suffix lengths for the three cases because that is easier 
 
 **Automated Turns for Shortened Increments Only**
 
-[Source: Aurora forum, post 59](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49/59)
+[Source: Aurora forum, post 59](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/59)
 
 I’ve added a checkbox to the miscellaneous tab of the Tactical window called _“Run Automated Turns for Shortened Increments Only”_
 
 When this checkbox is checked, automated turns will end if the actual length of an increment is equal to the length of increment selected by the player.
 
 _For example, if have automated turns turned on and choose a 1 day increment, automated turns will only continue if the actual increments are shorter than 1 day. As soon as a full day increment runs, automated turns will cease._
+
+**Map Fonts in Config File**
+
+[Source: Aurora forum, post 60](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/60)
+
+I’ve added the font used in the tactical and galactic maps to the new AuroraConfig.xml file. I’ve included a few commented out fonts for easy changing, but you can use whatever fonts are installed on your system. If the config file uses a non-installed font, the game defaults to MS Sans Serif.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/2/2dc19a22feba5c697521026f086aaac4927ff293.png)
+
+Here is a screenshot using Segoe UI
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/8/83cb714a252836991e9bf23e27d9d15acb664906.png)
+
+This configuration option replaces the small pop window that was mentioned earlier in the patch notes.
+
+**Partial Wreck Recovery**
+
+[Source: Aurora forum, post 61](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/61)
+
+I’ve added the concept of partial wreck recovery for v3.0.
+
+In v2.7.1, if a salvage ship and any attendant freighters do not have sufficient space to recover all the components and minerals from a wreck, they will load what they can. They will check for whole components first and then fill any remaining space with minerals. The wreck is then removed from play, with any remaining components and minerals lost. The player is notified about the components and minerals actually recovered, but not informed about the fleet’s inability to complete the salvage.
+
+For v3.0, if the same situation occurs, the wreck will not be removed. Instead, any components and/or minerals that could not be loaded by the salvage fleet will remain at the wreck, while the wreck itself will remain in play. The player will be notified by an ‘Incomplete Salvage’ event. This will be an interrupt by default, but v3.0 allows you to change that interrupt status if desired.
+
+Tech data is always loaded as it does not require cargo space.
+
+**Ground Order of Battle Charts**
+
+[Source: Aurora forum, post 62](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/62)
+
+I’ve added a new Org Graphic button to the Organisations tab of the Ground Forces window. This will display the hierarchy of a selected organisation, with or without the units list. You can also copy and save the images created.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/c/c71e854975d8dbc291ab805f59b7370a1315b034.png)
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/2/288ba7664e140e05a0c010cc5f9788f80c21dafc.png)
+
+You choose the type and level for each formation on the formation templates tab. Setting a formation template as ‘HQ’, means it will adopt the most common formation type from its subordinates. Or you can set as a specific type.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/e/e78121bfbd69968c5d5ca78405e6a96c59f073a7.png)
+
+Level goes from squad to army. These are the available type icons for v3.0.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/9/9a3a6867531a40643ff0472cc91fe65c44b7acd0.png)
+
+You can change the colours in the AuroraConfig.xml file.
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/d/d736187aed7ea3360c099b90fd8f940368af3d2c.png)
+
+**Current Order of Battle Charts**
+
+[Source: Aurora forum, post 63](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/63)
+
+In addition to the template organizations shown in the previous post, you can select any formation or population from the order of battle tab and see the current state of those units, using a new OOB Chart button.
+
+For example:
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/1/13d2ccf6080e006bef0240d4f40073d81d5eca34.png)
+
+![image](https://canada1.discourse-cdn.com/flex011/uploads/aurora4x/original/2X/4/4a43c82ee00420ad7580ffb05a34bbbc013d574e.png)
+
+**Tactical and Galactic Map Zoom**
+
+[Source: Aurora forum, post 64](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/64)
+
+Currently, the zoom code for the tactical and galactic maps assumes the window is maximized. So if you have a smaller version of the map, perhaps one half of your window, the zoom will be off centre, still using the centre of a theoretical maximized map. In effect, the centre of the screen, not the window.
+
+For v3.0, the code is aware if the maps are not full screen and will zoom on the centre of the window, not on the centre of your screen. Clicking on an object in the tactical map while non-maximized will centre that object in the middle of the window, not the screen.
+
+**Saving Events**
+
+[Source: Aurora forum, post 65](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/65)
+
+Currently there is a five year limit on saving events and a 10,000 event limit on load.
+
+For v3.0, I removed the limit on load, as it didn’t make sense to have different limits on save and load, and changed the save code.
+
+Aurora will save 90 days of events, or 10,000 events, whichever is greater. Whole increments will always be saved, even if they take the total over 10,000.
+
+The 90 day limit can be changed in the new AuroraConfig.xml file.
+
+**Using Components for Space Stations and Light Naval**
+
+[Source: Aurora forum, post 66](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/66)
+
+The Industry tab of the Economics window now has a ‘Use Components’ checkbox similar to that on the Shipyard window.
+
+For Space Stations and Light Naval, having this checkbox checked when creating an industry task will reduce production time in the same way as shipyard tasks.
+
+Alien Components can be used in the same way.
+
+There is an additional restriction on component used for industry tasks, due to the way they work. For alien components, you must have sufficient components for all units in the task or you cannot create it. For racial components, they will only be used to reduce time/cost if there are sufficient components for all units in the task
+
+**Shipping Line Update**
+
+[Source: Aurora forum, post 67](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/67)
+
+Civilian ships check for contract / trade orders if the increment is longer than one hour, or standing orders if the increment is longer than one minute.
+
+In v3.0, if they fail to find a contract or trade order, they will stop checking for new contract or trade orders until after the next construction phase. If they fail to execute a standing order, they will stop checking standing orders until after the next construction phase.
+
+This means that active ships with tasks available will continue to work on the short timescales, while ships with no available tasks will stop checking for a few days, then try again.
+
+**Development Cost Changes**
+
+[Source: Aurora forum, post 68](https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49/68)
+
+Many tech lines have had their development costs adjusted above about 50,000 RP. Beyond that point, they increase by about 60% per level, rather than doubling.

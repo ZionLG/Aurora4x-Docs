@@ -1,0 +1,42 @@
+{
+  "source": "https://aurora4x.com/t/aurora-v3-1-0-3rd-november-2026/1268",
+  "title": "Aurora v3.1.0 - 3rd November 2026",
+  "version": "3.1.0",
+  "unreleased": false,
+  "releasedOn": "2026-11-03",
+  "retrievedAt": "2026-11-03T13:36:22.604Z",
+  "latestSourceUpdate": "2026-11-03T13:06:23.877Z",
+  "postCount": 5,
+  "sectionCount": 5,
+  "skippedSystemPostNumbers": [
+    2
+  ],
+  "markdownSha256": "885cdeb450ddd25c7e1ac7e0ebca90b45005c1fbe20d63e7dfe1edc2e26cedea",
+  "posts": [
+    {
+      "id": 8055,
+      "number": 1,
+      "updatedAt": "2026-11-03T13:06:23.877Z"
+    },
+    {
+      "id": 8093,
+      "number": 3,
+      "updatedAt": "2026-11-01T21:30:51.328Z"
+    },
+    {
+      "id": 8138,
+      "number": 4,
+      "updatedAt": "2026-11-02T13:48:59.954Z"
+    },
+    {
+      "id": 8146,
+      "number": 5,
+      "updatedAt": "2026-11-02T14:46:40.481Z"
+    },
+    {
+      "id": 8236,
+      "number": 6,
+      "updatedAt": "2026-11-03T11:35:17.237Z"
+    }
+  ]
+}

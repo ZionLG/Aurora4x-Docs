@@ -6,7 +6,7 @@ import SpoilerText from './SpoilerText'
 import { useSpoilerRegion } from '../hooks/useSpoilerRegion'
 import { useSpoilers } from '../hooks/useSpoilers'
 import { isSpoilerSection, spoilerSafeText } from '../utils/spoilers'
-import { sharePath, shareUrlFromHash, sectionAnchors } from '../utils/shareLinks'
+import { docsPath, sectionAnchors } from '../utils/shareLinks'
 import { type DocsManifest } from '../manifest'
 import type { ViewMode, ActiveSelection, BaseDocsCache } from '../App'
 import { parseSections, type MarkdownSection } from '../utils/extractSections'
@@ -66,10 +66,8 @@ export default function ContentArea({ manifest, view, selection, changelogCache,
 
   const handleSectionClick = useCallback((slug: string) => {
     if (!selection) return
-    const base = view === 'changelog'
-      ? `changelog/${selection.topic.id}/${selection.version}`
-      : `current/${selection.topic.id}`
-    window.history.replaceState(null, '', `#${base}/${slug}`)
+    const path = docsPath(view, selection.topic.id, selection.version, slug)
+    if (window.location.pathname !== path) window.history.pushState(null, '', path)
     navigate(slug)
   }, [view, selection, navigate])
 
@@ -504,7 +502,7 @@ function SectionAnchor({
     e.stopPropagation()
     onClick(slug)
     // Copy URL to clipboard
-    const url = shareUrlFromHash(window.location.hash, window.location.origin)
+    const url = new URL(window.location.pathname, window.location.origin).href
     navigator.clipboard.writeText(url).catch(() => {})
   }
 
@@ -646,7 +644,7 @@ function Stat({ value, label }: { value: number; label: string }) {
 function CopyLinkButton({ view, selection, sectionSlug }: { view: ViewMode; selection: ActiveSelection; sectionSlug?: string }) {
   const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const copy = async () => {
-    const url = new URL(sharePath(view, selection.topic.id, selection.version, sectionSlug), window.location.origin).href
+    const url = new URL(docsPath(view, selection.topic.id, selection.version, sectionSlug), window.location.origin).href
     try {
       await navigator.clipboard.writeText(url)
       setState('copied')
@@ -656,7 +654,7 @@ function CopyLinkButton({ view, selection, sectionSlug }: { view: ViewMode; sele
   }
   return (
     <button type="button" onClick={copy} className="mt-3 font-mono text-[0.65rem] px-2.5 py-1 rounded border border-border text-text-dim hover:text-accent cursor-pointer" title="Copy a link with a preview for Discord">
-      {state === 'copied' ? 'Link copied!' : state === 'failed' ? 'Copy failed — try again' : sectionSlug ? 'Copy section link' : 'Copy link for Discord'}
+      {state === 'copied' ? 'Link copied!' : state === 'failed' ? 'Copy failed — try again' : sectionSlug ? 'Copy section link' : 'Copy link'}
     </button>
   )
 }

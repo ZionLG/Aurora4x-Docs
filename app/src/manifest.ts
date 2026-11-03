@@ -37,7 +37,8 @@ export interface DocsManifest {
 
 export const manifest: DocsManifest = {
   versions: [
-    { version: "3.0.0", label: "v3.0.0 — Unreleased", date: "", file: "v3.0.0/01-patch-notes.md", unreleased: true },
+    { version: "3.1.0", label: "v3.1.0 — Update", date: "2026-11-03", file: "v3.1.0/01-patch-notes.md" },
+    { version: "3.0.0", label: "v3.0.0 — Major Update", date: "2026-11-01", file: "v3.0.0/01-patch-notes.md" },
     { version: "2.7.0", label: "v2.7.0 — Major Update", date: "2025-10-30", file: "v2.7.0/01-patch-notes.md" },
     { version: "2.6.0", label: "v2.6.0 — Major Update", date: "2025-09-06", file: "v2.6.0/01-patch-notes.md" },
     { version: "2.5.1", label: "v2.5.1 — Minor Update", date: "2024-01-25", file: "v2.5.1/01-patch-notes.md" },
@@ -941,7 +942,7 @@ export const manifest: DocsManifest = {
     "The Ancients": { topic: "alien-races", after: "New Species Attributes" },
 
     // ═══════════════════════════════════════════
-    // v3.0.0 sections (unreleased)
+    // v3.0.0 sections
     // ═══════════════════════════════════════════
 
     // ── v3.0.0 Generic Patches ──
@@ -1023,7 +1024,7 @@ export const manifest: DocsManifest = {
 
     // ── v3.0.0 additions since the former v2.8.0 documentation ──
     "Display Improvement for Tactical and Galactic Maps": { topic: "user-interface" },
-    "Background Colour and Map Fonts": { topic: "user-interface" },
+    "Map Fonts in Config File": { topic: "user-interface" },
     "Galactic Map Search Update": { topic: "user-interface" },
     "Class Main Function": { topic: "ship-components" },
     "Removing Unused Hull Types": { topic: "nomenclature" },
@@ -1060,15 +1061,37 @@ export const manifest: DocsManifest = {
     "Alien Class Type": { topic: "intelligence-gathering" },
     "Low Gravity with Atmosphere Retention": { topic: "colonies" },
     "Automated Turns for Shortened Increments Only": { topic: "user-interface" },
+    "Partial Wreck Recovery": { topic: "fleet-movement", after: "Wreck Salvage Display" },
+    "Ground Order of Battle Charts": { topic: "ground-forces" },
+    "Current Order of Battle Charts": { topic: "ground-forces", after: "Ground Order of Battle Charts" },
+    "Tactical and Galactic Map Zoom": { topic: "user-interface" },
+    "Saving Events": { topic: "user-interface" },
+    "Using Components for Space Stations and Light Naval": [
+      { topic: "ship-components", after: "Engineering Projects" },
+      { topic: "space-stations" },
+    ],
+    "Shipping Line Update": { topic: "civilians" },
+    "Development Cost Changes": { topic: "user-interface", after: "Research Project Display Update" },
+
+    // v3.1.0 sections
+    "v3.1.0 Bug Fixes": { topic: "user-interface", after: "v3.0.0 Minor Changes", kind: "bugfix" },
+    "Idle Civilian Shipping": { topic: "civilians", after: "Shipping Line Update" },
+    "Ground Unit Projects": { topic: "ground-forces" },
+    "Context Menu Waypoints": [
+      { topic: "fleet-movement" },
+      { topic: "user-interface", after: "Expanded Context Menu" },
+    ],
+    "Naval Organization OOB Charts": { topic: "naval-organization", after: "Copy Naval Admin" },
   },
 
   versionTopics: {
+    "3.1.0": ["civilians", "fleet-movement", "ground-forces", "naval-organization", "user-interface"],
     "3.0.0": [
       "aether-rifts", "alien-races", "civilians", "colonies", "combat-mechanics", "crew-and-commanders", "diplomacy",
       "fleet-movement", "ground-combat", "ground-forces", "ground-support-fighters",
       "intelligence-gathering", "logistics", "missiles-and-launchers", "naval-organization", "new-game-setup", "nomenclature",
       "ruins", "sensors-and-contacts", "ship-components", "shipyards",
-      "surface-to-orbit", "systems-and-bodies", "terraforming", "user-interface",
+      "space-stations", "surface-to-orbit", "systems-and-bodies", "terraforming", "user-interface",
     ],
     "2.7.0": [
       "alien-races", "civilians", "crew-and-commanders", "direct-fire-weapons",

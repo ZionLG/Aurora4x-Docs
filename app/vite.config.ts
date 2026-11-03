@@ -3,6 +3,30 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 import fs from 'fs'
+import type { DocsManifest } from './src/manifest'
+import type { MarkdownSection } from './src/utils/extractSections'
+
+/** Match the deployed extensionless reader URLs in the local production preview. */
+function readerPreviewPlugin(): Plugin {
+  return {
+    name: 'reader-preview',
+    configurePreviewServer(server) {
+      const outputDirectory = path.resolve(server.config.root, server.config.build.outDir)
+      server.middlewares.use((req, res, next) => {
+        const pathname = new URL(req.url || '/', 'http://localhost').pathname
+        if (!/^\/(?:current\/[a-z0-9-]+(?:\/[a-z0-9-]+)?|changelog\/[a-z0-9-]+\/\d+\.\d+\.\d+(?:\/[a-z0-9-]+)?)\/?$/.test(pathname)) return next()
+        const file = path.join(outputDirectory, pathname.slice(1), 'index.html')
+        if (!fs.existsSync(file)) {
+          res.statusCode = 404
+          res.end('Documentation page not found')
+          return
+        }
+        res.setHeader('Content-Type', 'text/html; charset=utf-8')
+        res.end(fs.readFileSync(file))
+      })
+    },
+  }
+}
 
 /** Dev middleware: serves /current/{topic}.md by running the merge on-the-fly */
 function mdExportPlugin(): Plugin {
@@ -16,11 +40,11 @@ function mdExportPlugin(): Plugin {
         const topicId = match[1]
 
         // Dynamic import to avoid bundling these at startup
-        const { manifest } = await server.ssrLoadModule('/src/manifest.ts')
+        const { manifest } = await server.ssrLoadModule('/src/manifest.ts') as { manifest: DocsManifest }
         const { parseSections } = await server.ssrLoadModule('/src/utils/extractSections.ts')
         const { mergeTopicContent } = await server.ssrLoadModule('/src/utils/mergeContent.ts')
 
-        const topic = manifest.topics.find((t: any) => t.id === topicId)
+        const topic = manifest.topics.find(t => t.id === topicId)
         if (!topic) {
           res.statusCode = 404
           res.end('Topic not found')
@@ -30,7 +54,7 @@ function mdExportPlugin(): Plugin {
         const docsDir = path.resolve(__dirname, 'public', 'docs')
 
         // Load changelog cache
-        const changelogCache: Record<string, any[]> = {}
+        const changelogCache: Record<string, MarkdownSection[]> = {}
         for (const v of manifest.versions) {
           if (!v.file) continue
           const filePath = path.join(docsDir, v.file)
@@ -47,8 +71,8 @@ function mdExportPlugin(): Plugin {
           : []
 
         const versionSections = manifest.versions
-          .filter((v: any) => v.file && changelogCache[v.version])
-          .map((v: any) => ({ version: v.version, sections: changelogCache[v.version] }))
+          .filter(v => v.file && changelogCache[v.version])
+          .map(v => ({ version: v.version, sections: changelogCache[v.version] }))
           .reverse()
 
         const { buildTopicMarkdown } = await server.ssrLoadModule('/src/utils/exportMarkdown.ts')
@@ -59,7 +83,7 @@ function mdExportPlugin(): Plugin {
         )
 
         const unreleasedVersions = new Set(
-          manifest.versions.filter((v: any) => v.unreleased).map((v: any) => v.version)
+          manifest.versions.filter(v => v.unreleased).map(v => v.version)
         )
         const md = buildTopicMarkdown(topic.title, merged, unreleasedVersions)
 
@@ -71,7 +95,7 @@ function mdExportPlugin(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), mdExportPlugin()],
+  plugins: [react(), tailwindcss(), mdExportPlugin(), readerPreviewPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

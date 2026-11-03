@@ -32,7 +32,40 @@ export function sectionAnchors(sections: { title: string }[]): string[] {
 function normalizeSectionSlug(slug: string): string {
   if (slug === 'v2-8-0-bug-fixes') return 'v3-0-0-bug-fixes'
   if (slug === 'v2-8-0-minor-changes') return 'v3-0-0-minor-changes'
+  if (slug === 'background-colour-and-map-fonts') return 'map-fonts-in-config-file'
   return slug
+}
+
+/** Canonical browser URLs are real paths so crawlers receive the selected section. */
+export function docsPath(view: ShareView, topicId?: string, version?: string, sectionSlug?: string): string {
+  if (!topicId) return `/${view}`
+  return sharePath(view, topicId, version, sectionSlug).replace(/^\/share/, '').replace(/\.html$/, '')
+}
+
+/** Read both new page URLs and bookmarks from the old hash-based reader. */
+export function docsPathFromLocation(location: { pathname: string; hash: string }): string {
+  const legacyHash = /^#(?:current|changelog|admin)(?:\/|$)/.test(location.hash)
+  const route = legacyHash ? location.hash.slice(1) : location.pathname.replace(/^\/(?:share\/)?/, '').replace(/\.html$/, '').replace(/\/$/, '')
+  if (route === 'admin') return '/admin'
+  const [view, topic, versionOrSection, section, ...extra] = normalizeDocsHash(route).split('/')
+  if (view !== 'current' && view !== 'changelog') return '/current'
+  if (!topic) return docsPath(view)
+  if (extra.length || !/^[a-z0-9-]+$/.test(topic)) return docsPath(view)
+  if (view === 'changelog') {
+    if (!versionOrSection || !/^\d+\.\d+\.\d+$/.test(versionOrSection) || (section && !/^[a-z0-9-]+$/.test(section))) return docsPath(view)
+    return docsPath(view, topic, versionOrSection, section)
+  }
+  if (section || (versionOrSection && !/^[a-z0-9-]+$/.test(versionOrSection))) return docsPath(view)
+  return docsPath(view, topic, undefined, versionOrSection)
+}
+
+export function normalizeBrowserLocation(browser: Pick<Window, 'location' | 'history'>): void {
+  const canonical = docsPathFromLocation(browser.location)
+  // Leave the landing page at /; normalize legacy, aliased and trailing-slash routes.
+  if (browser.location.pathname === '/' && !browser.location.hash) return
+  if (browser.location.pathname !== canonical || browser.location.hash) {
+    browser.history.replaceState(null, '', canonical + browser.location.search)
+  }
 }
 
 /** Preserve old bookmarks after the unreleased 2.8 documentation became 3.0. */
@@ -63,17 +96,4 @@ export function sharePath(
   }
   if (sectionSlug) parts.push(normalizeSectionSlug(sectionSlug))
   return `/share/${parts.map(encodeURIComponent).join('/')}.html`
-}
-
-/** Convert an existing app route, preserving historical versions and section anchors. */
-export function shareUrlFromHash(hash: string, origin: string): string {
-  const [view, topicId, third, fourth] = normalizeDocsHash(hash).replace(/^#/, '').split('/')
-  if ((view !== 'current' && view !== 'changelog') || !topicId) {
-    return new URL('/', origin).href
-  }
-  if (view === 'changelog' && !third) return new URL('/', origin).href
-  const path = view === 'changelog'
-    ? sharePath(view, topicId, third, fourth)
-    : sharePath(view, topicId, undefined, third)
-  return new URL(path, origin).href
 }

@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/current/(.*).md",
@@ -9,6 +10,16 @@
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api/|share/).*)", "destination": "/index.html" }
+    { "source": "/current/:topic([a-z0-9-]+)/:section([a-z0-9-]+)", "destination": "/current/:topic/:section/index.html" },
+    { "source": "/current/:topic([a-z0-9-]+)", "destination": "/current/:topic/index.html" },
+    { "source": "/changelog/:topic([a-z0-9-]+)/:version([0-9]+\\.[0-9]+\\.[0-9]+)/:section([a-z0-9-]+)", "destination": "/changelog/:topic/:version/:section/index.html" },
+    { "source": "/changelog/:topic([a-z0-9-]+)/:version([0-9]+\\.[0-9]+\\.[0-9]+)", "destination": "/changelog/:topic/:version/index.html" },
+    { "source": "/current", "destination": "/index.html" },
+    { "source": "/changelog", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" }
+  ],
+  "redirects": [
+    { "source": "/share/current/user-interface/background-colour-and-map-fonts.html", "destination": "/current/user-interface/map-fonts-in-config-file", "permanent": true },
+    { "source": "/share/changelog/user-interface/3.0.0/background-colour-and-map-fonts.html", "destination": "/changelog/user-interface/3.0.0/map-fonts-in-config-file", "permanent": true }
   ]
 }
