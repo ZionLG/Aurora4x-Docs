@@ -14,11 +14,11 @@ npm run build
 npm run preview
 ```
 
-`npm test` checks search destinations, spoiler rendering, share previews, and the imported forum content. The production build also creates Markdown downloads and static Discord preview pages. Use the preview server to test those generated pages.
+`npm test` checks search destinations, spoiler rendering, share previews, and the imported forum content. The production build also creates Markdown downloads and reader pages with Discord previews. Use the preview server to test those generated pages.
 
 ## Updating content
 
-Follow [CONTENT_UPDATES.md](CONTENT_UPDATES.md). The v3.0.0 source is the forum topic formerly named v2.8.0 and is still unreleased. Existing version and renamed-section bookmarks are normalized in `src/utils/shareLinks.ts`.
+Follow [CONTENT_UPDATES.md](CONTENT_UPDATES.md). The v3.0.0 source is the forum topic formerly named v2.8.0 and was released November 1, 2026. The archive also includes v3.1.0, released November 3, 2026. Existing version and renamed-section bookmarks are normalized in `src/utils/shareLinks.ts`.
 
 ## Reader controls
 

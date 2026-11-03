@@ -1,6 +1,6 @@
 /**
  * Post-build script: generates topic Markdown and shareable HTML metadata pages.
- * Output: dist/current/{topic-id}.md and dist/share/{view}/{topic-id}/...
+ * Output: Markdown exports, reader pages with metadata, and legacy share redirects.
  *
  * These are served as real URLs, e.g.:
  *   https://aurora4x-docs.vercel.app/current/aether-rifts.md
@@ -12,13 +12,14 @@ import { manifest } from '../src/manifest'
 import { parseSections, type MarkdownSection } from '../src/utils/extractSections'
 import { mergeTopicContent } from '../src/utils/mergeContent'
 import { buildTopicMarkdown } from '../src/utils/exportMarkdown'
-import { buildSharePages, type SharePage } from './share-preview'
+import { buildSharePages, renderReaderPage, type SharePage } from './share-preview'
 import { shareSiteOrigin } from './discord-embed'
 
 const DIST = path.resolve(import.meta.dirname, '..', 'dist')
 const DOCS = path.resolve(import.meta.dirname, '..', 'public', 'docs')
 const OUT = path.join(DIST, 'current')
 const SITE_ORIGIN = shareSiteOrigin(process.env)
+const appHtml = fs.readFileSync(path.join(DIST, 'index.html'), 'utf-8')
 
 function readFile(relPath: string): string {
   const full = path.join(DOCS, relPath)
@@ -55,6 +56,9 @@ function writeSharePages(pages: SharePage[]) {
     const outFile = path.join(DIST, page.path.slice(1))
     fs.mkdirSync(path.dirname(outFile), { recursive: true })
     fs.writeFileSync(outFile, page.html, 'utf-8')
+    const readerFile = path.join(DIST, page.routePath.slice(1), 'index.html')
+    fs.mkdirSync(path.dirname(readerFile), { recursive: true })
+    fs.writeFileSync(readerFile, renderReaderPage(appHtml, page.preview), 'utf-8')
     shareCount++
   }
 }
@@ -99,3 +103,4 @@ for (const topic of manifest.topics) {
 
 console.log(`Generated ${count} .md exports in dist/current/`)
 console.log(`Generated ${shareCount} share preview pages in dist/share/`)
+console.log(`Generated ${shareCount} reader pages with previews in dist/current/ and dist/changelog/`)

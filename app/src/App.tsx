@@ -4,7 +4,7 @@ import { parseSections, type MarkdownSection } from './utils/extractSections'
 import Sidebar from './components/Sidebar'
 import ContentArea from './components/ContentArea'
 import AdminPanel from './components/AdminPanel'
-import { normalizeDocsHash } from './utils/shareLinks'
+import { docsPath, docsPathFromLocation, normalizeBrowserLocation } from './utils/shareLinks'
 
 export type ViewMode = 'current' | 'changelog'
 
@@ -19,23 +19,13 @@ export type ChangelogCache = Record<string, MarkdownSection[]>
 /** Cache: topic id → raw markdown content of the base document */
 export type BaseDocsCache = Record<string, string>
 
-/** Encode current state into URL hash */
-function toHash(view: ViewMode, sel: ActiveSelection | null): string {
-  if (!sel) return `#${view}`
-  if (view === 'changelog') {
-    return `#changelog/${sel.topic.id}/${sel.version}`
-  }
-  return `#current/${sel.topic.id}`
+function isAdminRoute(): boolean {
+  return docsPathFromLocation(window.location) === '/admin'
 }
 
-function isAdminHash(): boolean {
-  return window.location.hash.replace(/^#/, '') === 'admin'
-}
-
-/** Parse URL hash into state */
-function fromHash(): { view: ViewMode; selection: ActiveSelection | null } {
-  const hash = normalizeDocsHash(window.location.hash).replace(/^#/, '')
-  const parts = hash.split('/')
+/** Parse the address bar into reader state, including older bookmarks. */
+function fromLocation(): { view: ViewMode; selection: ActiveSelection | null } {
+  const parts = docsPathFromLocation(window.location).slice(1).split('/')
 
   const view: ViewMode = parts[0] === 'changelog' ? 'changelog' : 'current'
   const topicId = parts[1]
@@ -54,11 +44,11 @@ function fromHash(): { view: ViewMode; selection: ActiveSelection | null } {
 }
 
 export default function App() {
-  const initial = fromHash()
+  const initial = fromLocation()
   const [view, setView] = useState<ViewMode>(initial.view)
   const [selection, setSelection] = useState<ActiveSelection | null>(initial.selection)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [admin, setAdmin] = useState(isAdminHash)
+  const [admin, setAdmin] = useState(isAdminRoute)
 
   const [changelogCache, setChangelogCache] = useState<ChangelogCache>({})
   const [baseDocsCache, setBaseDocsCache] = useState<BaseDocsCache>({})
@@ -103,26 +93,16 @@ export default function App() {
     })
   }, [])
 
-  // Update URL hash when state changes (preserve section slug if same topic)
-  useEffect(() => {
-    const newHash = toHash(view, selection)
-    const currentHash = normalizeDocsHash(window.location.hash)
-    if (currentHash !== window.location.hash) {
-      window.history.replaceState(null, '', currentHash)
-    }
-    if (currentHash.startsWith(newHash + '/') || currentHash === newHash) return
-    window.history.pushState(null, '', newHash)
-  }, [view, selection])
-
   // Handle browser back/forward
   useEffect(() => {
     const onPop = () => {
-      if (isAdminHash()) {
+      normalizeBrowserLocation(window)
+      if (isAdminRoute()) {
         setAdmin(true)
         return
       }
       setAdmin(false)
-      const { view: v, selection: s } = fromHash()
+      const { view: v, selection: s } = fromLocation()
       setView(v)
       setSelection(s)
     }
@@ -137,16 +117,18 @@ export default function App() {
   const handleSelect = useCallback((topic: Topic, version?: string, sectionSlug?: string) => {
     const v = version ?? manifest.versions[0].version
     const nextSelection = { topic, version: v }
-    const hash = toHash(view, nextSelection) + (sectionSlug ? `/${sectionSlug}` : '')
-    if (window.location.hash !== hash) window.history.pushState(null, '', hash)
+    const path = docsPath(view, topic.id, v, sectionSlug)
+    if (window.location.pathname !== path || window.location.hash) window.history.pushState(null, '', path)
     setSelection(nextSelection)
     setSidebarOpen(false)
   }, [view])
 
   const toggleView = useCallback(() => {
-    setView(v => v === 'current' ? 'changelog' : 'current')
+    const nextView = view === 'current' ? 'changelog' : 'current'
+    window.history.pushState(null, '', docsPath(nextView))
+    setView(nextView)
     setSelection(null)
-  }, [])
+  }, [view])
 
   if (admin) {
     return (

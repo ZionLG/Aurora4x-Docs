@@ -1,26 +1,23 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { buildSharePages, previewDescription, renderSharePreview } from '../scripts/share-preview'
-import { normalizeDocsHash, sectionAnchors, sharePath, shareUrlFromHash, slugify } from '../src/utils/shareLinks'
+import { docsPath, docsPathFromLocation, normalizeDocsHash, sectionAnchors, sharePath, slugify } from '../src/utils/shareLinks'
 
 test('share links retain current sections and historical changelog versions', () => {
   assert.equal(slugify('Ground Survey: Potential & Limits'), 'ground-survey-potential-limits')
   assert.equal(sharePath('current', 'ground-forces'), '/share/current/ground-forces.html')
   assert.equal(
-    shareUrlFromHash('#current/ground-forces/ground-survey', 'https://preview.example'),
-    'https://preview.example/share/current/ground-forces/ground-survey.html',
+    docsPath('current', 'ground-forces', undefined, 'ground-survey'),
+    '/current/ground-forces/ground-survey',
   )
   assert.equal(
-    shareUrlFromHash('#changelog/ground-forces/2.2.0/ground-survey', 'https://preview.example'),
-    'https://preview.example/share/changelog/ground-forces/2.2.0/ground-survey.html',
+    docsPath('changelog', 'ground-forces', '2.2.0', 'ground-survey'),
+    '/changelog/ground-forces/2.2.0/ground-survey',
   )
   assert.equal(
-    shareUrlFromHash('#changelog/ground-forces/2.8.0/ground-survey', 'https://preview.example'),
-    'https://preview.example/share/changelog/ground-forces/3.0.0/ground-survey.html',
+    docsPath('changelog', 'ground-forces', '2.8.0', 'ground-survey'),
+    '/changelog/ground-forces/3.0.0/ground-survey',
   )
-  assert.equal(shareUrlFromHash('#current', 'https://preview.example'), 'https://preview.example/')
-  assert.equal(shareUrlFromHash('#admin', 'https://preview.example'), 'https://preview.example/')
-  assert.equal(shareUrlFromHash('#changelog/topic', 'https://preview.example'), 'https://preview.example/')
   assert.throws(() => sharePath('changelog', 'ground-forces'), /requires a version/)
 })
 
@@ -28,7 +25,7 @@ test('previews escape source text in HTML attributes and script destinations', (
   const html = renderSharePreview({
     title: 'A "quote" & <script>title()</script>',
     description: "It's <unsafe> & should stay text",
-    destination: '/#current/test/</script><script>alert(1)</script>',
+    destination: '/current/test/</script><script>alert(1)</script>',
   })
   assert.ok(html.includes('content="A &quot;quote&quot; &amp; &lt;script&gt;title()&lt;/script&gt;"'))
   assert.ok(html.includes('content="It&#39;s &lt;unsafe&gt; &amp; should stay text"'))
@@ -54,8 +51,8 @@ test('old 2.8 version and renamed section bookmarks normalize without changing o
     '#current/user-interface/v3-0-0-bug-fixes',
   )
   assert.equal(
-    shareUrlFromHash('#changelog/user-interface/2.8.0/v2-8-0-minor-changes', 'https://preview.example'),
-    'https://preview.example/share/changelog/user-interface/3.0.0/v3-0-0-minor-changes.html',
+    docsPathFromLocation({ pathname: '/', hash: '#changelog/user-interface/2.8.0/v2-8-0-minor-changes' }),
+    '/changelog/user-interface/3.0.0/v3-0-0-minor-changes',
   )
   assert.equal(
     sharePath('current', 'user-interface', undefined, 'v2-8-0-bug-fixes'),
@@ -96,7 +93,7 @@ test('topic and section pages redirect to their matching app routes', () => {
     '/share/changelog/ground-forces/2.2.0/ground-survey.html',
   ])
   assert.ok(pages[1].html.includes('Ground Survey — Ground Forces (v2.2.0)'))
-  assert.ok(pages[1].html.includes('window.location.replace("/#changelog/ground-forces/2.2.0/ground-survey")'))
+  assert.ok(pages[1].html.includes('window.location.replace("/changelog/ground-forces/2.2.0/ground-survey")'))
   assert.ok(pages[1].html.includes('Search for minerals.'))
 })
 
@@ -112,7 +109,7 @@ test('topic descriptions exclude sensitive sections and sensitive pages use gene
   assert.ok(spoiler.html.includes('content="Spoiler section"'))
   assert.ok(!spoiler.html.includes('secret spawning formula'))
   assert.ok(!spoiler.html.includes('Rakhas'))
-  assert.ok(spoiler.html.includes('/#current/alien-races/rakhas'))
+  assert.ok(spoiler.html.includes('/current/alien-races/rakhas'))
 })
 
 test('explicit spoiler labels do not leak in titles, image metadata, or component payloads', () => {
@@ -142,7 +139,7 @@ test('duplicate and untitled sections receive distinct share pages with matching
   assert.ok(!pages[2].html.includes('Second engine section'))
   assert.ok(pages[3].html.includes('Second engine section'))
   assert.ok(!pages[3].html.includes('First engine section'))
-  assert.ok(pages[3].html.includes('window.location.replace("/#current/ships/engines-2")'))
+  assert.ok(pages[3].html.includes('window.location.replace("/current/ships/engines-2")'))
   assert.deepEqual(buildSharePages('current', { id: 'empty', title: 'Empty' }, []), [])
 })
 
@@ -163,6 +160,6 @@ test('historical duplicate share links retain their version and second occurrenc
     { title: 'Engines', content: 'Second engine section' },
   ], '1.0.0')
   assert.equal(pages[2].path, '/share/changelog/ships/1.0.0/engines-2.html')
-  assert.ok(pages[2].html.includes('/#changelog/ships/1.0.0/engines-2'))
+  assert.ok(pages[2].html.includes('/changelog/ships/1.0.0/engines-2'))
   assert.ok(pages[2].html.includes('Second engine section'))
 })

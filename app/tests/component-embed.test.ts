@@ -89,7 +89,7 @@ test('long, Unicode, and HTML-looking text keep a valid byte-bounded payload', (
     assert.ok(!embed.raw.includes('</script>'))
     assert.equal((page.html.match(/<\/script\s*>/gi) ?? []).length, 2, 'Source text must not close the payload script')
     assert.ok(!Array.from(embed.text).some(character => character.length === 1 && /[\uD800-\uDFFF]/u.test(character)), 'Truncation must not split a Unicode surrogate pair')
-    assert.ok(embed.buttons.some(button => button.style === 5 && button.url === `${ORIGIN}/#current/colonies/long-section`))
+    assert.ok(embed.buttons.some(button => button.style === 5 && button.url === `${ORIGIN}/current/colonies/long-section`))
   }
 })
 
@@ -104,7 +104,7 @@ test('component links preserve current, historical, and duplicate section destin
     const base = view === 'current' ? 'current/ships' : 'changelog/ships/1.0.0'
     for (const [index, suffix] of ['', '/engines', '/engines-2'].entries()) {
       const embed = readEmbed(pages[index])
-      assert.ok(embed.buttons.some(button => button.style === 5 && button.url === `${ORIGIN}/#${base}${suffix}`))
+      assert.ok(embed.buttons.some(button => button.style === 5 && button.url === `${ORIGIN}/${base}${suffix}`))
       if (index === 2) {
         assert.ok(embed.text.includes('Second engine section.'))
         assert.ok(!embed.text.includes('First engine section.'))
@@ -174,7 +174,7 @@ test('richer previews keep Open Graph metadata and the exact browser redirect', 
   readEmbed(page)
   assert.match(page.html, /<meta\s+property="og:title"\s+content="[^"]+"/)
   assert.match(page.html, /<meta\s+property="og:description"\s+content="[^"]+"/)
-  assert.ok(page.html.includes('window.location.replace("/#current/colonies/survey")'))
-  assert.ok(page.html.includes('href="/#current/colonies/survey"'))
+  assert.ok(page.html.includes('window.location.replace("/current/colonies/survey")'))
+  assert.ok(page.html.includes('href="/current/colonies/survey"'))
   assert.ok(page.html.includes('<noscript>'))
 })

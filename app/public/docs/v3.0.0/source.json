@@ -1,23 +1,24 @@
 {
-  "source": "https://aurora4x.com/t/aurora-v3-0-0-patch-notes-unreleased/49",
-  "title": "Aurora v3.0.0 Patch Notes - Unreleased",
+  "source": "https://aurora4x.com/t/aurora-v3-0-0-patch-notes-november-1st-2026/49",
+  "title": "Aurora v3.0.0 Patch Notes - November 1st 2026",
   "version": "3.0.0",
-  "unreleased": true,
-  "retrievedAt": "2026-10-21T15:50:49.144Z",
-  "latestSourceUpdate": "2026-10-20T14:56:43.319Z",
-  "postCount": 56,
-  "sectionCount": 60,
+  "unreleased": false,
+  "releasedOn": "2026-11-01",
+  "retrievedAt": "2026-11-03T13:35:49.729Z",
+  "latestSourceUpdate": "2026-11-01T21:53:58.942Z",
+  "postCount": 64,
+  "sectionCount": 68,
   "skippedSystemPostNumbers": [
     17,
     38,
     39
   ],
-  "markdownSha256": "9f1f5ecf2288a9eec115fc36f177ef950941f479a72ea6514aafde6b4cc88c53",
+  "markdownSha256": "0c1ccc57fafe7ccb4f741d546807daeddce6240afa68f97fc6c960394797893b",
   "posts": [
     {
       "id": 268,
       "number": 1,
-      "updatedAt": "2026-10-20T14:56:43.319Z"
+      "updatedAt": "2026-11-01T21:05:59.330Z"
     },
     {
       "id": 30,
@@ -175,11 +176,6 @@
       "updatedAt": "2026-04-11T14:11:59.527Z"
     },
     {
-      "id": 1348,
-      "number": 34,
-      "updatedAt": "2026-04-11T13:41:44.843Z"
-    },
-    {
       "id": 1350,
       "number": 35,
       "updatedAt": "2026-04-11T14:57:14.633Z"
@@ -293,6 +289,51 @@
       "id": 7192,
       "number": 59,
       "updatedAt": "2026-10-09T21:36:41.430Z"
+    },
+    {
+      "id": 7627,
+      "number": 60,
+      "updatedAt": "2026-10-22T12:53:31.275Z"
+    },
+    {
+      "id": 7813,
+      "number": 61,
+      "updatedAt": "2026-10-27T10:28:24.954Z"
+    },
+    {
+      "id": 7858,
+      "number": 62,
+      "updatedAt": "2026-10-28T22:25:17.336Z"
+    },
+    {
+      "id": 7865,
+      "number": 63,
+      "updatedAt": "2026-10-28T22:23:08.793Z"
+    },
+    {
+      "id": 7951,
+      "number": 64,
+      "updatedAt": "2026-10-30T17:17:18.635Z"
+    },
+    {
+      "id": 7987,
+      "number": 65,
+      "updatedAt": "2026-10-31T11:51:23.997Z"
+    },
+    {
+      "id": 7997,
+      "number": 66,
+      "updatedAt": "2026-10-31T16:26:23.881Z"
+    },
+    {
+      "id": 8036,
+      "number": 67,
+      "updatedAt": "2026-11-01T14:37:00.598Z"
+    },
+    {
+      "id": 8098,
+      "number": 68,
+      "updatedAt": "2026-11-01T21:53:58.942Z"
     }
   ]
 }
